@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('cover_image');
             $table->timestamps();
             $table->foreign('coach_id')->references('id')->on('coaches');
-            $table->foreign('brand_id')->references('id')->on('brandes');
+            $table->foreign('brand_id')->references('id')->on('brands');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sublements');
+        Schema::dropIfExists('supplements');
     }
 };
