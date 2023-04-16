@@ -3,6 +3,7 @@
 namespace App\classes\coach;
 
 use App\classes\general\GeneralFunctionsClass;
+use App\Models\brand;
 use App\Models\coach;
 
 class CoachClass extends GeneralFunctionsClass
@@ -66,6 +67,15 @@ class CoachClass extends GeneralFunctionsClass
     {
         try {
             return coach::find($id);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return coach::paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
