@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('cover_image');
             $table->tinyInteger('type')->comment('0->1month,1->3months,2->6months,3->12month');
             $table->timestamps();
-            $table->foreign('coach_id')->references('id')->on('coaches');
+            $table->foreign('coach_id')->references('id')->on('coaches')->cascadeOnDelete();
         });
     }
 

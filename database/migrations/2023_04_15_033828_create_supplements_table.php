@@ -21,8 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('coach_id');
             $table->string('cover_image');
             $table->timestamps();
-            $table->foreign('coach_id')->references('id')->on('coaches');
-            $table->foreign('brand_id')->references('id')->on('brands');
+            $table->foreign('coach_id')->references('id')->on('coaches')->cascadeOnDelete();
+            $table->foreign('brand_id')->references('id')->on('brands')->cascadeOnDelete();
         });
     }
 

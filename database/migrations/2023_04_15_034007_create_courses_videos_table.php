@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('video_id');
             $table->timestamps();
-            $table->foreign('course_id')->references('id')->on('courses');
-            $table->foreign('video_id')->references('id')->on('videos');
+            $table->foreign('course_id')->references('id')->on('courses')->cascadeOnDelete();
+            $table->foreign('video_id')->references('id')->on('videos')->cascadeOnDelete();
         });
     }
 

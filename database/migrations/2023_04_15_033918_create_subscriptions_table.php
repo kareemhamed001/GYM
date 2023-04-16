@@ -18,8 +18,8 @@ return new class extends Migration
             $table->float('price');
             $table->integer('discount');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('supplement_id')->references('id')->on('supplements');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('supplement_id')->references('id')->on('supplements')->cascadeOnDelete();
         });
     }
 

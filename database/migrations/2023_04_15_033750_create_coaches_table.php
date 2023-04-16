@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('experience')->comment('number of years');
             $table->string('intro_video')->comment('number of years');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
