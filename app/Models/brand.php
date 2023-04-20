@@ -14,10 +14,10 @@ class brand extends Model
         return $this->belongsTo(coach::class,'coach_id','id');
     }
     public function supplements(){
-        return $this->hasMany(supplement::class,'supplement_id','id');
+        return $this->hasMany(supplement::class,'brand_id','id');
     }
     public function categories(){
-        return $this->belongsToMany(category::class,'brands_categories','category_id','brand_id');
+        return $this->belongsToMany(category::class,'brands_categories','brand_id','category_id');
     }
 
 }
