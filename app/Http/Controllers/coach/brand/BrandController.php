@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\coach\brand;
 
+use App\classes\brand\BrandClass;
+use App\classes\category\CategoryClass;
 use App\Http\Controllers\Controller;
+use App\Models\brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -12,7 +15,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands = BrandClass::getAll();
+        return view('coach.brands.index', compact('brands'));
     }
 
     /**
@@ -20,7 +24,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,7 +40,22 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $brand = brand::find($id);
+
+
+            if (!$brand) {
+                return redirect()->back()->with('error', 'No brand with this id');
+            } else {
+                $categories = $brand->categories;
+                return view('coach.brands.show', compact('brand','categories'));
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+
+        }
+
     }
 
     /**
