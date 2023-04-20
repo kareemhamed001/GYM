@@ -70,4 +70,12 @@ class CartClass extends GeneralFunctionsClass
             throw new \Exception($e->getMessage());
         }
     }
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return cart::with(['user', 'supplement'])->paginate($pagination);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
 }
