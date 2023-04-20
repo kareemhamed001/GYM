@@ -4,6 +4,7 @@ namespace App\classes\category;
 
 use App\classes\general\GeneralFunctionsClass;
 use App\Models\category;
+use App\Models\coach;
 
 class CategoryClass extends GeneralFunctionsClass
 {
@@ -65,7 +66,15 @@ class CategoryClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return category::find($id);
+            return category::with(['brands'])->find($id);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return category::with(['brands'])->paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
