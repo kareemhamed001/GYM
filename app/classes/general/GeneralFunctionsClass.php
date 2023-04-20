@@ -10,4 +10,5 @@ abstract class GeneralFunctionsClass
     public abstract static function destroy(int $id);
     public abstract static function destroyAll();
     public abstract static function get(int $id);
+    public abstract static function getAll(int $pagination=15);
 }
