@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('supplement_id');
+            $table->unsignedBigInteger('course_id');
             $table->float('price');
             $table->integer('discount');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('supplement_id')->references('id')->on('supplements')->cascadeOnDelete();
+            $table->foreign('course_id')->references('id')->on('courses')->cascadeOnDelete();
         });
     }
 
