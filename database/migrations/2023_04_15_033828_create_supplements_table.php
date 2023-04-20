@@ -14,7 +14,13 @@ return new class extends Migration
         Schema::create('supplements', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_ar')->nullable();
+            $table->string('name_ku')->nullable();
             $table->text('description');
+            $table->text('description_ar')->nullable();
+            $table->text('description_ku')->nullable();
+            $table->integer('quantity');
+            $table->text('unit')->comment('Unit of measurement ex.kg ');
             $table->integer('price');
             $table->integer('discount');
             $table->unsignedBigInteger('brand_id');
