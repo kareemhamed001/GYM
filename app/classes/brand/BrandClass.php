@@ -15,7 +15,7 @@ class BrandClass extends GeneralFunctionsClass
     {
         try {
             return brand::create($params);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
@@ -27,7 +27,7 @@ class BrandClass extends GeneralFunctionsClass
     {
         try {
             return brand::update($params);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
@@ -38,10 +38,10 @@ class BrandClass extends GeneralFunctionsClass
     public static function destroy(int $id)
     {
         try {
-            $brand=brand::find($id);
+            $brand = brand::find($id);
             $brand->delete();
             return true;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
@@ -52,9 +52,9 @@ class BrandClass extends GeneralFunctionsClass
     public static function destroyAll()
     {
         try {
-            $brand=brand::all()->delete();
+            $brand = brand::all()->delete();
             return true;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
@@ -66,7 +66,16 @@ class BrandClass extends GeneralFunctionsClass
     {
         try {
             return brand::find($id);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return brand::with(['coach', 'supplements', 'categories'])->paginate($pagination);
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
