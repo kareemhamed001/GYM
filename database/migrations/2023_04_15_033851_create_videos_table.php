@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('title_ar')->nullable();
+            $table->string('title_ku')->nullable();
             $table->text('description');
+            $table->text('description_ar')->nullable();
+            $table->text('description_ku')->nullable();
             $table->string('cover_image');
             $table->string('path');
             $table->unsignedBigInteger('coach_id');
