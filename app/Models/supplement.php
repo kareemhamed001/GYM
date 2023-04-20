@@ -9,4 +9,14 @@ class supplement extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    function brand(){
+        return $this->belongsTo(brand::class,'brand_id');
+    }
+    function coach(){
+        return $this->belongsTo(coach::class,'coach_id');
+    }
+    function purchases(){
+        return $this->hasMany(purchase::class,'supplement_id');
+    }
 }

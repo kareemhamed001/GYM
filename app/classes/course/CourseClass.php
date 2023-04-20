@@ -3,6 +3,7 @@
 namespace App\classes\course;
 
 use App\classes\general\GeneralFunctionsClass;
+use App\Models\coach;
 use App\Models\course;
 
 class CourseClass extends GeneralFunctionsClass
@@ -65,7 +66,16 @@ class CourseClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return course::find($id);
+            return course::with(['coach','videos'])->find($id);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return course::with(['coach','videos'])->paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

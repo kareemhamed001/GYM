@@ -3,6 +3,7 @@
 namespace App\classes\supplement;
 
 use App\classes\general\GeneralFunctionsClass;
+use App\Models\subscription;
 use App\Models\supplement;
 
 class SupplementClass extends GeneralFunctionsClass
@@ -64,7 +65,16 @@ class SupplementClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return supplement::find($id);
+            return supplement::with(['brand','coach','purchases'])->find($id);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function getAll(int $pagination = 15,$with=['brand','coach'])
+    {
+        try {
+            return supplement::with($with)->paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

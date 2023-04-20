@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\coach\supplement;
 
+use App\classes\category\CategoryClass;
+use App\classes\supplement\SupplementClass;
 use App\Http\Controllers\Controller;
+use App\Models\supplement;
 use Illuminate\Http\Request;
 
 class SupplementController extends Controller
@@ -12,7 +15,8 @@ class SupplementController extends Controller
      */
     public function index()
     {
-        //
+        $products=SupplementClass::getAll();
+        return view('coach.products.index',compact('products'));
     }
 
     /**
@@ -20,7 +24,7 @@ class SupplementController extends Controller
      */
     public function create()
     {
-        //
+        return view('coach.products.create');
     }
 
     /**
@@ -36,7 +40,15 @@ class SupplementController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $product=supplement::find($id);
+            if (!$product){
+                return redirect()->back()->with('error','No product with this id');
+            }
+            return view('coach.products.show',compact('product'));
+        }catch (\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
+        }
     }
 
     /**

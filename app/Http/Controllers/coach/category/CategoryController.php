@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\coach\category;
 
+use App\classes\category\CategoryClass;
 use App\Http\Controllers\Controller;
+use App\Models\brand;
+use App\Models\category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories=CategoryClass::getAll();
+        return view('coach.categories.index',compact('categories'));
     }
 
     /**
@@ -34,9 +38,18 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        try {
+            $category=category::find($id);
+            if ($category){
+                $brands=brand::join('brands_categories','brands.id','=','brands_categories.brand_id')->where('brands_categories.category_id','=',$category->id)->paginate();
+                return view('coach.categories.show',compact('category','brands'));
+            }
+            return redirect()->back()->with('error','No category with this id');
+        }catch (\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
+        }
     }
 
     /**

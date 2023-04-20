@@ -1,12 +1,11 @@
 <?php
 
-namespace App\classes\purchase;
+namespace App\classes\user;
 
 use App\classes\general\GeneralFunctionsClass;
-use App\Models\brand;
-use App\Models\purchase;
+use App\Models\User;
 
-class PurchaseClass extends GeneralFunctionsClass
+class UserClass extends GeneralFunctionsClass
 {
 
     /**
@@ -15,7 +14,7 @@ class PurchaseClass extends GeneralFunctionsClass
     public static function store(array $params)
     {
         try {
-            return purchase::create($params);
+            return User::create($params);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -27,7 +26,7 @@ class PurchaseClass extends GeneralFunctionsClass
     public static function update(array $params)
     {
         try {
-            return purchase::update($params);
+            return User::update($params);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -39,8 +38,8 @@ class PurchaseClass extends GeneralFunctionsClass
     public static function destroy(int $id)
     {
         try {
-            $purchase=purchase::find($id);
-            $purchase->delete();
+            $user=User::find($id);
+            $user->delete();
             return true;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
@@ -53,7 +52,7 @@ class PurchaseClass extends GeneralFunctionsClass
     public static function destroyAll()
     {
         try {
-            $purchase=purchase::all()->delete();
+            $user=User::all()->delete();
             return true;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
@@ -66,7 +65,7 @@ class PurchaseClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return purchase::with(['user','supplement'])->find($id);
+            return User::with(['Coach','purchases','subscriptions','cart','wishList',])->find($id);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -75,7 +74,7 @@ class PurchaseClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15)
     {
         try {
-            return purchase::with(['user','supplement'])->paginate($pagination);
+            return User::with('coach')->paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

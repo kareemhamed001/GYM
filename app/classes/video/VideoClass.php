@@ -3,6 +3,7 @@
 namespace App\classes\video;
 
 use App\classes\general\GeneralFunctionsClass;
+use App\Models\User;
 use App\Models\video;
 
 class VideoClass extends GeneralFunctionsClass
@@ -64,7 +65,15 @@ class VideoClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return video::find($id);
+            return video::with(['coach','courses'])->find($id);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return video::paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

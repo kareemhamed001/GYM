@@ -3,6 +3,7 @@
 namespace App\classes\subscription;
 
 use App\classes\general\GeneralFunctionsClass;
+use App\Models\purchase;
 use App\Models\subscription;
 
 class SubscriptionClass extends GeneralFunctionsClass
@@ -65,7 +66,16 @@ class SubscriptionClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return subscription::find($id);
+            return subscription::with(['user','course'])->find($id);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    public static function getAll(int $pagination = 15)
+    {
+        try {
+            return subscription::with(['user','course'])->paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
