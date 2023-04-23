@@ -4,6 +4,7 @@ namespace App\Http\Controllers\coach\course;
 
 use App\classes\course\CourseClass;
 use App\Http\Controllers\Controller;
+use App\Models\video;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -23,7 +24,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('coach.courses.create');
+        $videos=video::where('coach_id',1)->get();
+        return view('coach.courses.create',compact('videos'));
     }
 
     /**
