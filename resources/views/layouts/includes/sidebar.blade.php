@@ -6,11 +6,11 @@
             <div class="nav-logo">
                 <div class="nav-item theme-logo">
                     <a href="">
-                        <img src="" class="navbar-logo" alt="logo">
+                        <img src="{{asset('assets/images/logo/xlogo.png')}}" class="" alt="logo">
                     </a>
                 </div>
                 <div class="nav-item theme-text">
-                    <a href="./index.html" class="nav-link"> CORK </a>
+                    <a href="./index.html" class="nav-link"> X Fitness </a>
                 </div>
             </div>
             <div class="nav-item sidebar-toggle">
@@ -27,11 +27,11 @@
         <div class="profile-info">
             <div class="user-info">
                 <div class="profile-img">
-                    <img src="{{asset('assets/src/assets/img/profile-30.png')}}" alt="avatar">
+                    <img src="{{asset(Auth::user()->user?->profile_image??'assets/images/logo/xlogo.png')}}" alt="avatar">
                 </div>
                 <div class="profile-content">
-                    <h6 class="">Shaun Park</h6>
-                    <p class="">Project Leader</p>
+                    <h6 class="">{{Auth::user()->name??'Name'}}</h6>
+                    <p class="">Coach</p>
                 </div>
             </div>
         </div>
