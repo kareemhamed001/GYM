@@ -74,6 +74,7 @@
 <script src="{{asset('assets/src/plugins/src/highlight/highlight.pack.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/global/vendors.min.js')}}"></script>
 <script src="{{asset('assets/src/assets/js/custom.js')}}"></script>
+<script src="{{asset('assets/src/assets/js/scrollspyNav.js')}}"></script>
 <!-- END GLOBAL MANDATORY STYLES -->
 <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

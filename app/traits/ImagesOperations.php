@@ -2,6 +2,8 @@
 
 namespace App\traits;
 
+use Illuminate\Support\Facades\Storage;
+
 trait ImagesOperations
 {
 
@@ -43,6 +45,19 @@ trait ImagesOperations
             $oldPath = public_path($filePath);
             if (file_exists($oldPath)) {
                 unlink($oldPath);
+            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+    public function deleteCollectionOfFiles($filesPaths, $disk = 'public')
+    {
+        try {
+            foreach ($filesPaths as $filePath) {
+                if (file_exists($filePath)) {
+                    unlink(public_path($filePath));
+                }
             }
             return true;
         } catch (\Exception $e) {

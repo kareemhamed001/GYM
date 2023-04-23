@@ -254,6 +254,12 @@ class SupplementController extends Controller
             if (!is_array($request->products)) {
                 return response()->json(['data' => null, 'message' => 'products must be in array'], 200);
             }
+
+            $cover_images_pathes=supplement::query()->whereIn('id', $request->products)->pluck('cover_image');
+
+            if (!$this->deleteCollectionOfFiles($cover_images_pathes)){
+                return $this->apiResponse('','something went wrong whiled deleting images ',400);
+            }
             supplement::whereIn('id', $request->products)->delete();
             return $this->apiResponse('','success',200);
 

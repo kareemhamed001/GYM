@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\coach\video;
 
+use App\classes\video\VideoClass;
 use App\Http\Controllers\Controller;
+use App\Models\video;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -12,7 +14,8 @@ class VideoController extends Controller
      */
     public function index()
     {
-        //
+        $videos=VideoClass::getAll();
+        return view('coach.videos.index',compact('videos'));
     }
 
     /**

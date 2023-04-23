@@ -252,6 +252,11 @@ class BrandController extends Controller
             if (!is_array($request->brands)) {
                 return response()->json(['data' => null, 'message' => 'brands must be in array'], 200);
             }
+            $cover_images_pathes=brand::query()->whereIn('id', $request->brands)->pluck('cover_image');
+
+            if (!$this->deleteCollectionOfFiles($cover_images_pathes)){
+                return $this->apiResponse('','something went wrong whiled deleting images ',400);
+            }
             brand::whereIn('id', $request->brands)->delete();
             return $this->apiResponse('','success',200);
 

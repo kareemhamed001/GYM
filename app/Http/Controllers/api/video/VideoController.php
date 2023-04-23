@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\video;
 
 use App\classes\video\VideoClass;
 use App\Http\Controllers\Controller;
+use App\Models\category;
 use App\Models\coach;
 use App\Models\supplement;
 use App\Models\video;
@@ -56,11 +57,15 @@ class VideoController extends Controller
 
 
             $coach = coach::find($request->coach_id);
-            $videoPath = $this->storeFile($request->video, 'videos/' . $coach->nick_name . '/');
+            $videoPath = $this->storeFile($request->video, 'videos/');
             $imagePath = $this->storeFile($request->cover_image, 'images/videos/coverImages');
             $video = video::create([
                 'title' => $request->title,
+                'title_ar' => $request->title_ar,
+                'title_ku' => $request->title_ku,
                 'description' => $request->description,
+                'description_ar' => $request->description_ar,
+                'description_ku' => $request->description_ku,
                 'coach_id' => $request->coach_id,
                 'path' => $videoPath,
                 'cover_image' => $imagePath,
@@ -212,6 +217,31 @@ class VideoController extends Controller
 
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
+        }
+    }
+
+    public function deleteArrayOfVideos(Request $request)
+    {
+        try {
+            $validator = validator::make($request->all(), [
+                'videos' => ['required', 'array'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['data' => null, 'message' => $validator->errors()], 400);
+            }
+            if (!is_array($request->videos)) {
+                return response()->json(['data' => null, 'message' => 'videos must be in array'], 200);
+            }
+            $cover_images_pathes = video::query()->whereIn('id', $request->videos)->pluck('cover_image');
+            $videos_pathes = video::query()->whereIn('id', $request->videos)->pluck('path');
+            $this->deleteCollectionOfFiles($videos_pathes);
+            $this->deleteCollectionOfFiles($cover_images_pathes);
+            video::whereIn('id', $request->videos)->delete();
+            return $this->apiResponse('', 'success', 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }

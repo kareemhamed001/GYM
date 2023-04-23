@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\coach\course;
 
+use App\classes\course\CourseClass;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses=CourseClass::getAll();
+        return view('coach.courses.index',compact('courses'));
+
     }
 
     /**
@@ -20,7 +23,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('coach.courses.create');
     }
 
     /**

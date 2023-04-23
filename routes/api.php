@@ -69,6 +69,7 @@ Route::resource('/categories', \App\Http\Controllers\api\category\CategoryContro
 
 Route::get('categories/{id}/brands', [\App\Http\Controllers\api\category\CategoryController::class, 'getBrandsByCategoryId']);
 Route::post('categories/delete-collection', [\App\Http\Controllers\api\category\CategoryController::class, 'deleteArrayOfCategories']);
+Route::post('categories/add-brand', [\App\Http\Controllers\api\category\CategoryController::class, 'addBrandToCategory']);
 
 Route::resource('/courses', \App\Http\Controllers\api\course\CourseController::class,
     [
@@ -110,7 +111,6 @@ Route::resource('/products', \App\Http\Controllers\api\supplement\SupplementCont
         ]
     ]
 );
-
 Route::get('products/{id}/brand', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getBrandByProductId']);
 Route::get('products/{id}/coach', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getCoachByProductId']);
 Route::get('products/{id}/purchases', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getPurchasesByProductId']);
@@ -124,9 +124,9 @@ Route::resource('/videos', \App\Http\Controllers\api\video\VideoController::clas
         ]
     ]
 );
-
 Route::get('videos/{id}/coach', [\App\Http\Controllers\api\video\VideoController::class, 'getCoachByVideoId']);
 Route::get('videos/{id}/courses', [\App\Http\Controllers\api\video\VideoController::class, 'getCoursesByVideoId']);
+Route::post('videos/delete-collection', [\App\Http\Controllers\api\video\VideoController::class, 'deleteArrayOfVideos']);
 
 Route::resource('/carts', \App\Http\Controllers\api\cart\CartController::class,
     [

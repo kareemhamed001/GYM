@@ -101,10 +101,10 @@ class CategoryController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-                'name' => ['required','string', 'max:100'],
+                'name' => ['required', 'string', 'max:100'],
                 'name_ar' => ['string', 'max:100'],
                 'name_ku' => ['string', 'max:100'],
-                'description' => ['required','string', 'max:500'],
+                'description' => ['required', 'string', 'max:500'],
                 'description_ar' => ['string', 'max:500'],
                 'description_ku' => ['string', 'max:500'],
                 'cover_image' => ['image'],
@@ -184,7 +184,9 @@ class CategoryController extends Controller
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
-    public function deleteArrayOfCategories(Request $request){
+
+    public function deleteArrayOfCategories(Request $request)
+    {
         try {
             $validator = validator::make($request->all(), [
                 'categories' => ['required', 'array'],
@@ -196,11 +198,42 @@ class CategoryController extends Controller
             if (!is_array($request->categories)) {
                 return response()->json(['data' => null, 'message' => 'categories must be in array'], 200);
             }
+            $cover_images_pathes = category::query()->whereIn('id', $request->categories)->pluck('cover_image');
+
+            if (!$this->deleteCollectionOfFiles($cover_images_pathes)) {
+                return $this->apiResponse('', 'something went wrong whiled deleting images ', 400);
+            }
             category::whereIn('id', $request->categories)->delete();
-            return $this->apiResponse('','success',200);
+            return $this->apiResponse('', 'success', 200);
 
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
+    public function addBrandToCategory(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'brand_id' => ['required', 'integer', Rule::exists('brands', 'id')],
+                'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
+            ]);
+
+            if ($validator->fails()) {
+                return $this->apiResponse(null, $validator->errors(), 400);
+            }
+
+
+            $brand_category = brands_category::where('brand_id', $request->brand_id)->where('category_id', $request->category_id)->exists();
+
+            if ($brand_category) {
+                return $this->apiResponse('', 'This brand exists on this category', 200);
+            }
+
+            brands_category::create($validator->validated());
+            return $this->apiResponse('', 'Brand has been added to this category', 200);
+        } catch (\Exception $e) {
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 }
