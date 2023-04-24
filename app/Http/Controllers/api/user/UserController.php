@@ -64,45 +64,50 @@ class UserController extends Controller
     /**
      * Register a User.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
      * @throws ValidationException
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,50',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:8',
-            'phone_number' => 'required|string|unique:users|starts_with:01|max_digits:11',
-            'country' => 'required|string',
-            'age' => 'required|integer',
-            'gender' => 'required|digits_between:0,1',
-            'address' => 'required|string',
-            'profile_image' => 'required|image',
-            'role_as' => ['required', 'integer', Rule::in([0, 1, 2])],
-        ]);
-        if ($validator->fails()) {
-            return $this->apiResponse('',$validator->errors(), 400);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|between:2,50',
+                'email' => 'required|string|email|max:100|unique:users',
+                'password' => 'required|string|min:8',
+                'phone_number' => 'required|string|unique:users|starts_with:01|max_digits:11',
+                'country' => 'required|string',
+                'age' => 'required|integer',
+                'gender' => 'required|digits_between:0,1',
+                'address' => 'required|string',
+                'profile_image' => 'required|image',
+                'role_as' => ['required', 'integer', Rule::in([0, 1, 2])],
+            ]);
+            if ($validator->fails()) {
+                return $this->apiResponse('',$validator->errors(), 400);
+            }
+
+
+            $image = $request->file('profile_image');
+            $path = $image->store('images/users/profileImages', ['disk' => 'public']);
+
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'password' => Hash::make($request->password),
+                'country' => $request->country,
+                'address' => $request->address,
+                'age' => $request->age,
+                'gender' => $request->gender,
+                'role_as' => $request->gender,
+                'profile_image' => 'storage/' . $path,
+            ]);
+            return $this->apiResponse( $user, 'User successfully registered', 200);
+        }catch (\Exception $e){
+            return $this->apiResponse('',$e->getMessage(), 400);
         }
 
-
-        $image = $request->file('profile_image');
-        $path = $image->store('images/users/profileImages', ['disk' => 'public']);
-
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'password' => Hash::make($request->password),
-            'country' => $request->country,
-            'address' => $request->address,
-            'age' => $request->age,
-            'gender' => $request->gender,
-            'role_as' => $request->gender,
-            'profile_image' => 'storage/' . $path,
-        ]);
-        return $this->apiResponse( $user, 'User successfully registered', 200);
     }
 
     /**
