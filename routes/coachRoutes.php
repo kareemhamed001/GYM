@@ -14,4 +14,5 @@ Route::resource('/courses', \App\Http\Controllers\coach\course\CourseController:
 Route::resource('/purchase', \App\Http\Controllers\coach\purchase\PurchaseController::class);
 Route::resource('/subscriptions', \App\Http\Controllers\coach\subscription\SubscriptionController::class);
 Route::resource('/videos', \App\Http\Controllers\coach\video\VideoController::class);
+Route::resource('/users', \App\Http\Controllers\coach\user\UserController::class);
 
