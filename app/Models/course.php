@@ -14,6 +14,6 @@ class course extends Model
         return $this->belongsTo(coach::class,'coach_id','id');
     }
     public function videos(){
-        return $this->belongsToMany(video::class,'cource_videos','video_id','course_id','id');
+        return $this->belongsToMany(video::class,'courses_videos','video_id','course_id','id');
     }
 }
