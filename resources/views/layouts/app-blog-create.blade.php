@@ -17,6 +17,26 @@
     <link href="{{asset('assets/layouts/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css"/>
 
+    <style>
+        .overlay{
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            background: rgba(255,255,255,0.8) url({{asset('assets/images/logo/xlogo.png')}}) center no-repeat;
+        }
+        /* Turn off scrollbar when body element has the loading class */
+        body.loading{
+            overflow: hidden;
+        }
+        /* Make spinner image visible when body element has the loading class */
+        body.loading .overlay{
+            display: block;
+        }
+    </style>
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -67,17 +87,6 @@
 <script src="{{asset('assets/js/font-awesome/all.min.js')}}"></script>
 <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/src/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('assets/src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-<script src="{{asset('assets/src/plugins/src/mousetrap/mousetrap.min.js')}}"></script>
-<script src="{{asset('assets/src/plugins/src/waves/waves.min.js')}}"></script>
-<script src="{{asset('assets/layouts/modern-light-menu/app.js')}}"></script>
-<script src="{{asset('assets/src/plugins/src/highlight/highlight.pack.js')}}"></script>
-<script src="{{asset('assets/src/plugins/src/global/vendors.min.js')}}"></script>
-<script src="{{asset('assets/src/assets/js/custom.js')}}"></script>
-<script src="{{asset('assets/src/assets/js/scrollspyNav.js')}}"></script>
-<!-- END GLOBAL MANDATORY STYLES -->
-<script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function previewImage(event) {
         const file = event.target.files[0];
@@ -94,8 +103,33 @@
         }
     }
 </script>
+<script>
+
+
+    // Add remove loading class on body element based on Ajax request status
+    $(document).on({
+        ajaxStart: function(){
+            $("body").addClass("loading");
+        },
+        ajaxStop: function(){
+            $("body").removeClass("loading");
+        }
+    });
+</script>
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 @yield('scripts')
+<script src="{{asset('assets/src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+<script src="{{asset('assets/src/plugins/src/mousetrap/mousetrap.min.js')}}"></script>
+<script src="{{asset('assets/src/plugins/src/waves/waves.min.js')}}"></script>
+<script src="{{asset('assets/layouts/modern-light-menu/app.js')}}"></script>
+<script src="{{asset('assets/src/plugins/src/highlight/highlight.pack.js')}}"></script>
+<script src="{{asset('assets/src/plugins/src/global/vendors.min.js')}}"></script>
+<script src="{{asset('assets/src/assets/js/custom.js')}}"></script>
+<script src="{{asset('assets/src/assets/js/scrollspyNav.js')}}"></script>
+<!-- END GLOBAL MANDATORY STYLES -->
+<script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- END PAGE LEVEL SCRIPTS -->
 </body>
 </html>

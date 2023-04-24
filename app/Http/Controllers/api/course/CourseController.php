@@ -6,6 +6,8 @@ use App\classes\course\CourseClass;
 use App\Http\Controllers\Controller;
 use App\Models\coach;
 use App\Models\course;
+use App\Models\curriculum;
+use App\Models\curriculum_file;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
