@@ -120,11 +120,11 @@
                         </div>
                     </td>
                     <td>
-                        <p class="mb-0">{{$course->name_ar??'NULL'}}</p>
+                        <p class="mb-0">{{$course->title_ar??'NULL'}}</p>
                         <span class="text-success">{{$course->description_ar??'NULL'}}</span>
                     </td>
                     <td>
-                        <p class="mb-0">{{$course->name_ku??'NULL'}}</p>
+                        <p class="mb-0">{{$course->title_ku??'NULL'}}</p>
                         <span class="text-success">{{$course->description_ku??'NULL'}}</span>
                     </td>
                     <td class="text-center">
@@ -351,7 +351,7 @@
                         let messages = error.responseJSON.message
                         Swal.fire({
                             title: "error",
-                            text: `Something went wrong`,
+                            text: messages,
                             icon: "error",
                             button: "Hide",
                             position: 'center',
