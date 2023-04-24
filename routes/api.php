@@ -81,6 +81,7 @@ Route::resource('/courses', \App\Http\Controllers\api\course\CourseController::c
 
 Route::get('courses/{id}/videos', [\App\Http\Controllers\api\course\CourseController::class, 'getVideosByCourseId']);
 Route::get('courses/{id}/coach', [\App\Http\Controllers\api\course\CourseController::class, 'getCourseCoach']);
+Route::post('courses/delete-collection', [\App\Http\Controllers\api\course\CourseController::class, 'deleteArrayOfCourses']);
 
 Route::resource('/purchases', \App\Http\Controllers\api\purchase\PurchaseController::class,
     [
