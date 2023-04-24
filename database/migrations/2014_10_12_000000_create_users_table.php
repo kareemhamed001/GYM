@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('country');
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->integer('age');
             $table->tinyInteger('gender')->comment('0->male,1->female');
             $table->tinyInteger('role_as')->comment('0->admin,1->coach,2->user');
