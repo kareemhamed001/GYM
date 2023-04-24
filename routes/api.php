@@ -150,7 +150,7 @@ Route::resource('/wishlists', \App\Http\Controllers\api\wishlist\WishListControl
 Route::get('wishlists/{id}/user', [\App\Http\Controllers\api\wishlist\WishListController::class, 'getUserByWishlistId']);
 Route::get('wishlists/{id}/product', [\App\Http\Controllers\api\wishlist\WishListController::class, 'getProductByWishlistId']);
 
-
+Route::post('users/delete-collection', [\App\Http\Controllers\api\user\UserController::class, 'deleteArrayOfUsers']);
 Route::group([
     'prefix' => 'auth'
 ], function ($router) {
