@@ -9,6 +9,7 @@ use App\Models\course;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -54,24 +55,69 @@ class CourseController extends Controller
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
+            DB::transaction(function () use ($request) {
+                $path = $this->storeFile($request->cover_image, 'images/courses/coverImages');
+                $course = course::create([
+                    'title' => $request->title,
+                    'title_ar' => $request->title_ar,
+                    'title_ku' => $request->title_ku,
+                    'description' => $request->description,
+                    'description_ar' => $request->description_ar,
+                    'description_ku' => $request->description_ku,
+                    'coach_id' => $request->coach_id,
+                    'price' => $request->price,
+                    'discount' => $request->discount,
+                    'cover_image' => $path,
+                    'type' => $request->type,
+                ]);
 
-            $path = $this->storeFile($request->cover_image, 'images/courses/coverImages');
-            $course = course::create([
-                'title' => $request->title,
-                'title_ar' => $request->title_ar,
-                'title_ku' => $request->title_ku,
-                'description' => $request->description,
-                'description_ar' => $request->description_ar,
-                'description_ku' => $request->description_ku,
-                'coach_id' => $request->coach_id,
-                'price' => $request->price,
-                'discount' => $request->discount,
-                'cover_image' => $path,
-                'type' => $request->type,
-            ]);
-            return $this->apiResponse($course, 'success', 200);
+
+                if ($request->topics) {
+                    foreach ($request->topics as $key => $topic) {
+                        $curriculum = curriculum::create([
+                            'title' => $key,
+                            'course_id' => $course->id
+                        ]);
+                        if (array_key_exists('videos', $topic)) {
+                            foreach ($topic['videos'] as $video) {
+                                if ($video) {
+                                    $video_model = video::find($video);
+                                    if ($video_model) {
+                                        curriculum_file::create([
+                                            'title' => $video_model->title,
+                                            'description' => $video_model->description,
+                                            'path' => $video_model->path,
+                                            'type' => 0,
+                                            'curriculum_id' => $curriculum->id
+                                        ]);
+                                    }
+
+                                }
+                            }
+                        }
+                        if (array_key_exists('files', $topic)) {
+                            foreach ($topic['files'] as $title => $file) {
+                                $path=$this->storeFile($file,'files');
+                                $exploded=explode(',,,',$title,2);
 
 
+                                curriculum_file::create([
+                                    'title' => $exploded[0],
+                                    'description' => $exploded[1],
+                                    'path' =>$path,
+                                    'type' => 1,
+                                    'curriculum_id' => $curriculum->id
+                                ]);
+
+
+                            }
+                        }
+
+
+                    }
+                }
+            });
+            return $this->apiResponse(null, 'success', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
@@ -206,6 +252,7 @@ class CourseController extends Controller
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
+
     public function getCourseCoach($id)
     {
         try {
@@ -218,6 +265,32 @@ class CourseController extends Controller
 
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
+        }
+    }
+
+    public function deleteArrayOfCourses(Request $request)
+    {
+        try {
+            $validator = validator::make($request->all(), [
+                'courses' => ['required', 'array'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['data' => null, 'message' => $validator->errors()], 400);
+            }
+            if (!is_array($request->courses)) {
+                return response()->json(['data' => null, 'message' => 'courses must be in array'], 200);
+            }
+            $cover_images_pathes = course::query()->whereIn('id', $request->courses)->pluck('cover_image');
+
+            $this->deleteCollectionOfFiles($cover_images_pathes);
+
+            course::whereIn('id', $request->courses)->delete();
+
+            return $this->apiResponse('', 'success', 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }
