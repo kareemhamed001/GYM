@@ -160,6 +160,15 @@
                 </ul>
             </li>
 
+            <hr>
+            <li class="menu">
+                <a href="{{url('coach/users')}}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="fa-regular fa-user fa-2xs"></i>
+                        <span>Users</span>
+                    </div>
+                </a>
+            </li>
 {{--            <li class="menu">--}}
 {{--                <a href="#invoice" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">--}}
 {{--                    <div class="">--}}

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\coach\user;
 
+use App\classes\user\UserClass;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users=UserClass::getAll();
+        return view('coach.users.index',compact('users'));
     }
 
     /**

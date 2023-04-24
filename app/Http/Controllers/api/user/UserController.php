@@ -6,6 +6,7 @@ namespace App\Http\Controllers\api\user;
 use App\classes\user\UserClass;
 use App\Http\Controllers\Controller;
 use App\Models\user;
+use App\Models\video;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','deleteArrayOfUsers']]);
     }
 
 
@@ -71,17 +72,17 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|between:2,50',
             'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:8',
+            'password' => 'required|string|min:8',
             'phone_number' => 'required|string|unique:users|starts_with:01|max_digits:11',
             'country' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|digits_between:0,1',
-            'address' => 'nullable|string',
+            'address' => 'required|string',
             'profile_image' => 'required|image',
             'role_as' => ['required', 'integer', Rule::in([0, 1, 2])],
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return $this->apiResponse('',$validator->errors(), 400);
         }
 
 
@@ -101,10 +102,7 @@ class UserController extends Controller
             'role_as' => $request->gender,
             'profile_image' => 'storage/' . $path,
         ]);
-        return response()->json([
-            'data' => $user,
-            'message' => 'User successfully registered',
-        ], 200);
+        return $this->apiResponse( $user, 'User successfully registered', 200);
     }
 
     /**
@@ -316,6 +314,31 @@ class UserController extends Controller
             }
         }catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
+        }
+    }
+
+    public function deleteArrayOfUsers(Request $request)
+    {
+        try {
+            $validator = validator::make($request->all(), [
+                'users' => ['required', 'array'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['data' => null, 'message' => $validator->errors()], 400);
+            }
+            if (!is_array($request->users)) {
+                return response()->json(['data' => null, 'message' => 'users must be in array'], 200);
+            }
+            $cover_images_pathes = User::query()->whereIn('id', $request->users)->pluck('profile_image');
+
+
+            $this->deleteCollectionOfFiles($cover_images_pathes);
+            User::whereIn('id', $request->users)->delete();
+            return $this->apiResponse('', 'success', 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }
