@@ -8,6 +8,7 @@ use App\Models\coach;
 use App\Models\course;
 use App\Models\curriculum;
 use App\Models\curriculum_file;
+use App\Models\video;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -101,8 +102,6 @@ class CourseController extends Controller
                             foreach ($topic['files'] as $title => $file) {
                                 $path=$this->storeFile($file,'files');
                                 $exploded=explode(',,,',$title,2);
-
-
                                 curriculum_file::create([
                                     'title' => $exploded[0],
                                     'description' => $exploded[1],
