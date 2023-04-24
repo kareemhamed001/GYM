@@ -78,6 +78,22 @@
 <!-- END GLOBAL MANDATORY STYLES -->
 <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function() {
+                const preview = document.getElementById("preview");
+                preview.src = reader.result;
+            });
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 @yield('scripts')
 <!-- END PAGE LEVEL SCRIPTS -->
