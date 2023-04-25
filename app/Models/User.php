@@ -60,7 +60,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    function Coach(){
+    function coach(){
         return $this->hasOne(coach::class,'user_id');
     }
     function purchases(){
