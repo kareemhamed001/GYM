@@ -3,30 +3,30 @@
 @section('content')
 
     <!-- Modal -->
-    <div class="modal fade" id="deleteuserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete user?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                     <span class="text-danger">
-                        the user will be deleted forever!
-                     </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteuser()">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--    <div class="modal fade" id="deleteuserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"--}}
+{{--         aria-hidden="true">--}}
+{{--        <div class="modal-dialog" role="document">--}}
+{{--            <div class="modal-content">--}}
+{{--                <div class="modal-header">--}}
+{{--                    <h5 class="modal-title" id="exampleModalLabel">Delete user?</h5>--}}
+{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                        <span aria-hidden="true">&times;</span>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--                <div class="modal-body">--}}
+{{--                     <span class="text-danger">--}}
+{{--                        the user will be deleted forever!--}}
+{{--                     </span>--}}
+{{--                </div>--}}
+{{--                <div class="modal-footer">--}}
+{{--                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">--}}
+{{--                        Close--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="btn btn-danger" onclick="deleteuser()">Delete</button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
     <!-- Modal -->
     <div class="modal fade" id="deleteArrayOfusersModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel"
@@ -177,19 +177,6 @@
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                                     </svg>
                                 </a>
-                                <a type="button" data-toggle="modal" data-target="#deleteuserModal"
-                                   href="javascript:void(0);" class="action-btn btn-delete bs-tooltip"
-                                   data-placement="top" title="Delete" onclick="prepareuser({{$user->id}})">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" class="feather feather-trash-2">
-                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                        <path
-                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                                    </svg>
-                                </a>
                             </div>
 
                         </div>
@@ -225,79 +212,49 @@
             userId = id;
         }
 
-        async function deleteuser() {
-
-
-            if (userId) {
-                try {
-                    const response = await fetch(`/api/users/${userId}`, {
-                        method: 'delete'
-                    });
-
-                    const result = await response.json();
-                    if (result.status === 200) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: result.message,
-                        })
-
-                        $('#deleteuserModal').modal('hide')
-                        location.reload();
-                    } else if (result.status === 400) {
-                        let message = result.message;
-                        let errorMessage = ``;
-                        for (const key in message) {
-                            errorMessage += message[key] + `\n`
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: errorMessage,
-                        })
-                    }
-
-                } catch (error) {
-                    console.error(error);
-                }
-
-                $.ajax({
-                    url: `/api/users/${userId}`,
-                    method: 'DELETE',
-                    success: function (response) {
-                        Swal.fire({
-                            title: "Success",
-                            text: `user ${userId} deleted successfully`,
-                            icon: "success",
-                            button: "Ok",
-                            position: 'center',
-                            timer: 3000
-                        })
-
-                        $('#deleteuserModal').modal('hide')
-                        location.reload();
-                    },
-                    error: function (error) {
-                        price = null;
-                        userId = null;
-                        let messages = error.responseJSON.message
-                        // $.each(messages, function(index, value) {
-                        //     console.log(`Item at index ${index} is ${value}`);
-                        // });
-
-                    }
-                });
-            } else {
-                swal.fire({
-                    title: "Error",
-                    text: `user Id does not set`,
-                    icon: "error",
-                    button: "Ok",
-                    position: 'center',
-                    timer: 3000
-                });
-            }
-        }
+        // async function deleteuser() {
+        //
+        //
+        //     if (userId) {
+        //         try {
+        //
+        //         $.ajax({
+        //             url: `/api/users/${userId}`,
+        //             method: 'DELETE',
+        //             success: function (response) {
+        //                 Swal.fire({
+        //                     title: "Success",
+        //                     text: `user ${userId} deleted successfully`,
+        //                     icon: "success",
+        //                     button: "Ok",
+        //                     position: 'center',
+        //                     timer: 3000
+        //                 })
+        //
+        //                 $('#deleteuserModal').modal('hide')
+        //                 location.reload();
+        //             },
+        //             error: function (error) {
+        //                 price = null;
+        //                 userId = null;
+        //                 let messages = error.responseJSON.message
+        //                 // $.each(messages, function(index, value) {
+        //                 //     console.log(`Item at index ${index} is ${value}`);
+        //                 // });
+        //
+        //             }
+        //         });
+        //     } else {
+        //         swal.fire({
+        //             title: "Error",
+        //             text: `user Id does not set`,
+        //             icon: "error",
+        //             button: "Ok",
+        //             position: 'center',
+        //             timer: 3000
+        //         });
+        //     }
+        // }
 
 
         function deleteSelected() {
