@@ -6,7 +6,7 @@ namespace App\Http\Controllers\api\user;
 use App\classes\user\UserClass;
 use App\Http\Controllers\Controller;
 use App\Models\coach;
-use App\Models\user;
+use App\Models\User;
 use App\Models\video;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
