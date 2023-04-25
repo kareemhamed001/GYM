@@ -54,160 +54,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade modal-xl" id="adduserModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">add a new user</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="createuserForm" class="d-flex flex-wrap" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
-                        <div class="form-group col-12 my-1">
-                            <label for="coverImage">Profile Image</label>
-                            <input name="profile_image" class="form-control-file" type="file" id="coverImage">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="userNameEn">Name</label>
-                            <input name="name" class="form-control" type="text" id="userNameEn"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="email">Email</label>
-                            <input name="email" class="form-control" type="email" id="email"
-                                   placeholder="Enter Valid Email">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="phone_number">phone number</label>
-                            <input name="phone_number" class="form-control" type="text" id="phone_number"
-                                   placeholder="Enter Valid phone number">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="password">password</label>
-                            <input name="password" class="form-control" type="password" id="password"
-                                   placeholder="Enter Valid phone number">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="country">country</label>
-                            <input name="country" class="form-control" type="text" id="country"
-                                   placeholder="Enter Valid phone number">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="address">address</label>
-                            <input name="address" class="form-control" type="text" id="address"
-                                   placeholder="Enter address">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="age">age</label>
-                            <input name="age" class="form-control" type="text" id="age"
-                                   placeholder="Enter Valid age">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="gender">gender</label>
-                            <input name="gender" class="form-control" type="text" id="gender"
-                                   placeholder="Enter gender">
-                        </div>
-                        <div class="form-group col-md-6 my-2 px-1">
-                            <label for="role_as">role_as</label>
-                            <input name="role_as" class="form-control" type="text" id="role_as"
-                                   placeholder="Enter role">
-                        </div>
 
 
-
-                        <hr>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="createuserForm">Save changes</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal-xl" id="edituserModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">edit</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            onclick="closeeditmodal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="edituserForm" class="d-flex flex-wrap" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
-                        <div class="col-6 my-1">
-                            <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
-                        </div>
-
-                        <div class="form-group col-6 my-1 ps-2">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="userNameEnEdit">Name En</label>
-                            <input name="name" class="form-control" type="text" id="userNameEnEdit"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="userNameArEdit">Name Ar</label>
-                            <input name="name_ar" class="form-control" type="text" id="userNameArEdit"
-                                   placeholder="Enter name in arabic">
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="userNameKuEdit">Name Ku</label>
-                            <input name="name_ku" class="form-control" type="text" id="userNameKuEdit"
-                                   placeholder="Enter name in kurdish">
-                        </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="userDescriptionEnEdit">Description En</label>
-                            <textarea name="description" class="form-control" type="text" id="userDescriptionEnEdit"
-                                      placeholder="Enter Description in english"></textarea>
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="userDescriptionArEdit">Description Ar</label>
-                            <textarea name="description_ar" class="form-control" type="text"
-                                      id="userDescriptionArEdit"
-                                      placeholder="Enter Description in arabic"></textarea>
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="userDescriptionKuEdit">Description Ku</label>
-                            <textarea name="description_ku" class="form-control" type="text"
-                                      id="userDescriptionKuEdit"
-                                      placeholder="Enter Description in kurdish"></textarea>
-                        </div>
-
-                        <hr>
-
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary" form="edituserForm">Save changes</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <div class="row my-3">
@@ -218,9 +66,9 @@
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#adduserModal">
+                <a type="button" class="btn btn-secondary" href="{{url('coach/users/create')}}">
                     Add
-                </button>
+                </a>
 
             </div>
 
@@ -377,37 +225,6 @@
             userId = id;
         }
 
-        let userIdEdit = 0
-
-        async function prepareusertoedit(id) {
-
-            userIdEdit = id
-            const response = await fetch(`/api/users/${id}`, {
-                method: 'GET'
-            });
-            const result = await response.json();
-            if (result.status === 200) {
-
-                document.querySelector('#userNameEnEdit').value = result.data.name;
-                document.querySelector('#userNameArEdit').value = result.data.name_ar;
-                document.querySelector('#userNameKuEdit').value = result.data.name_ku;
-                document.querySelector('#userDescriptionEnEdit').value = result.data.description;
-                document.querySelector('#userDescriptionArEdit').value = result.data.description_ar;
-                document.querySelector('#userDescriptionKuEdit').value = result.data.description_ku;
-                document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`
-                $('#edituserModal').modal('show')
-
-            } else if (result.status === 400) {
-
-                console.error(result)
-
-            }
-        }
-
-        function closeeditmodal() {
-            $('#edituserModal').modal('hide')
-        }
-
         async function deleteuser() {
 
 
@@ -551,95 +368,5 @@
 
     </script>
 
-    <script>
-
-
-        const form = document.querySelector('#createuserForm');
-
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch('/api/auth/register', {
-                    method: 'post',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.status === 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: result.message,
-                    })
-
-                    $('#adduserModal').modal('hide')
-                    location.reload();
-                } else if (result.status === 400) {
-                    let message = result.message;
-                    let errorMessage = ``;
-                    for (const key in message) {
-                        errorMessage +=`<span class="text-danger d-block"> ${message[key]}</span>`
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        html: errorMessage,
-                    })
-                }
-
-            } catch (error) {
-                console.error(error);
-            }
-        });
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        const editForm = document.querySelector('#edituserForm');
-        editForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formDataEdit = new FormData(editForm);
-
-            try {
-                const response = await fetch(`/api/users/${userIdEdit}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: formDataEdit
-                });
-
-                const result = await response.json();
-                console.log(result)
-                if (result.status === 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Updated Successfully',
-                    })
-
-                    $('#adduserModal').modal('hide')
-                    location.reload();
-                } else if (result.status === 400) {
-                    let message = result.message;
-                    let errorMessage = ``;
-                    for (const key in message) {
-                        errorMessage += message[key] + `\n`
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: errorMessage,
-                    })
-                }
-
-            } catch (error) {
-                console.error(error);
-            }
-        });
-    </script>
 @endsection
 
