@@ -106,6 +106,23 @@
 <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/src/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script>
+    $(document).ready(function (){
+        $(document).ajaxStart(function() {
+            showLoader()
+        });
+
+        $(document).ajaxStop(function() {
+            removeLoader()
+        });
+
+    });
+    $(document).ajaxStart(function() {
+        showLoader()
+    });
+
+    $(document).ajaxStop(function() {
+        removeLoader()
+    });
 
     function previewImage(event) {
         const file = event.target.files[0];
@@ -123,7 +140,6 @@
     }
 </script>
 <script>
-
 
 
 
