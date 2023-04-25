@@ -24,10 +24,25 @@
     @yield('styles')
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
-
+<style>
+    .ajaxLoader{
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 100000;
+        width: 100%;
+        height: 100%;
+        background: white;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 </head>
 <body class="layout-boxed">
-
+<div class="ajaxLoader">
+    <img class="img-fluid" style="width: 50px;height: 50px" src="{{asset('assets/images/logo/xlogo.png')}}" alt="">
+</div>
 <!-- BEGIN LOADER -->
 <div id="load_screen">
     <div class="loader">
@@ -69,6 +84,7 @@
 <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/src/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script>
+
     function previewImage(event) {
         const file = event.target.files[0];
 
@@ -87,15 +103,15 @@
 <script>
 
 
-    // Add remove loading class on body element based on Ajax request status
-    $(document).on({
-        ajaxStart: function(){
-            $("body").addClass("loading");
-        },
-        ajaxStop: function(){
-            $("body").removeClass("loading");
-        }
-    });
+
+    function showLoader(){
+        $('.ajaxLoader').css('display','flex')
+        $('#content').hide();
+    }
+    function removeLoader(){
+        $('.ajaxLoader').css('display','none')
+        $('#content').show();
+    }
 </script>
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 @yield('scripts')
