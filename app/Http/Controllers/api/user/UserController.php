@@ -107,7 +107,7 @@ class UserController extends Controller
                     'coach_description' => ['required', 'string', 'max:500'],
                     'coach_phone_number' => ['required', 'numeric', 'starts_with:01',Rule::unique('coaches','phone_number')],
                     'coach_experience' => ['required', 'numeric'],
-                    'coach_intro_video' => ['required', 'mimes:mp4'],
+                    'coach_intro_video' => ['required', 'mimes:mp4,m4v'],
                 ]);
                 if ($validator1->fails()) {
                     return $this->apiResponse('', $validator1->errors(), 400);
