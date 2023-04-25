@@ -25,23 +25,45 @@
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
 <style>
-    .ajaxLoader{
-        display: none;
-        position: absolute;
-        top: 0;
+    #ajax_loader {
+        background: rgb(236, 239, 255);
+        opacity: 1;
+        position: fixed;
+        z-index: 999999;
+        top: 0px;
+        bottom: 0;
+        left: 0;
         right: 0;
-        z-index: 100000;
         width: 100%;
-        height: 100%;
-        background: white;
-        justify-content: center;
-        align-items: center;
+        display: none;
     }
+    div#ajax_loader .loader {
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+    }
+    div#ajax_loader .loader-content {
+        right: 0;
+        align-self: center;
+    }
+    div#ajax_loader .loader-content .spinner-grow {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .spinner-grow {
+        color: #304aca;
+    }
+
 </style>
 </head>
 <body class="layout-boxed">
-<div class="ajaxLoader">
-    <img class="img-fluid" style="width: 50px;height: 50px" src="{{asset('assets/images/logo/xlogo.png')}}" alt="">
+<div id="ajax_loader">
+    <div class="loader">
+        <div class="loader-content">
+            <div class="spinner-grow align-self-center"></div>
+        </div>
+    </div>
 </div>
 <!-- BEGIN LOADER -->
 <div id="load_screen">
@@ -104,13 +126,13 @@
 
 
 
+
+
     function showLoader(){
-        $('.ajaxLoader').css('display','flex')
-        $('#content').hide();
+        $('#ajax_loader').show()
     }
     function removeLoader(){
-        $('.ajaxLoader').css('display','none')
-        $('#content').show();
+        $('#ajax_loader').hide()
     }
 </script>
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
