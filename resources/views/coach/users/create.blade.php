@@ -188,14 +188,15 @@
             e.preventDefault();
             let formData = new FormData(form)
             try {
+                showLoader();
                 let response = await fetch('/api/auth/register', {
                     method: 'post',
-                    body: formData
+                    body: formData,
                 });
                 console.log(response)
 
                 let result = await response.json();
-
+                removeLoader();
 
                 if (result.status === 200) {
                     Swal.fire({
