@@ -107,11 +107,11 @@
 <script src="{{asset('assets/src/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script>
     $(document).ready(function (){
-        $(document).ajaxStart(function() {
+        $(document).on('ajaxStart',function() {
             showLoader()
         });
 
-        $(document).ajaxStop(function() {
+        $(document).on('ajaxStop',function() {
             removeLoader()
         });
 
