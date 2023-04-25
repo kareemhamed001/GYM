@@ -102,7 +102,7 @@
                 <th scope="col">User</th>
                 <th scope="col">Address</th>
                 <th scope="col">Age</th>
-                <th scope="col">Type</th>
+                <th scope="col">Role</th>
                 <th scope="col" class="text-center">Created_At</th>
                 <th scope="col" class="text-center">Action</th>
 
