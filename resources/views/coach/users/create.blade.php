@@ -192,6 +192,7 @@
                     method: 'post',
                     body: formData
                 });
+                console.log(response)
 
                 let result = await response.json();
 
