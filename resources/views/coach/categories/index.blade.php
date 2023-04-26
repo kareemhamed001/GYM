@@ -376,7 +376,7 @@
             if (categoryId) {
                 showLoader()
                 $.ajax({
-                    url: `http://gym.test/api/categories/${categoryId}`,
+                    url: `/api/categories/${categoryId}`,
                     method: 'DELETE',
                     success: function (response) {
                         removeLoader()
