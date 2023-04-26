@@ -468,11 +468,13 @@
                     }
                 });
 
+                showLoader();
                 $.ajax({
                     url: `/api/brands/delete-collection`,
                     method: 'post',
                     data: {'brands': selectedValues},
                     success: function (response) {
+                        removeLoader()
                         console.log(response)
                         Swal.fire({
                             title: "Success",
@@ -487,6 +489,7 @@
                         location.reload();
                     },
                     error: function (error) {
+                        removeLoader()
                         console.log(error)
                         let messages = error.responseJSON.message
                         Swal.fire({
@@ -500,7 +503,7 @@
                     }
                 });
             } else {
-
+                removeLoader()
                 Swal.fire({
                     title: "No brands selected",
                     text: `select at least one brand to delete`,
@@ -529,12 +532,15 @@
             const formData = new FormData(form);
 
             try {
+                showLoader();
                 const response = await fetch('/api/brands', {
                     method: 'post',
                     body: formData
                 });
 
+                removeLoader()
                 const result = await response.json();
+
                 if (result.status === 200) {
                     Swal.fire({
                         icon: 'success',
@@ -569,6 +575,7 @@
             const formDataEdit = new FormData(editForm);
 
             try {
+                showLoader();
                 const response = await fetch(`/api/brands/${brandIdEdit}`, {
                     method: 'POST',
                     headers: {
@@ -576,6 +583,7 @@
                     },
                     body: formDataEdit
                 });
+                removeLOader()
 
                 const result = await response.json();
                 console.log(result)

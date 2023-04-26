@@ -345,9 +345,11 @@
         async function preparecategorytoedit(id) {
 
             categoryIdEdit = id
+            showLoader();
             const response = await fetch(`/api/categories/${id}`, {
                 method: 'GET'
             });
+            removeLoader()
             const result = await response.json();
             if (result.status === 200) {
 
@@ -372,10 +374,12 @@
 
         async function deletecategory() {
             if (categoryId) {
+                showLoader()
                 $.ajax({
                     url: `http://gym.test/api/categories/${categoryId}`,
                     method: 'DELETE',
                     success: function (response) {
+                        removeLoader()
                         Swal.fire({
                             title: "Success",
                             text: `category ${categoryId} deleted successfully`,
@@ -391,6 +395,7 @@
                         location.reload();
                     },
                     error: function (error) {
+                        removeLoader()
                         price = null;
                         categoryId = null;
                         let messages = error.responseJSON.message
@@ -401,6 +406,7 @@
                     }
                 });
             } else {
+                removeLoader()
                 swal("category id not set", "error");
             }
         }
@@ -425,11 +431,13 @@
                     }
                 });
 
+                showLoader()
                 $.ajax({
                     url: `http:\\api/categories/delete-collection`,
                     method: 'POST',
                     data: {'categories': selectedValues},
                     success: function (response) {
+                        removeLoader()
                         console.log(response)
                         Swal.fire({
                             title: "Success",
@@ -444,6 +452,7 @@
                         location.reload();
                     },
                     error: function (error) {
+                        removeLoader()
                         let messages = error.responseJSON.message
                         Swal.fire({
                             title: "error",
@@ -456,6 +465,7 @@
                     }
                 });
             } else {
+                removeLoader()
 
                 Swal.fire({
                     title: "No categories selected",
@@ -485,11 +495,12 @@
             const formData = new FormData(form);
 
             try {
+                showLoader()
                 const response = await fetch('/api/categories', {
                     method: 'post',
                     body: formData
                 });
-
+                removeLoader()
                 const result = await response.json();
                 if (result.status === 200) {
                     Swal.fire({
@@ -514,6 +525,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });
@@ -525,6 +537,7 @@
             const formDataEdit = new FormData(editForm);
 
             try {
+                showLoader()
                 const response = await fetch(`/api/categories/${categoryIdEdit}`, {
                     method: 'POST',
                     headers: {
@@ -532,6 +545,7 @@
                     },
                     body: formDataEdit
                 });
+                removeLoader()
 
                 const result = await response.json();
                 console.log(result)
@@ -558,6 +572,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });

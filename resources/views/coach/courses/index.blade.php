@@ -208,9 +208,11 @@
         async function preparecoursetoedit(id) {
 
             courseIdEdit = id
+            showLoader()
             const response = await fetch(`/api/courses/${id}`, {
                 method: 'GET'
             });
+            removeLoader()
             const result = await response.json();
             if (result.status === 200) {
 
@@ -239,9 +241,11 @@
 
             if (courseId) {
                 try {
+                    showLoader()
                     const response = await fetch(`/api/courses/${courseId}`, {
                         method: 'delete'
                     });
+                    removeLoader()
 
                     const result = await response.json();
                     if (result.status === 200) {
@@ -267,35 +271,10 @@
                     }
 
                 } catch (error) {
+                    removeLoader()
                     console.error(error);
                 }
 
-                $.ajax({
-                    url: `/api/courses/${courseId}`,
-                    method: 'DELETE',
-                    success: function (response) {
-                        Swal.fire({
-                            title: "Success",
-                            text: `course ${courseId} deleted successfully`,
-                            icon: "success",
-                            button: "Ok",
-                            position: 'center',
-                            timer: 3000
-                        })
-
-                        $('#deletecourseModal').modal('hide')
-                        location.reload();
-                    },
-                    error: function (error) {
-                        price = null;
-                        courseId = null;
-                        let messages = error.responseJSON.message
-                        // $.each(messages, function(index, value) {
-                        //     console.log(`Item at index ${index} is ${value}`);
-                        // });
-
-                    }
-                });
             } else {
                 swal.fire({
                     title: "Error",

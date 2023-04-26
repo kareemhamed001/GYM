@@ -440,11 +440,12 @@
            let formData=new FormData(form);
 
            try {
+               showLoader()
                const response=await fetch('/api/courses',{
                    method:'POST',
                    body: formData
                })
-
+               removeLoader()
                const result =await response.json();
                console.log(result)
                if(result.status===200){
@@ -475,6 +476,7 @@
                }
 
            }catch (error){
+               removeLoader()
                console.error(error);
            }
         });

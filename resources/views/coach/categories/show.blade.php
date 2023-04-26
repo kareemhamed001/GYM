@@ -341,9 +341,11 @@
 
         async function preparecategorytoedit(id) {
             categoryIdEdit = id
+            showLoader()
             const response = await fetch(`/api/categories/${id}`, {
                 method: 'GET'
             });
+            removeLoader()
             const result = await response.json();
             if (result.status === 200) {
 
@@ -368,10 +370,12 @@
 
         async function deletecategory() {
             if (categoryId) {
+                showLoader()
                 $.ajax({
                     url: `http://gym.test/api/categories/${categoryId}`,
                     method: 'DELETE',
                     success: function (response) {
+                        removeLoader()
                         Swal.fire({
                             title: "Success",
                             text: `category ${categoryId} deleted successfully`,
@@ -388,6 +392,7 @@
                         window.location.replace('/coach/categories')
                     },
                     error: function (error) {
+                        removeLoader()
                         price = null;
                         categoryId = null;
                         let messages = error.responseJSON.message
@@ -398,6 +403,7 @@
                     }
                 });
             } else {
+                removeLoader()
                 swal("category id not set", "error");
             }
         }
@@ -414,6 +420,7 @@
             const formDataEdit = new FormData(editForm);
 
             try {
+                showLoader()
                 const response = await fetch(`/api/categories/${categoryIdEdit}`, {
                     method: 'POST',
                     headers: {
@@ -421,6 +428,7 @@
                     },
                     body: formDataEdit
                 });
+                removeLoader()
 
                 const result = await response.json();
                 console.log(result)
@@ -447,6 +455,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });
@@ -458,6 +467,7 @@
             const formData = new FormData(addBrandForm);
 
             try {
+                showLoader()
                 const response = await fetch(`/api/brands/to-category`, {
                     method: 'POST',
                     headers: {
@@ -465,7 +475,7 @@
                     },
                     body: formData
                 });
-
+                removeLoader()
                 const result = await response.json();
                 console.log(result)
                 if (result.status === 200) {
@@ -492,6 +502,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });

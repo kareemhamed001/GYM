@@ -241,10 +241,12 @@
             e.preventDefault();
             let formData = new FormData(form)
             try {
+                showLoader()
                 let response = await fetch('/api/auth/update-profile', {
                     method: 'post',
                     body: formData
                 });
+                removeLoader()
                 console.log(response)
 
                 let result = await response.json();
@@ -270,6 +272,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error)
             }
         });

@@ -345,9 +345,11 @@
 
         async function preparebrandtoedit(id) {
             brandIdEdit = id
+            showLoader()
             const response = await fetch(`/api/brands/${id}`, {
                 method: 'GET'
             });
+            removeLoader()
             const result = await response.json();
             if (result.status === 200) {
 
@@ -372,10 +374,12 @@
 
         async function deletebrand() {
             if (brandId) {
+                showLoader()
                 $.ajax({
                     url: `http://gym.test/api/brands/${brandId}`,
                     method: 'DELETE',
                     success: function (response) {
+                        removeLoader()
                         Swal.fire({
                             title: "Success",
                             text: `brand ${brandId} deleted successfully`,
@@ -392,6 +396,7 @@
                         window.location.replace('/coach/brands')
                     },
                     error: function (error) {
+                        removeLoader()
                         price = null;
                         brandId = null;
                         let messages = error.responseJSON.message
@@ -402,6 +407,7 @@
                     }
                 });
             } else {
+                removeLoader()
                 swal("brand id not set", "error");
             }
         }
@@ -418,6 +424,7 @@
             const formDataEdit = new FormData(editForm);
 
             try {
+                showLoader();
                 const response = await fetch(`/api/brands/${brandIdEdit}`, {
                     method: 'POST',
                     headers: {
@@ -425,7 +432,7 @@
                     },
                     body: formDataEdit
                 });
-
+                removeLoader()
                 const result = await response.json();
                 console.log(result)
                 if (result.status === 200) {
@@ -451,6 +458,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });
@@ -462,6 +470,7 @@
             const formData = new FormData(addBrandForm);
 
             try {
+                showLoader();
                 const response = await fetch(`/api/brands/to-category`, {
                     method: 'POST',
                     headers: {
@@ -469,7 +478,7 @@
                     },
                     body: formData
                 });
-
+                removeLoader()
                 const result = await response.json();
                 console.log(result)
                 if (result.status === 200) {
