@@ -15,4 +15,5 @@ Route::resource('/purchase', \App\Http\Controllers\coach\purchase\PurchaseContro
 Route::resource('/subscriptions', \App\Http\Controllers\coach\subscription\SubscriptionController::class);
 Route::resource('/videos', \App\Http\Controllers\coach\video\VideoController::class);
 Route::resource('/users', \App\Http\Controllers\coach\user\UserController::class);
+Route::get('/analytics', [\App\Http\Controllers\coach\DashboardController::class,'index']);
 

@@ -59,7 +59,7 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="dashboard" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="./index.html"> Analytics </a>
+                        <a href="{{url('coach/analytics')}}"> Analytics </a>
                     </li>
                     <li>
                         <a href="./index2.html"> Sales </a>
