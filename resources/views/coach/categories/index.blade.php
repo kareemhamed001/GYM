@@ -398,7 +398,7 @@
                         removeLoader()
                         price = null;
                         categoryId = null;
-                        let messages = error.responseJSON.message
+                        // let messages = error.responseJSON.message
                         // $.each(messages, function(index, value) {
                         //     console.log(`Item at index ${index} is ${value}`);
                         // });
