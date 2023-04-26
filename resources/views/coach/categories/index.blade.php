@@ -408,6 +408,14 @@
             } else {
                 removeLoader()
                 swal("category id not set", "error");
+                Swal.fire({
+                    title: "error",
+                    text: `category id not set`,
+                    icon: "error",
+                    button: "Ok",
+                    position: 'center',
+                    timer: 3000
+                })
             }
         }
 
