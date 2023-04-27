@@ -12,14 +12,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function (){
-    return view('layouts.app-blog-create');
-});
+Route::get('/', [\App\Http\Controllers\user\home\HomeController::class,'index']);
+Route::get('/coaches', [\App\Http\Controllers\user\coach\CoachController::class,'index']);
 
 
-
-
-
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

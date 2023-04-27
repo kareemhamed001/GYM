@@ -40,7 +40,8 @@ class DashBoardController
             $categories = category::count();
             $courses = course::count();
             $videos = video::count();
-            $sales = subscription::select(DB::raw('count(*) as count,sum(price) as sales'))->first();;
+            $sales = subscription::select(DB::raw('count(*) as count,sum(price) as sales'))->first();
+            $purchases=purchase::select(DB::raw('count(*) as count,sum(price) as sales'))->first();
 
             return $this->apiResponse([
                 'users' => $users,
@@ -51,7 +52,8 @@ class DashBoardController
                 'courses' => $courses,
                 'videos' => $videos,
                 'subscriptions' => $sales->count,
-                'sales' => $sales->sales ?? 0,
+                'purchases' => $purchases->count,
+                'sales' => $sales->sales + $purchases->sales?? 0,
                 'time' => now()
             ], 'success', 200);
         } catch (\Exception $e) {

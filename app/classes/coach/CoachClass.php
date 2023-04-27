@@ -75,7 +75,7 @@ class CoachClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15)
     {
         try {
-            return coach::with(['supplements', 'brands', 'videos', 'courses'])->paginate($pagination);
+            return coach::with(['supplements', 'brands', 'videos', 'courses','user'])->paginate($pagination);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
