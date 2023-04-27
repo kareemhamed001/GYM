@@ -411,15 +411,21 @@
 
         try {
             getDashBoard()
-            getRecentCoursesClients(10)
-            getRecentProductsClients(10)
+
+
+
             let RecentCoursesClientsSelect=document.getElementById('RecentCoursesClientsSelect')
+            let selectedOptionCourses = RecentCoursesClientsSelect.options[RecentCoursesClientsSelect.selectedIndex];
+
+            getRecentCoursesClients(selectedOptionCourses.value)
             RecentCoursesClientsSelect.addEventListener('change', (e) => {
                 //selectedType.options[selectedType.selectedIndex].text
                 getRecentCoursesClients(e.target.value)
 
                 });
             let RecentProductsClientsSelect=document.getElementById('RecentProductsClientsSelect')
+            let selectedOptionProducts= RecentProductsClientsSelect.options[RecentProductsClientsSelect.selectedIndex];
+            getRecentProductsClients(selectedOptionProducts.value)
             RecentProductsClientsSelect.addEventListener('change', (e) => {
                 //selectedType.options[selectedType.selectedIndex].text
                 getRecentProductsClients(e.target.value)
