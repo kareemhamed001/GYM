@@ -152,6 +152,8 @@ Route::get('wishlists/{id}/product', [\App\Http\Controllers\api\wishlist\WishLis
 
 Route::get('statistics', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'overAllStatistics']);
 Route::get('year-statistics', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'yearStatistics']);
+Route::get('recent-courses-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentCoursesClients']);
+Route::get('recent-products-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentProductsClients']);
 
 Route::post('users/delete-collection', [\App\Http\Controllers\api\user\UserController::class, 'deleteArrayOfUsers']);
 Route::group([

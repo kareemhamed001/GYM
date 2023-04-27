@@ -15,6 +15,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\TestFixture\func;
 
 class DashBoardController
 {
@@ -148,7 +149,7 @@ class DashBoardController
 
         try {
 
-            $topProducts=purchase::select(DB::raw('count(*) as count,sum(price) as sales,supplement_id'))->groupBy('')->get();
+            $topProducts=purchase::select(DB::raw('count(*) as count,sum(price) as sales,supplement_id'))->groupBy('supplement_id')->get();
 
 
             return $this->apiResponse([
@@ -160,4 +161,35 @@ class DashBoardController
         }
     }
 
+    function recentCoursesClients(int $limit=10){
+        try {
+            $recent=subscription::select('user_id','course_id')->orderBy('created_at', 'desc')
+                ->take($limit)
+                ->get()->map(function($subscription){
+                    return ['user'=>User::find($subscription->user_id),'course'=>course::find($subscription->course_id)];
+                });
+            return $this->apiResponse([
+                'recentClients' => $recent,
+                'time' => now()
+            ], 'success', 200);
+        }catch (\Exception $e){
+            return $this->apiResponse('', $e->getMessage(), 400);
+        }
+    }
+
+    function recentProductsClients(int $limit=10){
+        try {
+            $recent=purchase::select('user_id','supplement_id','number','price','discount')->orderBy('created_at', 'desc')
+                ->take($limit)
+                ->get()->map(function($subscription){
+                    return ['quantity'=>$subscription->number,'price'=>$subscription->price,'discount'=>$subscription->discount,'user'=>User::find($subscription->user_id),'product'=>supplement::find($subscription->supplement_id)];
+                });
+            return $this->apiResponse([
+                'recentClients' => $recent,
+                'time' => now()
+            ], 'success', 200);
+        }catch (\Exception $e){
+            return $this->apiResponse('', $e->getMessage(), 400);
+        }
+    }
 }
