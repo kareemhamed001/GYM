@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [\App\Http\Controllers\user\home\HomeController::class,'index']);
 Route::get('/coaches', [\App\Http\Controllers\user\coach\CoachController::class,'index']);
+Route::get('/coaches/{id}', [\App\Http\Controllers\user\coach\CoachController::class,'show']);
+Route::get('/store', [\App\Http\Controllers\user\store\StoreController::class,'index'])->name('user.store');
+Route::get('/product/{product}', [\App\Http\Controllers\user\product\ProductController::class,'show']);
 
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
