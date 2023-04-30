@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="my-1 col-md-6">
                     <label for="cover_image">Cover_image</label>
-                    <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*" onchange="previewImage(event)">
+                    <input type="file" class="form-control" id="cover_image" name="images[]" accept="image/*" onchange="previewImage(event)" multiple>
                 </div>
                 <div class="my-1 col-md-6">
                     <label for="brand_id">Brand</label>
@@ -131,3 +131,4 @@
 
     </script>
 @endsection
+
