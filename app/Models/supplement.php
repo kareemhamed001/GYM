@@ -19,4 +19,8 @@ class supplement extends Model
     function purchases(){
         return $this->hasMany(purchase::class,'supplement_id');
     }
+
+    function images(){
+        return $this->hasMany(product_image::class,'supplement_id','id');
+}
 }

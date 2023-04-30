@@ -5,9 +5,13 @@ namespace App\classes\supplement;
 use App\classes\general\GeneralFunctionsClass;
 use App\Models\subscription;
 use App\Models\supplement;
+use App\traits\ImagesOperations;
+use Illuminate\Support\Facades\DB;
+use function PHPUnit\TestFixture\func;
 
 class SupplementClass extends GeneralFunctionsClass
 {
+    use ImagesOperations;
     /**
      * @throws \Exception
      */
@@ -39,9 +43,20 @@ class SupplementClass extends GeneralFunctionsClass
     {
         try {
             $supplement=supplement::find($id);
+
+            \DB::transaction(function()use($supplement){
+                $this->deleteFile($supplement->cover_image);
+                $images=$supplement->images;
+                foreach ($images as $image){
+                    $this->deleteFile($images->image);
+                    $$image->delete();
+                }
+
+            });
             $supplement->delete();
             return true;
         }catch (\Exception $e){
+            DB::rollback();
             throw new \Exception($e->getMessage());
         }
     }

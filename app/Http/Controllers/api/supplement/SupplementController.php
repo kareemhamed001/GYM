@@ -5,13 +5,16 @@ namespace App\Http\Controllers\api\supplement;
 use App\classes\supplement\SupplementClass;
 use App\Http\Controllers\Controller;
 use App\Models\brand;
+use App\Models\product_image;
 use App\Models\purchase;
 use App\Models\supplement;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use function PHPUnit\TestFixture\func;
 
 class SupplementController extends Controller
 {
@@ -36,6 +39,7 @@ class SupplementController extends Controller
      */
     public function store(Request $request)
     {
+
         try {
 
             $validator = Validator::make($request->all(), [
@@ -50,32 +54,46 @@ class SupplementController extends Controller
                 'quantity' => ['required', 'numeric', 'min:1'],
                 'brand_id' => ['required', 'integer', Rule::exists('brands', 'id')],
                 'coach_id' => ['required', 'integer', Rule::exists('coaches', 'id')],
-                'cover_image' => ['required', 'image'],
+                'images' => ['required', 'array'],
                 'unit' => ['required', 'string','max:20'],
 
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
+            $supplement =DB::transaction(function () use($request){
+                $path = $this->storeFile($request->images[0], 'images/supplements/coverImages');
+                $supplement = supplement::create([
+                    'name' => $request->name,
+                    'name_ar' => $request->name_ar,
+                    'name_ku' => $request->name_ku,
+                    'description' => $request->description,
+                    'description_ar' => $request->description_ar,
+                    'description_ku' => $request->description_ku,
+                    'price' => $request->price,
+                    'discount' => $request->discount,
+                    'quantity' => $request->quantity,
+                    'brand_id' => $request->brand_id,
+                    'coach_id' => $request->coach_id,
+                    'cover_image' => $path,
+                    'unit' => $request->unit
+                ]);
 
-            $path = $this->storeFile($request->cover_image, 'images/supplements/coverImages');
-            $supplement = supplement::create([
-                'name' => $request->name,
-                'name_ar' => $request->name_ar,
-                'name_ku' => $request->name_ku,
-                'description' => $request->description,
-                'description_ar' => $request->description_ar,
-                'description_ku' => $request->description_ku,
-                'price' => $request->price,
-                'discount' => $request->discount,
-                'quantity' => $request->quantity,
-                'brand_id' => $request->brand_id,
-                'coach_id' => $request->coach_id,
-                'cover_image' => $path,
-                'unit' => $request->unit
-            ]);
+                foreach ($request->images as $image){
+                    $path = $this->storeFile($image, 'images/supplements/coverImages');
+                    product_image::create([
+                        'supplement_id'=>$supplement->id,
+                        'image'=>$path
+                    ]);
+                }
+                return $supplement;
+            });
+
+
+
             return $this->apiResponse($supplement, 'success', 200);
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -188,7 +206,9 @@ class SupplementController extends Controller
 
             $supplement = SupplementClass::get($id);
             if ($supplement) {
-                SupplementClass::destroy($id);
+                if (!SupplementClass::destroy($id)){
+                    return $this->apiResponse('', 'error', 400);
+                }
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No supplement with this id', 200);
