@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-    {{--    <link rel="icon" type="image/x-icon" href=""/>--}}
-    <link href="{{asset('assets/css/font-awesome/all.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo/xlogo.png')}}"/>
 
+    <link href="{{asset('assets/css/font-awesome/all.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/layouts/modern-light-menu/css/light/loader.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/layouts/modern-light-menu/css/dark/loader.css')}}" rel="stylesheet" type="text/css"/>
     <script src="{{asset('assets/layouts/modern-light-menu/loader.js')}}"></script>
@@ -39,15 +40,18 @@
             width: 100%;
             display: none;
         }
+
         div#ajax_loader .loader {
             display: flex;
             justify-content: center;
             height: 100vh;
         }
+
         div#ajax_loader .loader-content {
             right: 0;
             align-self: center;
         }
+
         div#ajax_loader .loader-content .spinner-grow {
             width: 2.5rem;
             height: 2.5rem;
@@ -88,11 +92,10 @@
     <div class="search-overlay"></div>
 
 
-
     <!--  BEGIN CONTENT AREA  -->
-    <div  class="main-content">
+    <div class="main-content  w-100">
 
-            @yield('content')
+        @yield('content')
     </div>
 </div>
 <div class="footer-wrapper">
@@ -117,21 +120,21 @@
 <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('assets/src/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script>
-    $(document).ready(function (){
-        $(document).on('ajaxStart',function() {
+    $(document).ready(function () {
+        $(document).on('ajaxStart', function () {
             showLoader()
         });
 
-        $(document).on('ajaxStop',function() {
+        $(document).on('ajaxStop', function () {
             removeLoader()
         });
 
     });
-    $(document).ajaxStart(function() {
+    $(document).ajaxStart(function () {
         showLoader()
     });
 
-    $(document).ajaxStop(function() {
+    $(document).ajaxStop(function () {
         removeLoader()
     });
 
@@ -141,7 +144,7 @@
         if (file) {
             const reader = new FileReader();
 
-            reader.addEventListener("load", function() {
+            reader.addEventListener("load", function () {
                 const preview = document.getElementById("preview");
                 preview.src = reader.result;
             });
@@ -153,12 +156,11 @@
 <script>
 
 
-
-
-    function showLoader(){
+    function showLoader() {
         $('#ajax_loader').show()
     }
-    function removeLoader(){
+
+    function removeLoader() {
         $('#ajax_loader').hide()
     }
 </script>
@@ -167,13 +169,14 @@
 <script src="{{asset('assets/src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/mousetrap/mousetrap.min.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/waves/waves.min.js')}}"></script>
-<script src="{{asset('assets/layouts/modern-light-menu/app.js')}}"></script>
+
 <script src="{{asset('assets/src/plugins/src/highlight/highlight.pack.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/global/vendors.min.js')}}"></script>
 <script src="{{asset('assets/src/assets/js/custom.js')}}"></script>
 {{--<script src="{{asset('assets/src/assets/js/scrollspyNav.js')}}"></script>--}}
 <!-- END GLOBAL MANDATORY STYLES -->
 <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/layouts/modern-light-menu/userApp.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- END PAGE LEVEL SCRIPTS -->
