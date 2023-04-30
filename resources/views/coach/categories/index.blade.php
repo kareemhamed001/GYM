@@ -253,17 +253,17 @@
                             </div>
                             <div class="media-body align-self-center">
                                 <h6 class="mb-0">{{$category->name}}</h6>
-                                <span class="text-success">{{$category->description}}</span>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category->description,0,50)}}... </span>
                             </div>
                         </div>
                     </td>
                     <td>
                         <p class="mb-0">{{$category->name_ar??'NULL'}}</p>
-                        <span class="text-success">{{$category->description_ar??'NULL'}}</span>
+                        <span class="text-success d-block">{{Str::substr($category->description_ar,0,50)??'NULL'}}...</span>
                     </td>
                     <td>
                         <p class="mb-0">{{$category->name_ku??'NULL'}}</p>
-                        <span class="text-success">{{$category->description_ku??'NULL'}}</span>
+                        <span class="text-success d-block">{{Str::substr($category->description_ku,0,50)??'NULL'}}...</span>
                     </td>
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($category->created_at)->toDateString()??'NULL'}}</p>
