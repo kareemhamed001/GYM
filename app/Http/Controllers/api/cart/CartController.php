@@ -47,8 +47,20 @@ class CartController extends Controller
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
-            $cart = ['price' => $request->price, 'discount' => $request->discount, 'number' => $request->number, 'user_id' => $request->user_id, 'supplement_id' => $request->supplement_id];
-            $cart = CartClass::store($cart);
+
+            $cart = cart::where('user_id', $request->user_id)->where('supplement_id', $request->supplement_id)->first();
+
+            if ($cart->count() == 0) {
+                return cart::create($validator->validated());
+            }
+
+            if ($cart->number != $request->number) {
+                $cart->number = $request->number;
+                $cart->price = $request->price;
+                $cart->discount = $request->discount;
+                $cart->save();
+            }
+
             return $this->apiResponse($cart, 'success', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
@@ -155,6 +167,7 @@ class CartController extends Controller
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
+
     public function getProductByCartId($id)
     {
         try {
