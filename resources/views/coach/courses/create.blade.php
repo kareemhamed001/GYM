@@ -66,11 +66,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleModalInputName2">File Title</label>
-                        <input type="text" class="form-control" id="homeWorkTitle">
-
-                    </div>
-                    <div class="form-group">
                         <label for="exampleModalInputName3">File Description</label>
                         <input type="text" class="form-control" id="homeWorkDescription">
 
@@ -218,7 +213,8 @@
 													<span>
 														<input class="form-control stretched-link" type="file"
                                                                name="cover_image" id="image"
-                                                               accept="image/gif, image/jpeg, image/png" onchange="previewImage(event)">
+                                                               accept="image/gif, image/jpeg, image/png"
+                                                               onchange="previewImage(event)">
 													</span>
                                 </label>
                                 <p class="small mb-0 mt-2"><b>Note:</b> Only JPG, JPEG and PNG. </p>
@@ -321,13 +317,8 @@
             videoTitle = event.target.options[event.target.selectedIndex].textContent
         });
 
-        let homeworkTitle = null
         let homeworkDescription = null
-        const homeworkTitleElement = document.getElementById('homeWorkTitle');
         const homeworkDescriptionElement = document.getElementById('homeWorkDescription');
-        homeworkTitleElement.addEventListener('change', (event) => {
-            homeworkTitle = event.target.value
-        });
         homeworkDescriptionElement.addEventListener('change', (event) => {
             homeworkDescription = event.target.value
         });
@@ -379,7 +370,7 @@
 
         function addHomework() {
             console.log(homeworkDescription)
-            if (homeworkTitle && homeworkDescription) {
+            if (homeworkDescription) {
                 bankIdCounter++
                 let html = `
                         <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="bank${bankIdCounter}">
@@ -388,9 +379,9 @@
                                     <i class="fa-light fa-book"></i>
                                 </a>
                                 <div class="d-flex flex-column">
-                                    <span class="d-inline-block text-truncate ms-2 mb-0 h5 fw-light ">${homeworkTitle}</span>
+
                                     <span class="d-inline-block text-truncate ms-2 mb-0 h5 fw-light ">${homeworkDescription}</span>
-                                     <input class="form-control" type="file" name="topics[${topicName}][files][${homeworkTitle},,,${homeworkDescription}]" >
+                                     <input class="form-control" type="file" name="topics[${topicName}][files][${homeworkDescription}]" >
                                 </div>
                             </div>
                             <p class="mb-0 w-auto"><button onclick="removeBank('bank${bankIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
@@ -433,52 +424,52 @@
         });
     </script>
     <script>
-        const form=document.getElementById('my-form');
-        form.addEventListener('submit',async (e)=>{
-           e.preventDefault()
+        const form = document.getElementById('my-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
 
-           let formData=new FormData(form);
+            let formData = new FormData(form);
 
-           try {
-               showLoader()
-               const response=await fetch('/api/courses',{
-                   method:'POST',
-                   body: formData
-               })
-               removeLoader()
-               const result =await response.json();
-               console.log(result)
-               if(result.status===200){
-                   Swal.fire({
-                       icon: 'success',
-                       title: 'Success',
-                       text: result.message,
-                   })
+            try {
+                showLoader()
+                const response = await fetch('/api/courses', {
+                    method: 'POST',
+                    body: formData
+                })
+                removeLoader()
+                const result = await response.json();
+                console.log(result)
+                if (result.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                    })
 
-                   location.reload();
-               }else if(result.status===400){
-                   let message = result.message;
-                   let errorMessage = ``;
-                   for (const key in message) {
-                       errorMessage += message[key] + `\n`
-                   }
-                   Swal.fire({
-                       icon: 'error',
-                       title: 'Error',
-                       text: errorMessage,
-                   })
-               }else{
-                   Swal.fire({
-                       icon: 'error',
-                       title: 'Error',
-                       text: 'Server Error',
-                   })
-               }
+                    location.reload();
+                } else if (result.status === 400) {
+                    let message = result.message;
+                    let errorMessage = ``;
+                    for (const key in message) {
+                        errorMessage += message[key] + `\n`
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Server Error',
+                    })
+                }
 
-           }catch (error){
-               removeLoader()
-               console.error(error);
-           }
+            } catch (error) {
+                removeLoader()
+                console.error(error);
+            }
         });
     </script>
 @endsection

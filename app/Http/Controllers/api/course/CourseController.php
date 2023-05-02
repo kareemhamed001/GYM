@@ -100,11 +100,11 @@ class CourseController extends Controller
                         }
                         if (array_key_exists('files', $topic)) {
                             foreach ($topic['files'] as $title => $file) {
+                                $fileName=$file->getClientOriginalName();
                                 $path=$this->storeFile($file,'files');
-                                $exploded=explode(',,,',$title,2);
                                 curriculum_file::create([
-                                    'title' => $exploded[0],
-                                    'description' => $exploded[1],
+                                    'title' => $fileName,
+                                    'description' => $title,
                                     'path' =>$path,
                                     'type' => 1,
                                     'curriculum_id' => $curriculum->id
