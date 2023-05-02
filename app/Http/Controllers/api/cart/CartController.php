@@ -48,12 +48,12 @@ class CartController extends Controller
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            $cart = cart::where('user_id', $request->user_id)->where('supplement_id', $request->supplement_id)->first();
+            $cart = cart::where('user_id', $request->user_id)->where('supplement_id', $request->supplement_id)->get();
 
             if ($cart->count() == 0) {
                 return cart::create($validator->validated());
             }
-
+            $cart=$cart->first();
             if ($cart->number != $request->number) {
                 $cart->number = $request->number;
                 $cart->price = $request->price;
