@@ -74,7 +74,7 @@ class CategoryClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15)
     {
         try {
-            return category::with(['brands'])->paginate($pagination);
+            return category::paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

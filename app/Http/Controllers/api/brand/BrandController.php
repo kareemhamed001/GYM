@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\brands_category;
 use App\Models\category;
+use App\Models\supplement;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -206,7 +207,8 @@ class BrandController extends Controller
         try {
             $brand = brand::find($id);
             if ($brand) {
-                return $this->apiResponse($brand->categories, 'success', 200);
+                $categories=supplement::select('category_id,categories.name,categories.name_ar,categories.name_ku,categories.description,categories.description_ar,categories.description_ku,categories.cover_image')->join('categories','supplements.category_id','=','categories.id')->where('supplements.brand_id',$brand->id)->get();
+                return $this->apiResponse($categories, 'success', 200);
             }
             return $this->apiResponse('', 'No brand with this id', 200);
         } catch (\Exception $e) {
@@ -214,31 +216,6 @@ class BrandController extends Controller
         }
     }
 
-    public function addBrandToCategory(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'brand_id' => ['required','integer', Rule::exists('brands', 'id')],
-                'category_id' => ['required','integer', Rule::exists('categories', 'id')],
-            ]);
-
-            if ($validator->fails()) {
-                return $this->apiResponse(null, $validator->errors(), 400);
-            }
-
-
-            $brand_category = brands_category::where('brand_id', $request->brand_id)->where('category_id', $request->category_id)->exists();
-
-            if ($brand_category) {
-                return $this->apiResponse('', 'This brand exists on this category', 200);
-            }
-
-            brands_category::create($validator->validated());
-            return $this->apiResponse('', 'Brand has been added to this category', 200);
-        } catch (\Exception $e) {
-            return $this->apiResponse('', $e->getMessage(), 400);
-        }
-    }
     public function deleteArrayOfBrands(Request $request){
         try {
             $validator = validator::make($request->all(), [

@@ -80,6 +80,8 @@ Route::resource('/courses', \App\Http\Controllers\api\course\CourseController::c
 );
 
 Route::get('courses/{id}/videos', [\App\Http\Controllers\api\course\CourseController::class, 'getVideosByCourseId']);
+Route::post('courses/{courseId}/{curriculumId}/delete-curriculum', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculum']);
+Route::post('courses/{courseId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculum']);
 Route::get('courses/{id}/coach', [\App\Http\Controllers\api\course\CourseController::class, 'getCourseCoach']);
 Route::post('courses/delete-collection', [\App\Http\Controllers\api\course\CourseController::class, 'deleteArrayOfCourses']);
 
@@ -113,6 +115,9 @@ Route::resource('/products', \App\Http\Controllers\api\supplement\SupplementCont
     ]
 );
 Route::get('products/{id}/brand', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getBrandByProductId']);
+Route::post('products/{productId}/{imageId}/delete-image', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteImage']);
+Route::post('products/{productId}/{imageId}/delete-color', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteColor']);
+Route::post('products/{productId}/{imageId}/delete-size', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteSize']);
 Route::get('products/{id}/coach', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getCoachByProductId']);
 Route::get('products/{id}/purchases', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getPurchasesByProductId']);
 Route::post('products/delete-collection', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteArrayOfProducts']);

@@ -105,45 +105,6 @@
         </div>
     </div>
 
-    <div class="modal fade " id="addBrandModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">edit</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            onclick="closeeditmodal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addBrandForm"  enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="category_id" value="{{$category->id}}">
-                        <div class="form-group px-1 my-1">
-                            <label for="brand_id">Brand Id</label>
-                            <select name="brand_id" class="form-select" id="brand_id">
-                                <option>--Select Brand--</option>
-                                @foreach(\App\Models\brand::all() as $brand)
-                                    <option value="{{$brand->id}}">{{$brand->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <hr>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary" form="addBrandForm">Save changes</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <div class="row my-3 flex-column flex-lg-row align-items-center">
 
@@ -165,11 +126,7 @@
                      class="btn btn-sm btn-success mx-1 d-flex align-items-center col-5 col-lg my-1 my-lg-0">
                     <i class="fa-light fa-pen fa-2xs fs-6 mx-1"></i> Edit
                 </a>
-            <a type="button" data-toggle="modal" data-target="#addBrandModal"
-                    href="javascript:void(0);" title="Add Brand"
-                     class="btn btn-sm btn-warning mx-1 d-flex align-items-center col-5 col-lg my-1 my-lg-0">
-                    <i class="fa-light fa-plus fa-2xs fs-6 mx-1"></i> Add Brand
-                </a>
+
                 <a href="{{url('coach/categories')}}" class="btn btn-sm btn-primary mx-1 d-flex align-items-center col-5 col-lg my-1 my-lg-0" title="go back">
                     <i class="fa-light  fa-arrow-left fa-2xs fs-6 mx-1"></i>  Back
                 </a>
@@ -257,8 +214,6 @@
                 <th scope="col">EN</th>
                 <th scope="col">AR</th>
                 <th scope="col">KU</th>
-                <th scope="col">Owner</th>
-
                 <th scope="col">Action</th>
 
             </tr>
@@ -285,10 +240,7 @@
                         <p class="mb-0">{{$brand->name_ku??'NULL'}}</p>
                         <span class="text-success">{{$brand->description_ku??'NULL'}}</span>
                     </td>
-                    <td>
-                        <p class="mb-0">{{$brand->coach->name??'NULL'}}</p>
-                        <span class="text-success">{{$brand->coach->email??'NULL'}}</span>
-                    </td>
+
 
                     <td class="cursor-pointer ">
                         <div class="d-flex align-items-center">
@@ -460,51 +412,5 @@
             }
         });
 
-        const addBrandForm = document.querySelector('#addBrandForm');
-        addBrandForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(addBrandForm);
-
-            try {
-                showLoader()
-                const response = await fetch(`/api/brands/to-category`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: formData
-                });
-                removeLoader()
-                const result = await response.json();
-                console.log(result)
-                if (result.status === 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: result.message,
-                        timeout:3000
-                    })
-
-                    $('#addCategoryModal').modal('hide')
-                    location.reload();
-                } else if (result.status === 400) {
-                    let message = result.message;
-                    let errorMessage = ``;
-                    for (const key in message) {
-                        errorMessage += `<span class="text-danger d-block">${message[key]} </span>`
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        html: errorMessage,
-                    })
-                }
-
-            } catch (error) {
-                removeLoader()
-                console.error(error);
-            }
-        });
     </script>
 @endsection

@@ -8,6 +8,8 @@ use App\Models\coach;
 use App\Models\course;
 use App\Models\curriculum;
 use App\Models\curriculum_file;
+use App\Models\product_image;
+use App\Models\supplement;
 use App\Models\video;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
@@ -77,44 +79,40 @@ class CourseController extends Controller
 
                 if ($request->topics) {
                     foreach ($request->topics as $key => $topic) {
+                        $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
                         $curriculum = curriculum::create([
-                            'title' => $key,
+                            'title' => $topic['title'],
+                            'cover_image' => $topicPath,
                             'course_id' => $course->id
                         ]);
-                        if (array_key_exists('videos', $topic)) {
-                            foreach ($topic['videos'] as $video) {
-                                if ($video) {
-                                    $video_model = video::find($video);
-                                    if ($video_model) {
-                                        curriculum_file::create([
-                                            'title' => $video_model->title,
-                                            'description' => $video_model->description,
-                                            'path' => $video_model->path,
-                                            'type' => 0,
-                                            'curriculum_id' => $curriculum->id
-                                        ]);
-                                    }
 
+                        if ($topic['files']) {
+
+
+                            foreach ($topic['files'] as $title => $file) {
+                                $path = '';
+                                $type = null;
+                                if (intval($file['type']) == 0) {
+                                    $type = 0;
+                                    $video = video::find($file['id']);
+                                    if ($video) {
+                                        $path = $video->path;
+                                    }
+                                } elseif (intval($file['type']) == 1) {
+                                    $type = 1;
+                                    $path = $this->storeFile($file['file'], 'files');
+                                }
+                                if ($path) {
+                                    curriculum_file::create([
+                                        'title' => $file['title'],
+                                        'description' => $file['description'],
+                                        'path' => $path,
+                                        'type' => $type,
+                                        'curriculum_id' => $curriculum->id
+                                    ]);
                                 }
                             }
                         }
-                        if (array_key_exists('files', $topic)) {
-                            foreach ($topic['files'] as $title => $file) {
-                                $fileName=$file->getClientOriginalName();
-                                $path=$this->storeFile($file,'files');
-                                curriculum_file::create([
-                                    'title' => $fileName,
-                                    'description' => $title,
-                                    'path' =>$path,
-                                    'type' => 1,
-                                    'curriculum_id' => $curriculum->id
-                                ]);
-
-
-                            }
-                        }
-
-
                     }
                 }
             });
@@ -171,6 +169,7 @@ class CourseController extends Controller
             $course = CourseClass::get($id);
 
 
+
             if ($course) {
                 if ($request->cover_image) {
                     $path = $this->replaceFile($course->cover_image, $request->cover_image, 'images/brands/coverImages');
@@ -208,6 +207,67 @@ class CourseController extends Controller
                 }
                 if ($request->type) {
                     $course->type = $request->type;
+                }
+
+                if ($request->topics) {
+                    foreach ($request->topics as $key => $topic) {
+                        if (isset($topic['id'])){
+                            $curriculum=curriculum::find($topic['id']);
+                            if ($curriculum->id){
+                                if (isset($topic['cover_image'])){
+                                    $curriculumPath = $this->replaceFile( $curriculum->cover_image,$topic['cover_image'], 'images/courses/topics/coverImages');
+                                    $curriculum->cover_image=$curriculumPath;
+                                }
+                                $curriculum->title=$topic['title'];
+                                $curriculum->save();
+                            }else{
+                                $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
+                                $curriculum = curriculum::create([
+                                    'title' => $topic['title'],
+                                    'cover_image' => $topicPath,
+                                    'course_id' => $course->id
+                                ]);
+                            }
+                        }else{
+                            $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
+                            $curriculum = curriculum::create([
+                                'title' => $topic['title'],
+                                'cover_image' => $topicPath,
+                                'course_id' => $course->id
+                            ]);
+                        }
+
+
+                        if (isset($topic['files'])){
+                            if ($topic['files']) {
+
+                                foreach ($topic['files'] as $title => $file) {
+                                    $path = '';
+                                    $type = null;
+                                    if (intval($file['type']) == 0) {
+                                        $type = 0;
+                                        $video = video::find($file['id']);
+                                        if ($video) {
+                                            $path = $video->path;
+                                        }
+                                    } elseif (intval($file['type']) == 1) {
+                                        $type = 1;
+                                        $path = $this->storeFile($file['file'], 'files');
+                                    }
+                                    if ($path) {
+                                        curriculum_file::create([
+                                            'title' => $file['title'],
+                                            'description' => $file['description'],
+                                            'path' => $path,
+                                            'type' => $type,
+                                            'curriculum_id' => $curriculum->id
+                                        ]);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
 
                 $course->save();
@@ -294,4 +354,60 @@ class CourseController extends Controller
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
+
+    function deleteCurriculum($courseId, $curriculumId)
+    {
+        try {
+
+            $course = course::find($courseId);
+            $curriculum = curriculum::find($curriculumId);
+            if (!$course) {
+                return $this->apiResponse('', 'This course doesnt exists', 400);
+            }
+            if (!$curriculum) {
+                return $this->apiResponse('', 'This curriculum doesnt exists', 400);
+            }
+
+            if ($curriculum->course_id == $course->id) {
+                $this->deleteFile($curriculum->cover_image);
+                $curriculum->delete();
+                return $this->apiResponse('', 'success', 200);
+            }
+
+            return $this->apiResponse('', 'Some went wrong', 400);
+        } catch (\Exception $e) {
+            return $this->apiResponse($e->getMessage(), 'error', 400);
+        }
+    }
+
+    function deleteCurriculumFile($courseId, $curriculumId, $fileId)
+    {
+        try {
+
+            $course = course::find($courseId);
+            $curriculum = curriculum::find($curriculumId);
+            $curriculumFile = curriculum_file::find($fileId);
+            if (!$course) {
+                return $this->apiResponse('', 'This course doesnt exists', 400);
+            }
+            if (!$curriculum) {
+                return $this->apiResponse('', 'This curriculum doesnt exists', 400);
+            }
+            if (!$curriculumFile) {
+                return $this->apiResponse('', 'This file doesnt exists', 400);
+            }
+
+            if ($curriculumFile->curriculum_id == $curriculum->id && $curriculum->course_id == $course->id) {
+                $this->deleteFile($curriculumFile->path);
+                $curriculumFile->delete();
+                return $this->apiResponse('', 'success', 200);
+            }
+
+            return $this->apiResponse('', 'Some went wrong', 400);
+        } catch (\Exception $e) {
+            return $this->apiResponse($e->getMessage(), 'error', 400);
+        }
+    }
+
+
 }

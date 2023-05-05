@@ -53,146 +53,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade modal-xl" id="addproductModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">add a new product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="createproductForm" class="d-flex flex-wrap" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
-                        <div class="form-group col-12 my-1">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="productNameEn">Name En</label>
-                            <input name="name" class="form-control" type="text" id="productNameEn"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productNameAr">Name Ar</label>
-                            <input name="name_ar" class="form-control" type="text" id="productNameAr"
-                                   placeholder="Enter name in arabic">
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productNameKu">Name Ku</label>
-                            <input name="name_ku" class="form-control" type="text" id="productNameKu"
-                                   placeholder="Enter name in kurdish">
-                        </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="productDescriptionEn">Description En</label>
-                            <textarea name="description" class="form-control" type="text" id="productDescriptionEn"
-                                      placeholder="Enter Description in english"></textarea>
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productDescriptionAr">Description Ar</label>
-                            <textarea name="description_ar" class="form-control" type="text" id="productDescriptionAr"
-                                      placeholder="Enter Description in arabic"></textarea>
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productDescriptionKu">Description Ku</label>
-                            <textarea name="description_ku" class="form-control" type="text" id="productDescriptionKu"
-                                      placeholder="Enter Description in kurdish"></textarea>
-                        </div>
-
-                        <hr>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="createproductForm">Save changes</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade modal-xl" id="editproductModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">edit</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            onclick="closeeditmodal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editproductForm" class="d-flex flex-wrap" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
-                        <div class="col-6 my-1">
-                            <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
-                        </div>
-
-                        <div class="form-group col-6 my-1 ps-2">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="productNameEnEdit">Name En</label>
-                            <input name="name" class="form-control" type="text" id="productNameEnEdit"
-                                   placeholder="Enter name in english">
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productNameArEdit">Name Ar</label>
-                            <input name="name_ar" class="form-control" type="text" id="productNameArEdit"
-                                   placeholder="Enter name in arabic">
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productNameKuEdit">Name Ku</label>
-                            <input name="name_ku" class="form-control" type="text" id="productNameKuEdit"
-                                   placeholder="Enter name in kurdish">
-                        </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="productDescriptionEnEdit">Description En</label>
-                            <textarea name="description" class="form-control" type="text" id="productDescriptionEnEdit"
-                                      placeholder="Enter Description in english"></textarea>
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productDescriptionArEdit">Description Ar</label>
-                            <textarea name="description_ar" class="form-control" type="text"
-                                      id="productDescriptionArEdit"
-                                      placeholder="Enter Description in arabic"></textarea>
-                        </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="productDescriptionKuEdit">Description Ku</label>
-                            <textarea name="description_ku" class="form-control" type="text"
-                                      id="productDescriptionKuEdit"
-                                      placeholder="Enter Description in kurdish"></textarea>
-                        </div>
-
-                        <hr>
-
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary" form="editproductForm">Save changes</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <div class="row my-3">
         <div class="d-flex justify-content-between">
@@ -290,8 +150,8 @@
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
                                 </a>
-                                <a onclick="prepareproducttoedit({{$product->id}})"
-                                   href="javascript:void(0);" class="action-btn btn-edit bs-tooltip me-2"
+                                <a
+                                   href="{{url('coach/products/'.$product->id.'/edit')}}" class="action-btn btn-edit bs-tooltip me-2"
                                    data-placement="top" title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -347,36 +207,10 @@
             productId = id;
         }
 
-        let productIdEdit = 0
 
-        async function prepareproducttoedit(id) {
 
-            productIdEdit = id
-            const response = await fetch(`/api/products/${id}`, {
-                method: 'GET'
-            });
-            const result = await response.json();
-            if (result.status === 200) {
 
-                document.querySelector('#productNameEnEdit').value = result.data.name;
-                document.querySelector('#productNameArEdit').value = result.data.name_ar;
-                document.querySelector('#productNameKuEdit').value = result.data.name_ku;
-                document.querySelector('#productDescriptionEnEdit').value = result.data.description;
-                document.querySelector('#productDescriptionArEdit').value = result.data.description_ar;
-                document.querySelector('#productDescriptionKuEdit').value = result.data.description_ku;
-                document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`
-                $('#editproductModal').modal('show')
 
-            } else if (result.status === 400) {
-
-                console.error(result)
-
-            }
-        }
-
-        function closeeditmodal() {
-            $('#editproductModal').modal('hide')
-        }
 
         async function deleteproduct() {
 
@@ -565,49 +399,7 @@
             }
         });
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        const editForm = document.querySelector('#editproductForm');
-        editForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
 
-            const formDataEdit = new FormData(editForm);
-
-            try {
-                const response = await fetch(`/api/products/${productIdEdit}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: formDataEdit
-                });
-
-                const result = await response.json();
-                console.log(result)
-                if (result.status === 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Updated Successfully',
-                    })
-
-                    $('#addproductModal').modal('hide')
-                    location.reload();
-                } else if (result.status === 400) {
-                    let message = result.message;
-                    let errorMessage = ``;
-                    for (const key in message) {
-                        errorMessage += message[key] + `\n`
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: errorMessage,
-                    })
-                }
-
-            } catch (error) {
-                console.error(error);
-            }
-        });
     </script>
 @endsection
 

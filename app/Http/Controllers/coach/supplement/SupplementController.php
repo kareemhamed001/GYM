@@ -5,6 +5,8 @@ namespace App\Http\Controllers\coach\supplement;
 use App\classes\category\CategoryClass;
 use App\classes\supplement\SupplementClass;
 use App\Http\Controllers\Controller;
+use App\Models\brand;
+use App\Models\category;
 use App\Models\supplement;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,9 @@ class SupplementController extends Controller
      */
     public function create()
     {
-        return view('coach.products.create');
+        $categories=category::all();
+        $brands=brand::all();
+        return view('coach.products.create',compact('categories','brands'));
     }
 
     /**
@@ -56,7 +60,10 @@ class SupplementController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories=category::all();
+        $brands=brand::all();
+        $product=supplement::find($id);
+        return view('coach.products.edit',compact('product','brands','categories'));
     }
 
     /**

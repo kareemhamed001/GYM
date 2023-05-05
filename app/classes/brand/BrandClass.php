@@ -74,7 +74,7 @@ class BrandClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15)
     {
         try {
-            return brand::with(['coach', 'supplements', 'categories'])->paginate($pagination);
+            return brand::paginate($pagination);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

@@ -16,8 +16,6 @@ class brand extends Model
     public function supplements(){
         return $this->hasMany(supplement::class,'brand_id','id');
     }
-    public function categories(){
-        return $this->belongsToMany(category::class,'brands_categories','brand_id','category_id');
-    }
+
 
 }

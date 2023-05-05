@@ -37,10 +37,11 @@ class CartController extends Controller
     {
         try {
 
+
             $validator = Validator::make($request->all(), [
                 'price' => ['required', 'numeric'],
                 'discount' => ['required', 'numeric', 'max:100'],
-                'number' => ['required', 'numeric', 'min:1'],
+                'quantity' => ['required', 'numeric', 'min:1'],
                 'user_id' => ['required', 'integer', Rule::exists('users', 'id')],
                 'supplement_id' => ['required', 'integer', Rule::exists('supplements', 'id')],
             ]);
@@ -51,11 +52,17 @@ class CartController extends Controller
             $cart = cart::where('user_id', $request->user_id)->where('supplement_id', $request->supplement_id)->get();
 
             if ($cart->count() == 0) {
-                return cart::create($validator->validated());
+                return cart::create([
+                    'price' => $request->price,
+                    'discount' => $request->discount,
+                    'number' => $request->quantity,
+                    'user_id' => $request->user_id,
+                    'supplement_id' => $request->supplement_id,
+                ]);
             }
-            $cart=$cart->first();
-            if ($cart->number != $request->number) {
-                $cart->number = $request->number;
+            $cart = $cart->first();
+            if ($cart->number != $request->quantity) {
+                $cart->number = $request->quantity;
                 $cart->price = $request->price;
                 $cart->discount = $request->discount;
                 $cart->save();

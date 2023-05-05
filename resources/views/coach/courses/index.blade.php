@@ -55,6 +55,7 @@
     </div>
 
     <div class="row my-3">
+
         <div class="d-flex justify-content-between">
             <h3>courses</h3>
             <div>
@@ -94,6 +95,7 @@
                 <th scope="col">EN</th>
                 <th scope="col">AR</th>
                 <th scope="col">KU</th>
+                <th scope="col">Curricula</th>
                 <th scope="col" class="text-center">Created_At</th>
                 <th scope="col" class="text-center">Action</th>
 
@@ -127,6 +129,9 @@
                         <p class="mb-0">{{$course->title_ku??'NULL'}}</p>
                         <span class="text-success">{{$course->description_ku??'NULL'}}</span>
                     </td>
+                    <td>
+                        {{$course->curricula->count()}}
+                    </td>
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($course->created_at)->toDateString()??'NULL'}}</p>
                         <span
@@ -146,8 +151,8 @@
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
                                 </a>
-                                <a onclick="preparecoursetoedit({{$course->id}})"
-                                   href="javascript:void(0);" class="action-btn btn-edit bs-tooltip me-2"
+                                <a
+                                   href="{{url('/coach/courses/'.$course->id.'/edit')}}" class="action-btn btn-edit bs-tooltip me-2"
                                    data-placement="top" title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

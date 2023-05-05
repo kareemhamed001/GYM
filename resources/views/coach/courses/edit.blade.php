@@ -129,8 +129,9 @@
         </ul>
 
 
-        <form method="post" enctype="multipart/form-data" id="my-form">
+        <form id="my-form">
             @csrf
+            @method('PUT')
             <input type="hidden" name="coach_id" value="{{Auth::user()->user?->id??1}}">
             <div class="tab-content">
                 <div id="tab1" class="tab-pane active">
@@ -139,57 +140,58 @@
                     <div class="form-group my-2">
                         <label for="title">Title EN</label>
                         <input type="text" class="form-control" id="title" placeholder="Enter Course Title"
-                               value="{{old('title')}}"
+                               value="{{$course->title}}"
                                name="title">
                     </div>
                     <div class="form-group my-2">
                         <label for="title_ar">Title AR</label>
                         <input type="text" class="form-control" id="title_ar"
                                placeholder="Enter Course Title In Arabic *"
-                               value="{{old('title_ar')}}"
+                               value="{{$course->title_ar}}"
                                name="title_ar">
                     </div>
                     <div class="form-group my-2">
                         <label for="title_ku">Title AR</label>
                         <input type="text" class="form-control" id="title_ku"
                                placeholder="Enter Course Title In Kurdish *"
-                               value="{{old('title_ku')}}"
+                               value="{{$course->title_ku}}"
                                name="title_ku">
                     </div>
                     <div class="form-group my-2">
                         <label for="description">Course Description</label>
                         <textarea type="text" class="form-control" id="description"
                                   placeholder="Enter Course Description in 500 characters"
-                                  name="description">{{old('description')}}</textarea>
+                                  name="description">{{$course->description}}</textarea>
                     </div>
                     <div class="form-group my-2">
                         <label for="description_ar">Description AR</label>
                         <textarea type="text" class="form-control" id="description_ar"
                                   placeholder="Enter Course Description in 500 characters"
-                                  name="description_ar">{{old('description_ar')}}</textarea>
+                                  name="description_ar">{{$course->description_ar}}</textarea>
                     </div>
                     <div class="form-group my-2">
                         <label for="description_ku">Description KU</label>
                         <textarea type="text" class="form-control" id="description_ku"
                                   placeholder="Enter Course Description in 500 characters"
-                                  name="description_ku">{{old('description_ku')}}</textarea>
+                                  name="description_ku">{{$course->description_ku}}</textarea>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="price">Price</label>
-                            <input id="price" type="number" class="form-control" name="price" value="{{old('price')}}">
+                            <input id="price" type="number" class="form-control" name="price"
+                                   value="{{$course->price}}">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="discount">Discount</label>
                             <input id="discount" type="number" class="form-control" name="discount"
-                                   value="{{old('discount')}}">
+                                   value="{{$course->discount}}">
                         </div>
                     </div>
                     <div class="form-group ">
                         <label for="type">Type</label>
                         <input id="type" type="number" class="form-control" name="type"
-                               value="1">
+                               value="{{$course->type}}">
                     </div>
 
                 </div>
@@ -201,7 +203,8 @@
                     <div class="col-12">
                         <div class="row  d-flex justify-content-center my-2">
                             <div class="col-md-6">
-                                <img id="preview" class=' w-100 h-100 border-0' style="object-fit: scale-down">
+                                <img src="{{asset($course->cover_image)}}" id="preview" class=' w-100 h-100 border-0'
+                                     style="object-fit: scale-down">
                             </div>
                         </div>
 
@@ -234,6 +237,142 @@
                                 class="fa fa-plus-circle"></i> Add Topic
                         </button>
                     </div>
+                    <div>
+                        @foreach($course->curricula as $curriculum)
+                            <div class="accordion accordion-icon accordion-bg-light"
+                                 id="accordionExample{{$curriculum->id}}">
+
+
+                                <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden"
+                                       name="topics[{{$curriculum->title}}][id]" value="{{$curriculum->id}}" required>
+
+                                <!-- Item -->
+                                <div class="accordion-item mb-3">
+                                    <h6 class="accordion-header font-base d-flex" id="heading-{{$curriculum->id}}">
+                                        <button
+                                            class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed"
+                                            type="button" data-toggle="collapse" href="#collapse-{{$curriculum->id}}"
+                                            aria-expanded="true" aria-controls="collapse-{{$curriculum->id}}">
+                                            <i onclick="removeTopic({{$course->id}},{{$curriculum->id}},'accordionExample{{$curriculum->id}}')"
+                                               class="fa fa-remove fa-1x text-danger me-2"></i>
+
+                                            <input class="text-truncate form-control  mb-0 h5 fw-light " type="text"
+                                                   name="topics[{{$curriculum->title}}][title]"
+                                                   value="{{$curriculum->title}}" required>
+                                            {{--                                            {{$curriculum->title}}--}}
+                                            <input class="form-control m-2" type="file"
+                                                   name="topics[{{$curriculum->title}}][cover_image]">
+                                        </button>
+                                    </h6>
+                                    <div id="collapse-{{$curriculum->id}}" class="accordion-collapse collapse show"
+                                         aria-labelledby="heading-1"
+                                         data-bs-parent="#accordionExample{{$curriculum->id}}">
+                                        <div class="accordion-body mt-3" id="accordion{{$curriculum->id}}Body">
+
+                                            @foreach($curriculum->files as $file)
+                                                @if($file->type==0)
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center border-bottom my-1"
+                                                        id="video{{$file->id}}">
+                                                        <div class="position-relative d-flex align-items-center">
+
+                                                            <div class="d-flex flex-column">
+
+                                                                <input type="hidden"
+                                                                       name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
+                                                                       value="0">
+                                                                <input type="hidden"
+                                                                       name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
+                                                                       value="{{$file->id}}">
+
+                                                                <div class="form-group">
+                                                                    <label>Title</label>
+                                                                    <input
+                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][title]"
+                                                                        value="{{$file->title}}" required>
+                                                                    <label>Description</label>
+                                                                    <input
+                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][description]"
+                                                                        required>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <p class="mb-0">
+                                                            <button onclick="removeVideo('video{{$file->id}}')"
+                                                                    class=" btn btn-danger btn-sm" type="button"><i
+                                                                    class="fa fa-remove"></i></button>
+                                                        </p>
+
+                                                    </div>
+                                                @elseif($file->type==1)
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center border-bottom my-1"
+                                                        id="bank{{$file->id}}">
+                                                        <div class="position-relative d-flex align-items-center">
+                                                            <div class="d-flex flex-column">
+                                                                <div class="form-group my-2">
+
+                                                                    <input
+                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                        type="hidden"
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
+                                                                        value="1">
+                                                                    <input
+                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                        type="hidden"
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
+                                                                        value="{{$file->id}}">
+                                                                    <label>Title</label>
+                                                                    <input
+                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][title]"
+                                                                        value="{{$file->title}}" required>
+                                                                    <label>Description</label>
+                                                                    <input
+                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][description]"
+                                                                        value="{{$file->description}}" required>
+                                                                    <label>File</label>
+                                                                    <input class="form-control" type="file"
+                                                                           name="topics[{{$curriculum->title}}][files][file{{$file->id}}][file]"
+                                                                           required
+                                                                           accept="application/pdf,image/*,video/*">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="mb-0 w-auto">
+                                                            <button onclick="removeBank('bank{{$file->id}}')"
+                                                                    class=" btn btn-danger btn-sm" type="button"><i
+                                                                    class="fa fa-remove"></i></button>
+                                                        </p>
+
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                            <button
+                                                onclick="setTopicName('accordion{{{$curriculum->id}}}Body','{{$curriculum->title}}')"
+                                                type="button"
+                                                class="btn btn-sm btn-primary my-2" data-toggle="modal"
+                                                data-target="#addVideoModal">
+                                                <i class="fa fa-plus-circle"></i> Add Video
+                                            </button>
+                                            <button
+                                                onclick="setTopicName('accordion{{{$curriculum->id}}}Body','{{$curriculum->title}}')"
+                                                type="button"
+                                                class="btn btn-sm btn-primary my-2" data-toggle="modal"
+                                                data-target="#addFileModal">
+                                                <i class="fa fa-plus-circle"></i> Add File
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary my-3">Submit</button>
@@ -248,9 +387,17 @@
     <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
     <script>
 
-        let accordionId = 1
-        let collapseId = 1
-        let headingId = 1
+        @if(isset($curriculum))
+        let accordionId = {{$curriculum->id+1}};
+        let collapseId = {{$curriculum->id+1}};
+        let headingId = {{$curriculum->id+1}};
+
+        @else
+        let accordionId = 0;
+        let collapseId = 0;
+        let headingId = 0;
+        @endif
+
 
         function addTopic() {
             if ($('#exampleModalInputName1').val()) {
@@ -272,10 +419,10 @@
                                 class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed"
                                 type="button" data-toggle="collapse" href="#collapse-${collapseId}"
                                 aria-expanded="true" aria-controls="collapse-${collapseId}">
-                                <i onclick="removeTopic('accordionExample${accordionNewId}')" class="fa fa-remove fa-1x text-danger me-2"></i>
+                                <i onclick="removeTopic('','','accordionExample${accordionNewId}')" class="fa fa-remove fa-1x text-danger me-2"></i>
 
                                 ${$('#exampleModalInputName1').val()}
-<input class="form-control m-2" type="file" name="topics[${topicName}][cover_image]" required>
+                                    <input class="form-control m-2" type="file" name="topics[${topicName}][cover_image]" required>
                             </button>
                         </h6>
                         <div id="collapse-${collapseId}" class="accordion-collapse collapse show"
@@ -431,8 +578,25 @@
             document.getElementById(bankId).remove()
         }
 
-        function removeTopic(topicId) {
-            document.getElementById(topicId).remove()
+        async function removeTopic(courseId, topicId, parentElement) {
+            try {
+                if (courseId && topicId) {
+                    let response = await fetch(`/api/courses/${courseId}/${topicId}/delete-curriculum`, {
+                        method: 'post'
+                    });
+                    let result = await response.json();
+                    if (result.status === 200) {
+                        document.getElementById(parentElement).remove()
+                    }
+                } else {
+                    document.getElementById(parentElement).remove()
+                }
+
+
+            } catch (error) {
+                console.error(error)
+            }
+
         }
 
         window.addEventListener('beforeunload', () => {
@@ -449,16 +613,19 @@
             e.preventDefault()
 
             let formData = new FormData(form);
+            console.log(formData);
 
             try {
                 showLoader()
-                const response = await fetch('/api/courses', {
-                    method: 'POST',
+                const response = await fetch('/api/courses/{{$course->id}}', {
+                    method: 'post',
                     body: formData
                 })
                 removeLoader()
+
                 const result = await response.json();
 
+                console.log(result)
                 if (result.status === 200) {
                     Swal.fire({
                         icon: 'success',

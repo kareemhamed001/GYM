@@ -13,7 +13,8 @@ class course extends Model
     public function coach(){
         return $this->belongsTo(coach::class,'coach_id','id');
     }
-    public function videos(){
-        return $this->belongsToMany(video::class,'courses_videos','video_id','course_id','id');
+
+    public function curricula(){
+        return $this->hasMany(curriculum::class,'course_id','id');
     }
 }

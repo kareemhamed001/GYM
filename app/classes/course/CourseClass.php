@@ -66,7 +66,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return course::with(['coach','videos'])->find($id);
+            return course::find($id);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -75,7 +75,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15)
     {
         try {
-            return course::with(['coach','videos'])->paginate($pagination);
+            return course::paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

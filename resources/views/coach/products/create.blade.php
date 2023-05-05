@@ -5,11 +5,24 @@
         <nav class="breadcrumb-style-one mb-3  col-lg-6" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('coach')}}">Coach</a></li>
-                <li class="breadcrumb-item"><a href="{{url('coach/products')}}">brands</a></li>
+                <li class="breadcrumb-item"><a href="{{url('coach/products')}}">products</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Create product</li>
             </ol>
         </nav>
         <h4 class="my-3">Add Product</h4>
+
+
+        @if($brands->count()==0 )
+            <div class="alert alert-warning" role="alert">
+                You must add brands before adding product
+            </div>
+        @endif
+        @if($categories->count()==0 )
+            <div class="alert alert-warning" role="alert">
+                You must add categories before adding product
+            </div>
+        @endif
+
         <img id="preview">
         <form id="addProductForm" class="my-2">
             @csrf
@@ -17,15 +30,29 @@
             <div class="row">
                 <div class="my-1 col-md-6">
                     <label for="cover_image">Cover_image</label>
-                    <input type="file" class="form-control" id="cover_image" name="images[]" accept="image/*" onchange="previewImage(event)" multiple>
+                    <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*"
+                           onchange="previewImage(event)">
+                </div>
+                <div class="my-1 col-md-6">
+                    <label for="images">Images</label>
+                    <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple>
                 </div>
                 <div class="my-1 col-md-6">
                     <label for="brand_id">Brand</label>
-                    <select  class="form-select" id="brand_id" name="brand_id" >
+                    <select class="form-select" id="brand_id" name="brand_id">
                         <option value="">--select brand--</option>
-                        @foreach(\App\Models\brand::all() as $brand)
+                        @foreach($brands as $brand)
 
                             <option value="{{$brand->id}}">{{$brand->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="my-1 col-md-6">
+                    <label for="category_id">Category</label>
+                    <select class="form-select" id="category_id" name="category_id">
+                        <option value="">--select category--</option>
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -47,17 +74,17 @@
                 <div class="my-1 col-12">
                     <label for="description_en">Description En</label>
                     <textarea type="text" class="form-control" id="description_en" name="description"
-                           placeholder="Product Description In English *"></textarea>
+                              placeholder="Product Description In English *"></textarea>
                 </div>
                 <div class="my-1 col-md-6">
                     <label for="description_ar">Description Ar</label>
                     <textarea type="text" class="form-control" id="description_ar" name="description_ar"
-                           placeholder="Product Description In Arabic *"></textarea>
+                              placeholder="Product Description In Arabic *"></textarea>
                 </div>
                 <div class="my-1 col-md-6">
                     <label for="description_ku">Description Ku</label>
                     <textarea type="text" class="form-control" id="description_ku" name="description_ku"
-                           placeholder="Product Description In Kurdish *"></textarea>
+                              placeholder="Product Description In Kurdish *"></textarea>
                 </div>
                 <div class="my-1 col-6">
                     <label for="quantity">Quantity</label>
@@ -79,6 +106,25 @@
                     <input type="text" class="form-control" id="discount" name="discount"
                            placeholder="Discount in percent *">
                 </div>
+                <div id="color" class="row my-2">
+                    <div class="d-flex flex-row justify-content-between">
+                        <label for="" class="col-6">Colors</label>
+
+                        <button onclick="addColor()" type="button" class="btn btn-success">Add color</button>
+                    </div>
+                    <div id="colorsContainer" class="row">
+                    </div>
+                </div>
+
+                <div id="siezes" class="row my-2">
+                    <div class="d-flex flex-row justify-content-between">
+                        <label for="" class="col-6">Sizes <span class="text-muted"> EX(1KG or Large)</span></label>
+
+                        <button onclick="addSize()" type="button" class="btn btn-success">Add size</button>
+                    </div>
+                    <div id="sizesContainer" class="row">
+                    </div>
+                </div>
             </div>
             <div class="my-1">
                 <button type="submit" class="btn btn-primary">Add</button>
@@ -90,45 +136,84 @@
 @endsection
 @section('scripts')
     <script>
-        let form= document.querySelector('#addProductForm')
+        let form = document.querySelector('#addProductForm')
 
-        form.addEventListener('submit',async (e)=>{
-          e.preventDefault();
-          let formData=new FormData(form)
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            let formData = new FormData(form)
             try {
-              let response =await fetch('/api/products',{
-                  method:'post',
-                  body:formData
-              });
+                let response = await fetch('/api/products', {
+                    method: 'post',
+                    body: formData
+                });
 
-              let result=await response.json();
+                let result = await response.json();
 
                 console.log(result)
-              if (result.status===200){
-                      Swal.fire({
-                          icon: 'success',
-                          title: 'Success',
-                          text: result.message,
-                      })
-              }else if(result.status===400){
-                  let message = result.message;
-                  let errorMessage = ``;
-                  for (const key in message) {
-                      errorMessage +=`<span class="text-danger d-block"> ${message[key]}</span> \n`
-                  }
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Error',
-                      html: errorMessage,
-                  })
-              }
+                if (result.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: result.message,
+                    })
+                } else if (result.status === 400) {
+                    let message = result.message;
+                    let errorMessage = ``;
+                    for (const key in message) {
+                        errorMessage += `<span class="text-danger d-block"> ${message[key]}</span> \n`
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        html: errorMessage,
+                    })
+                }
 
-            }catch(error){
+            } catch (error) {
                 console.error(error)
             }
         });
 
 
+        let colorCounter=0
+        function addColor() {
+            colorCounter++;
+
+            $('#colorsContainer').append(`
+                <div class="col-md-2 col-sm-3 col-4 col-lg-1 p-1 my-1" id="color${colorCounter}">
+                    <div class="card border overflow-hidden">
+                        <div class="card-body p-1 ">
+                            <input class="form-control-color w-100  rounded border border-dark" type="color" name="colors[]">
+                        </div>
+                        <div class="card-footer  col-12 p-1">
+                            <button class="btn btn-sm btn-outline-danger w-100" type="button" onclick="deleteColor('color${colorCounter}')"><i class=" fa-light fa-remove "></i></button>
+                        </div>
+                    </div>
+                </div>
+            `)
+        }
+        function deleteColor(color){
+
+            $(`#${color}`).remove()
+        }
+
+        let sizeCounter=0
+        function addSize() {
+            sizeCounter++;
+
+            $('#sizesContainer').append(`
+                <div class="col-md-3 col-sm-3 col-4 col-lg-2 p-1 my-1" id="size${sizeCounter}">
+                    <div class="card border overflow-hidden">
+                        <div class="card-body p-1 ">
+                            <input class="form-control w-100  rounded border border-dark" type="text" name="sizes[]">
+                        </div>
+                        <div class="card-footer  p-1">
+                            <button class="btn btn-sm btn-outline-danger w-100" type="button" onclick="deleteColor('size${sizeCounter}')"><i class=" fa-light fa-remove "></i></button>
+                        </div>
+                    </div>
+                </div>
+            `)
+        }
     </script>
 @endsection
 

@@ -6,7 +6,9 @@ use App\classes\brand\BrandClass;
 use App\classes\category\CategoryClass;
 use App\Http\Controllers\Controller;
 use App\Models\brand;
+use App\Models\supplement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
@@ -47,7 +49,8 @@ class BrandController extends Controller
             if (!$brand) {
                 return redirect()->back()->with('error', 'No brand with this id');
             } else {
-                $categories = $brand->categories;
+                $categories =supplement::select(DB::raw('categories.id,categories.name,categories.name_ar,categories.name_ku,categories.description,categories.description_ar,categories.description_ku,categories.cover_image'))->join('categories','supplements.category_id','=','categories.id')->where('supplements.brand_id',$brand->id)->get();
+
                 return view('coach.brands.show', compact('brand','categories'));
             }
 

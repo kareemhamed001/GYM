@@ -62,7 +62,7 @@
                         <a href="{{url('coach/analytics')}}"> Analytics </a>
                     </li>
                     <li>
-                        <a href="./index2.html"> Sales </a>
+                        <a href="{{url('coach/sales')}}"> Sales </a>
                     </li>
                 </ul>
             </li>

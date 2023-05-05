@@ -53,6 +53,8 @@ class DashBoardController
                 'videos' => $videos,
                 'subscriptions' => $sales->count,
                 'purchases' => $purchases->count,
+                'courses_sales'=>$sales->sales,
+                'products_sales'=>$purchases->sales,
                 'sales' => $sales->sales + $purchases->sales?? 0,
                 'time' => now()
             ], 'success', 200);
