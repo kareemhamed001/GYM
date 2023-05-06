@@ -211,9 +211,9 @@ class CourseController extends Controller
 
                 if ($request->topics) {
                     foreach ($request->topics as $topic) {
-                        if ($topic['id']) {
+                        if (isset($topic['id'])) {
                             $curriculum = curriculum::find($topic['id']);
-                            if ($curriculum->id){
+                            if ($curriculum->id) {
                                 $curriculum->title = $topic['title'];
                                 if (isset($topic['cover_image'])) {
                                     $curriculum->cover_image = $this->replaceFile($curriculum->cover_image, $topic['cover_image'], 'images/courses/topics/coverImages');
@@ -229,7 +229,7 @@ class CourseController extends Controller
                             ]);
                         }
 
-                        if ($topic['files']) {
+                        if (isset($topic['files'])) {
 
 
                             foreach ($topic['files'] as $title => $file) {
@@ -242,6 +242,12 @@ class CourseController extends Controller
                                         if (isset($file['file'])) {
                                             $fileStored->path = $this->replaceFile($fileStored->path, $file['file'], 'files');
                                         }
+                                        if (isset($file['videoId'])) {
+                                            $video = video::find($file['videoId']);
+                                            if ($video) {
+                                                $fileStored->path = $video->path;
+                                            }
+                                        }
                                         $fileStored->save();
                                     }
 
@@ -250,10 +256,14 @@ class CourseController extends Controller
                                     if (intval($file['type']) == 0) {
                                         $path = '';
                                         $type = 0;
-                                        $video = video::find($file['id']);
-                                        if ($video) {
-                                            $path = $video->path;
+
+                                        if (isset($file['videoId'])) {
+                                            $video = video::find($file['videoId']);
+                                            if ($video) {
+                                                $path = $video->path;
+                                            }
                                         }
+
                                     } elseif (intval($file['type']) == 1) {
                                         $type = 1;
                                         $path = $this->storeFile($file['file'], 'files');
