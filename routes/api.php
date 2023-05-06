@@ -81,7 +81,7 @@ Route::resource('/courses', \App\Http\Controllers\api\course\CourseController::c
 
 Route::get('courses/{id}/videos', [\App\Http\Controllers\api\course\CourseController::class, 'getVideosByCourseId']);
 Route::post('courses/{courseId}/{curriculumId}/delete-curriculum', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculum']);
-Route::post('courses/{courseId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculum']);
+Route::post('courses/{courseId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculumFile']);
 Route::get('courses/{id}/coach', [\App\Http\Controllers\api\course\CourseController::class, 'getCourseCoach']);
 Route::post('courses/delete-collection', [\App\Http\Controllers\api\course\CourseController::class, 'deleteArrayOfCourses']);
 
