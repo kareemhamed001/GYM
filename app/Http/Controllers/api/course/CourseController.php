@@ -210,25 +210,17 @@ class CourseController extends Controller
                 }
 
                 if ($request->topics) {
-                    foreach ($request->topics as $key => $topic) {
-                        if (isset($topic['id'])){
-                            $curriculum=curriculum::find($topic['id']);
+                    foreach ($request->topics as $topic) {
+                        if ($topic['id']) {
+                            $curriculum = curriculum::find($topic['id']);
                             if ($curriculum->id){
-                                if (isset($topic['cover_image'])){
-                                    $curriculumPath = $this->replaceFile( $curriculum->cover_image,$topic['cover_image'], 'images/courses/topics/coverImages');
-                                    $curriculum->cover_image=$curriculumPath;
+                                $curriculum->title = $topic['title'];
+                                if (isset($topic['cover_image'])) {
+                                    $curriculum->cover_image = $this->replaceFile($curriculum->cover_image, $topic['cover_image'], 'images/courses/topics/coverImages');
                                 }
-                                $curriculum->title=$topic['title'];
                                 $curriculum->save();
-                            }else{
-                                $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
-                                $curriculum = curriculum::create([
-                                    'title' => $topic['title'],
-                                    'cover_image' => $topicPath,
-                                    'course_id' => $course->id
-                                ]);
                             }
-                        }else{
+                        } else {
                             $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
                             $curriculum = curriculum::create([
                                 'title' => $topic['title'],
@@ -237,14 +229,26 @@ class CourseController extends Controller
                             ]);
                         }
 
+                        if ($topic['files']) {
 
-                        if (isset($topic['files'])){
-                            if ($topic['files']) {
 
-                                foreach ($topic['files'] as $title => $file) {
-                                    $path = '';
-                                    $type = null;
+                            foreach ($topic['files'] as $title => $file) {
+
+                                if (isset($file['id'])) {
+                                    $fileStored = curriculum_file::find($file['id']);
+                                    if ($fileStored->id) {
+                                        $fileStored->title = $file['title'];
+                                        $fileStored->description = $file['description'];
+                                        if (isset($file['file'])) {
+                                            $fileStored->path = $this->replaceFile($fileStored->path, $file['file'], 'files');
+                                        }
+                                        $fileStored->save();
+                                    }
+
+
+                                } else {
                                     if (intval($file['type']) == 0) {
+                                        $path = '';
                                         $type = 0;
                                         $video = video::find($file['id']);
                                         if ($video) {
@@ -266,7 +270,6 @@ class CourseController extends Controller
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -276,7 +279,7 @@ class CourseController extends Controller
             }
             return $this->apiResponse('', 'No course with this id', 200);
         } catch (\Exception $e) {
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse($e->getTrace(), 'error', 400);
         }
     }
 

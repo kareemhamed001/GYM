@@ -319,13 +319,14 @@
                                                                     <input
                                                                         class="text-truncate form-control  mb-0 h5 fw-light "
                                                                         type="hidden"
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
-                                                                        value="1">
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
+                                                                        value="{{$file->id}}">
+
                                                                     <input
                                                                         class="text-truncate form-control  mb-0 h5 fw-light "
                                                                         type="hidden"
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
-                                                                        value="{{$file->id}}">
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
+                                                                        value="1">
                                                                     <label>Title</label>
                                                                     <input
                                                                         class="text-truncate form-control  mb-0 h5 fw-light "
@@ -339,7 +340,6 @@
                                                                     <label>File</label>
                                                                     <input class="form-control" type="file"
                                                                            name="topics[{{$curriculum->title}}][files][file{{$file->id}}][file]"
-                                                                           required
                                                                            accept="application/pdf,image/*,video/*">
                                                                 </div>
                                                             </div>
@@ -500,7 +500,7 @@
                                 <div class="d-flex flex-column">
 
                                      <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="0">
-                                     <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][id]" value="${videoId}">
+                                     <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][videoId]" value="${videoId}">
 
                                         <div class="form-group">
                                             <label>Title</label>
