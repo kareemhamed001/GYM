@@ -1,4 +1,7 @@
 @extends('layouts.app-blog-create')
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/light/widgets/modules-widgets.css')}}">
+@endsection
 @section('content')
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -41,9 +44,10 @@
                         <label for="exampleModalInputName1">Video</label>
                         <select type="file" name="video[topic1]" class="form-control" id="videoId">
                             <option></option>
-                            @foreach($videos as $video)
+                            @forelse($videos as $video)
                                 <option value="{{$video->id}}">{{$video->title}}</option>
-                            @endforeach
+                            @empty
+                            @endforelse
                         </select>
                     </div>
                 </div>
@@ -87,12 +91,12 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('coach')}}">coach</a></li>
                 <li class="breadcrumb-item"><a href="{{url('coach/courses')}}">courses</a></li>
-                <li class="breadcrumb-item active" aria-current="page">add course</li>
+                <li class="breadcrumb-item active" aria-current="page">{{$course->title}}</li>
             </ol>
         </nav>
 
         <h3><i class="fa-light fa-graduation-cap"></i>
-            Add Course
+            Edit Course
         </h3>
     </div>
     <div class="row" id="innerBody">
@@ -100,9 +104,10 @@
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
-                    @foreach ($errors->all() as $error)
+                    @forelse ($errors->all() as $error)
                         <li>{{ $error }}</li>
-                    @endforeach
+                    @empty
+                    @endforelse
                 </ul>
             </div>
         @endif
@@ -151,7 +156,7 @@
                                name="title_ar">
                     </div>
                     <div class="form-group my-2">
-                        <label for="title_ku">Title AR</label>
+                        <label for="title_ku">Title Ku</label>
                         <input type="text" class="form-control" id="title_ku"
                                placeholder="Enter Course Title In Kurdish *"
                                value="{{$course->title_ku}}"
@@ -238,147 +243,215 @@
                         </button>
                     </div>
                     <div>
-                        @foreach($course->curricula as $curriculum)
-                            <div class="accordion accordion-icon accordion-bg-light"
-                                 id="accordionExample{{$curriculum->id}}">
+                        @forelse($course->curricula as $curriculum)
 
+                            <div class="widget widget-table-one my-3" id="curriculum{{$curriculum->id}}">
+                                <div class="widget-heading">
+                                    <h5 class="d-flex align-items-center">
+                                        <a target="_blank" href="{{asset($curriculum->cover_image)}}"><img
+                                                class="img-fluid  "
+                                                style="object-fit: scale-down ;height: 50px;width: 50px;border-radius: 50%"
+                                                src="{{asset($curriculum->cover_image)}}"></a>
+                                        Topic:{{$curriculum->title}}</h5>
+                                    <div class="task-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle show" href="#" role="button" id="transactions"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-more-horizontal">
+                                                    <circle cx="12" cy="12" r="1"></circle>
+                                                    <circle cx="19" cy="12" r="1"></circle>
+                                                    <circle cx="5" cy="12" r="1"></circle>
+                                                </svg>
+                                            </a>
 
-                                <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden"
-                                       name="topics[{{$curriculum->title}}][id]" value="{{$curriculum->id}}" required>
+                                            <div class="dropdown-menu left show" aria-labelledby="transactions"
+                                                 style="will-change: transform; position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 22px, 0px);"
+                                                 data-popper-placement="bottom-start">
+                                                <a class="dropdown-item "
+                                                   onclick="removeTopic({{$course->id}},{{$curriculum->id}},'curriculum{{$curriculum->id}}')"><i
+                                                        class="fa fa-trash text-danger "></i> Delete</a>
 
-                                <!-- Item -->
-                                <div class="accordion-item mb-3">
-                                    <h6 class="accordion-header font-base d-flex" id="heading-{{$curriculum->id}}">
-                                        <button
-                                            class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed"
-                                            type="button" data-toggle="collapse" href="#collapse-{{$curriculum->id}}"
-                                            aria-expanded="true" aria-controls="collapse-{{$curriculum->id}}">
-                                            <i onclick="removeTopic({{$course->id}},{{$curriculum->id}},'accordionExample{{$curriculum->id}}')"
-                                               class="fa fa-remove fa-1x text-danger me-2"></i>
-
-                                            <input class="text-truncate form-control  mb-0 h5 fw-light " type="text"
-                                                   name="topics[{{$curriculum->title}}][title]"
-                                                   value="{{$curriculum->title}}" required>
-                                            {{--                                            {{$curriculum->title}}--}}
-                                            <input class="form-control m-2" type="file"
-                                                   name="topics[{{$curriculum->title}}][cover_image]">
-                                        </button>
-                                    </h6>
-                                    <div id="collapse-{{$curriculum->id}}" class="accordion-collapse collapse show"
-                                         aria-labelledby="heading-1"
-                                         data-bs-parent="#accordionExample{{$curriculum->id}}">
-                                        <div class="accordion-body mt-3" id="accordion{{$curriculum->id}}Body">
-
-                                            @foreach($curriculum->files as $file)
-                                                @if($file->type==0)
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center border-bottom my-1"
-                                                        id="video{{$file->id}}">
-                                                        <div class="position-relative d-flex align-items-center">
-
-                                                            <div class="d-flex flex-column">
-
-                                                                <input type="hidden"
-                                                                       name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
-                                                                       value="0">
-                                                                <input type="hidden"
-                                                                       name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
-                                                                       value="{{$file->id}}">
-
-                                                                <div class="form-group">
-                                                                    <label>Title</label>
-                                                                    <input
-                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][title]"
-                                                                        value="{{$file->title}}" required>
-                                                                    <label>Description</label>
-                                                                    <input
-                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][description]"
-                                                                        required>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <p class="mb-0">
-                                                            <button onclick="removeVideo('video{{$file->id}}')"
-                                                                    class=" btn btn-danger btn-sm" type="button"><i
-                                                                    class="fa fa-remove"></i></button>
-                                                        </p>
-
-                                                    </div>
-                                                @elseif($file->type==1)
-                                                    <div
-                                                        class="d-flex justify-content-between align-items-center border-bottom my-1"
-                                                        id="bank{{$file->id}}">
-                                                        <div class="position-relative d-flex align-items-center">
-                                                            <div class="d-flex flex-column">
-                                                                <div class="form-group my-2">
-
-                                                                    <input
-                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                        type="hidden"
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
-                                                                        value="{{$file->id}}">
-
-                                                                    <input
-                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                        type="hidden"
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
-                                                                        value="1">
-                                                                    <label>Title</label>
-                                                                    <input
-                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][title]"
-                                                                        value="{{$file->title}}" required>
-                                                                    <label>Description</label>
-                                                                    <input
-                                                                        class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][description]"
-                                                                        value="{{$file->description}}" required>
-                                                                    <label>File</label>
-                                                                    <input class="form-control" type="file"
-                                                                           name="topics[{{$curriculum->title}}][files][file{{$file->id}}][file]"
-                                                                           accept="application/pdf,image/*,video/*">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="mb-0 w-auto">
-                                                            <button onclick="removeBank('bank{{$file->id}}')"
-                                                                    class=" btn btn-danger btn-sm" type="button"><i
-                                                                    class="fa fa-remove"></i></button>
-                                                        </p>
-
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                            <button
-                                                onclick="setTopicName('accordion{{{$curriculum->id}}}Body','{{$curriculum->title}}')"
-                                                type="button"
-                                                class="btn btn-sm btn-primary my-2" data-toggle="modal"
-                                                data-target="#addVideoModal">
-                                                <i class="fa fa-plus-circle"></i> Add Video
-                                            </button>
-                                            <button
-                                                onclick="setTopicName('accordion{{{$curriculum->id}}}Body','{{$curriculum->title}}')"
-                                                type="button"
-                                                class="btn btn-sm btn-primary my-2" data-toggle="modal"
-                                                data-target="#addFileModal">
-                                                <i class="fa fa-plus-circle"></i> Add File
-                                            </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="widget-content">
+                                    <div class="row">
+
+                                        <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden"
+                                               name="topics[{{$curriculum->title}}][id]" value="{{$curriculum->id}}"
+                                               required>
+
+
+                                        <div class="form-group col-md-6 my-2">
+                                            <label for="topic{{$curriculum->id}}title">Title</label>
+                                            <input class="text-truncate form-control  mb-0 h5 fw-light " type="text"
+                                                   id="topic{{$curriculum->id}}title"
+                                                   name="topics[{{$curriculum->title}}][title]"
+                                                   value="{{$curriculum->title}}" required>
+                                        </div>
+                                        <div class="form-group col-md-6 my-2">
+                                            <label for="topic{{$curriculum->id}}coverImage">Cover Image</label>
+                                            <input class="form-control" type="file"
+                                                   id="topic{{$curriculum->id}}coverImage"
+                                                   name="topics[{{$curriculum->title}}][cover_image]">
+                                        </div>
+
+
+                                        <div class="accordion-body mt-3" id="curriculum{{$curriculum->id}}Body">
+
+                                            @forelse($curriculum->files as $file)
+
+                                                @if($file->type==0)
+                                                    <div class="" id="file{{$file->id}}">
+                                                        <hr>
+                                                        <div class="d-flex justify-content-between my-2">
+                                                            <h5>File:{{$file->title}}</h5>
+                                                            <p class="mb-0 w-auto">
+                                                                <button
+                                                                    onclick="removeFile({{$course->id}},{{$curriculum->id}},{{$file->id}},'file{{$file->id}}')"
+                                                                    class=" btn btn-danger "
+                                                                    type="button"
+                                                                    title="Delete File"
+                                                                >
+                                                                    <i class="fa-light fa-trash"></i>
+
+                                                                    Delete
+                                                                </button>
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="row">
+
+                                                            <input type="hidden"
+                                                                   name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
+                                                                   value="0">
+                                                            <input type="hidden"
+                                                                   name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
+                                                                   value="{{$file->id}}">
+
+                                                            <div class="form-group my-2 col-md-6">
+                                                                <label>Title</label>
+                                                                <input
+                                                                    class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                    name="topics[{{$curriculum->title}}][files][file{{$file->id}}][title]"
+                                                                    value="{{$file->title}}" required>
+                                                            </div>
+                                                            <div class="form-group my-2 col-md-6">
+                                                                <label>Description</label>
+                                                                <input
+                                                                    class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                    name="topics[{{$curriculum->title}}][files][file{{$file->id}}][description]"
+                                                                    value="{{$file->description}}"
+                                                                    required>
+                                                            </div>
+                                                            <div class="form-group my-2 col-md-6">
+                                                                <label>Video</label>
+                                                                <select type="file"
+                                                                        name="topics[{{$curriculum->title}}][files][file{{$file->id}}][videoId]"
+                                                                        class="form-select " id="videoId">
+                                                                    <option>--Video--</option>
+                                                                    @forelse($videos as $video)
+                                                                        <option
+                                                                            value="{{$video->id}}">{{$video->title}}</option>
+                                                                    @empty
+                                                                    @endforelse
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                @elseif($file->type==1)
+                                                    <div class="" id="file{{$file->id}}">
+
+                                                        <hr>
+                                                        <div class="d-flex justify-content-between my-2">
+                                                            <h5>File:{{$file->title}}</h5>
+                                                            <p class="mb-0 w-auto">
+                                                                <button onclick="removeFile({{$course->id}},{{$curriculum->id}},{{$file->id}},'file{{$file->id}}')"
+                                                                        class=" btn btn-danger "
+                                                                        type="button"
+                                                                        title="Delete File"
+                                                                >
+                                                                    <i class="fa-light fa-trash"></i>
+
+                                                                    Delete
+
+                                                                </button>
+                                                            </p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-6 my-2">
+
+                                                                <input
+                                                                    class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                    type="hidden"
+                                                                    name="topics[{{$curriculum->title}}][files][file{{$file->id}}][id]"
+                                                                    value="{{$file->id}}">
+
+                                                                <input
+                                                                    class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                    type="hidden"
+                                                                    name="topics[{{$curriculum->title}}][files][file{{$file->id}}][type]"
+                                                                    value="1">
+                                                                <label>Title</label>
+                                                                <input
+                                                                    class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                    name="topics[{{$curriculum->title}}][files][file{{$file->id}}][title]"
+                                                                    value="{{$file->title}}" required>
+                                                            </div>
+                                                            <div class="form-group col-md-6 my-2">
+                                                                <label>Description</label>
+                                                                <input
+                                                                    class="text-truncate form-control  mb-0 h5 fw-light "
+                                                                    name="topics[{{$curriculum->title}}][files][file{{$file->id}}][description]"
+                                                                    value="{{$file->description}}" required>
+                                                            </div>
+                                                            <div class="form-group col-md-6 my-2">
+                                                                <label>File</label>
+                                                                <input class="form-control" type="file"
+                                                                       name="topics[{{$curriculum->title}}][files][file{{$file->id}}][file]"
+                                                                       accept="application/pdf,image/*,video/*">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @empty
+                                            @endforelse
+                                        </div>
+                                        <button
+                                            onclick="addVideo('curriculum{{$curriculum->id}}Body','{{$curriculum->title}}')"
+                                            type="button"
+                                            class="btn btn-sm btn-primary my-2"
+                                        >
+                                            <i class="fa fa-plus-circle"></i> Add Video
+                                        </button>
+                                        <button
+                                            onclick="addFile('curriculum{{$curriculum->id}}Body','{{$curriculum->title}}')"
+                                            type="button"
+                                            class="btn btn-sm btn-primary my-2">
+                                            <i class="fa fa-plus-circle"></i> Add File
+                                        </button>
+
+
+                                    </div>
+
+                                </div>
                             </div>
-                        @endforeach
+
+                        @empty
+                        @endforelse
                     </div>
                 </div>
+                <button type="submit" class="btn btn-success my-3">Update
+                </button>
             </div>
-            <button type="submit" class="btn btn-primary my-3">Submit</button>
         </form>
-
-
     </div>
 
 @endsection
@@ -388,63 +461,102 @@
     <script>
 
         @if(isset($curriculum))
-        let accordionId = {{$curriculum->id+1}};
-        let collapseId = {{$curriculum->id+1}};
-        let headingId = {{$curriculum->id+1}};
+
+            let topicsCounter = {{$curriculum->id+1}};
+
+            @if(isset($file))
+                let filesCounter = {{$file->id+1}};
+            @else
+                let filesCounter = 0;
+            @endif
 
         @else
-        let accordionId = 0;
-        let collapseId = 0;
-        let headingId = 0;
+            let topicsCounter = 0;
+            let filesCounter = 0;
         @endif
 
 
         function addTopic() {
             if ($('#exampleModalInputName1').val()) {
                 let topicName = $('#exampleModalInputName1').val()
-                accordionId++;
-                collapseId++;
-                headingId++;
-
-                accordionNewId = 'accordionExample' + accordionId
+                topicsCounter++;
 
                 let html = `
-                <div class="accordion accordion-icon accordion-bg-light" id="accordionExample${accordionNewId}">
-                                <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden" name="topics[${topicName}][title]" value="${topicName}" required>
+                <div class="widget widget-table-one my-3" id="curriculum${topicsCounter}">
+                                <div class="widget-heading">
+                                    <h5 class="d-flex align-items-center">
+                                        Topic:${topicName}</h5>
+                                    <div class="task-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle show" href="#" role="button" id="transactions"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-more-horizontal">
+                                                    <circle cx="12" cy="12" r="1"></circle>
+                                                    <circle cx="19" cy="12" r="1"></circle>
+                                                    <circle cx="5" cy="12" r="1"></circle>
+                                                </svg>
+                                            </a>
 
-                    <!-- Item -->
-                    <div class="accordion-item mb-3">
-                        <h6 class="accordion-header font-base d-flex" id="heading-${headingId}">
-                            <button
-                                class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed"
-                                type="button" data-toggle="collapse" href="#collapse-${collapseId}"
-                                aria-expanded="true" aria-controls="collapse-${collapseId}">
-                                <i onclick="removeTopic('','','accordionExample${accordionNewId}')" class="fa fa-remove fa-1x text-danger me-2"></i>
+                                            <div class="dropdown-menu left show" aria-labelledby="transactions"
+                                                 style="will-change: transform; position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 22px, 0px);"
+                                                 data-popper-placement="bottom-start">
+                                                <a class="dropdown-item "
+                                                   onclick="removeTopic('','','curriculum${topicsCounter}')"><i
+                                                        class="fa fa-trash text-danger "></i> Delete</a>
 
-                                ${$('#exampleModalInputName1').val()}
-                                    <input class="form-control m-2" type="file" name="topics[${topicName}][cover_image]" required>
-                            </button>
-                        </h6>
-                        <div id="collapse-${collapseId}" class="accordion-collapse collapse show"
-                             aria-labelledby="heading-1" data-bs-parent="#accordionExample${accordionId}">
-                            <div class="accordion-body mt-3" id="accordion${accordionId}Body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <button
-                                    onclick="setTopicName('accordion${accordionId}Body','${$('#exampleModalInputName1').val()}')"
-                                    type="button"
-                                    class="btn btn-sm btn-primary my-2" data-toggle="modal" data-target="#addVideoModal">
-                                    <i class="fa fa-plus-circle"></i> Add Video
-                                </button>
-                                   <button
-                                    onclick="setTopicName('accordion${accordionId}Body','${$('#exampleModalInputName1').val()}')"
-                                    type="button"
-                                    class="btn btn-sm btn-primary my-2" data-toggle="modal" data-target="#addFileModal">
-                                    <i class="fa fa-plus-circle"></i> Add File
-                                </button>
+                                <div class="widget-content">
+                                    <div class="row">
+                                        <div class="form-group col-md-6 my-2">
+                                            <label for="topic${topicsCounter}title">Title</label>
+                                            <input class="text-truncate text-muted form-control  mb-0 h5 fw-light " type="text"
+                                                   id="topic${topicsCounter}title"
+
+                                                   required value="${topicName}" disabled>
+                                            <input class="text-truncate text-muted form-control  mb-0 h5 fw-light " type="hidden"
+                                                   id="topic${topicsCounter}title"
+                                                   name="topics[${topicName}][title]"
+                                                   required value="${topicName}" >
+                                        </div>
+                                        <div class="form-group col-md-6 my-2">
+                                            <label for="topic${topicsCounter}coverImage">Cover Image</label>
+                                            <input class="form-control" type="file"
+                                                   id="topic${topicsCounter}coverImage"
+                                                   name="topics[${topicName}][cover_image]">
+                                        </div>
+
+
+                                        <div class="accordion-body mt-3" id="curriculum${topicsCounter}Body">
+
+                                        </div>
+                                        <button
+                                            onclick="addVideo('curriculum${topicsCounter}Body','${topicName}')"
+                                            type="button"
+                                            class="btn btn-sm btn-primary my-2"
+                                        >
+                                            <i class="fa fa-plus-circle"></i> Add Video
+                                        </button>
+                                        <button
+                                            onclick="addFile('curriculum${topicsCounter}Body','${topicName}')"
+                                            type="button"
+                                            class="btn btn-sm btn-primary my-2" >
+                                            <i class="fa fa-plus-circle"></i> Add File
+                                        </button>
+
+
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>`
+
+`
                 $('#tab3').append(html)
                 $('#exampleModal').modal('hide')
             } else {
@@ -459,124 +571,141 @@
 
         }
 
-        let videoId = null
-        let videoTitle = null
-        const select = document.getElementById('videoId');
-        select.addEventListener('change', (event) => {
-            videoId = event.target.value;
-            videoTitle = event.target.options[event.target.selectedIndex].textContent
-        });
 
-        let homeworkDescription = null
-        let homeTitle = null
-        const homeworkDescriptionElement = document.getElementById('homeWorkDescription');
-        const homeworkTitleElement = document.getElementById('homeWorkTitle');
-        homeworkDescriptionElement.addEventListener('change', (event) => {
-            homeworkDescription = event.target.value
-        });
-        homeworkTitleElement.addEventListener('change', (event) => {
-            homeTitle = event.target.value
-        });
+        function addVideo(targetParent, topicName) {
+            let html = `
+                        <div class="" id="file${filesCounter}">
+                                <hr>
+                                <div class="d-flex justify-content-between my-2">
+                                    <h5>New Video</h5>
+                                    <p class="mb-0 w-auto">
+                                        <button onclick="removeFile('','','','file${filesCounter}')"
+                                                class=" btn btn-danger  "
+                                                type="button"
+                                                title="Delete File"
+                                        >
+                                            <i class="fa-light fa-trash"></i>
 
-        let targetAccordionBodyId = null
-        let topicName = null
+                                                                    Delete
 
-        function setTopicName(accordionBodyId, topic) {
-            targetAccordionBodyId = accordionBodyId
-            topicName = topic
-        }
-
-        let videoIdCounter = 0
-        let bankIdCounter = 0
-
-        function addVideo() {
-            if (videoId && videoTitle) {
-                videoIdCounter++
-                bankIdCounter++
-                let html = `
-                        <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="video${videoIdCounter}">
-                            <div class="position-relative d-flex align-items-center">
-
-                                <div class="d-flex flex-column">
-
-                                     <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="0">
-                                     <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][videoId]" value="${videoId}">
-
-                                        <div class="form-group">
-                                            <label>Title</label>
-                                            <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][title]" value="${videoTitle}"required>
-                                            <label>Description</label>
-                                            <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][description]" required>
-
-                                        </div>
-
+                                        </button>
+                                    </p>
                                 </div>
-                            </div>
-                            <p class="mb-0"><button onclick="removeVideo('video${videoIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
 
-                        </div>
-                         `
-                let accordionBody = document.getElementById(targetAccordionBodyId)
-                accordionBody.innerHTML += html;
-                $('#addVideoModal').modal('hide')
-            } else {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'error',
-                    title: 'Please select a video',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
-        }
+                                <div class="row">
 
+                                    <input type="hidden"
+                                           name="topics[${topicName}][files][file${filesCounter}][type]"
+                                           value="0">
 
-        function addHomework() {
-
-            if (homeTitle && homeworkDescription) {
-                bankIdCounter++
-                let html = `
-                        <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="bank${bankIdCounter}">
-                            <div class="position-relative d-flex align-items-center">
-                                <div class="d-flex flex-column">
-                                    <div class="form-group my-2">
-
-                                        <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="1">
+                                    <div class="form-group my-2 col-md-6">
                                         <label>Title</label>
-                                        <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][title]" value="${homeTitle}"required>
-                                        <label>Description</label>
-                                        <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][description]" value="${homeworkDescription}"required>
-                                        <label>File</label>
-                                        <input class="form-control" type="file" name="topics[${topicName}][files][file${bankIdCounter}][file]" required accept="application/pdf,image/*,video/*" >
+                                        <input
+                                            class="text-truncate form-control  mb-0 h5 fw-light "
+                                            name="topics[${topicName}][files][file${filesCounter}][title]"
+                                            required>
                                     </div>
+                                    <div class="form-group my-2 col-md-6">
+                                        <label>Description</label>
+                                        <input
+                                            class="text-truncate form-control  mb-0 h5 fw-light "
+                                            name="topics[${topicName}][files][file${filesCounter}][description]"
+                                            required>
+                                    </div>
+                                    <div class="form-group my-2 col-md-6">
+                                        <label>Video</label>
+                                        <select name="topics[${topicName}][files][file${filesCounter}][videoId]" class="form-select " id="videoId" required>
+                                            <option>--Video--</option>
+                                            @forelse($videos as $video)
+            <option value="{{$video->id}}">{{$video->title}}</option>
+            @empty
+            @endforelse
+
+            </select>
+        </div>
+    </div>
+</div>
+`
+            let targetParentElement = document.getElementById(targetParent)
+            targetParentElement.innerHTML += html;
+        }
+
+        function addFile(targetParent, topicName) {
+
+
+            filesCounter++;
+            let html = `
+                        <div class="" id="file${filesCounter}">
+
+                            <hr>
+                            <div class="d-flex justify-content-between my-2">
+                                <h5>New File</h5>
+                                <p class="mb-0 w-auto">
+                                    <button onclick="removeFile('','','','file${filesCounter}')"
+                                            class=" btn btn-danger  "
+                                            type="button"
+                                            title="Delete File"
+                                    >
+                                        <i class="fa-light fa-trash"></i>
+
+                                                                    Delete
+
+                                    </button>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 my-2">
+                                    <input
+                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                        type="hidden"
+                                        name="topics[${topicName}][files][file${filesCounter}][type]"
+                                        value="1">
+                                    <label>Title</label>
+                                    <input
+                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                        name="topics[${topicName}][files][file${filesCounter}][title]"
+                                         required>
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label>Description</label>
+                                    <input
+                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                        name="topics[${topicName}][files][file${filesCounter}][description]"
+                                        required>
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label>File</label>
+                                    <input class="form-control" type="file"
+                                           name="topics[${topicName}][files][file${filesCounter}][file]"
+                                           accept="application/pdf,image/*,video/*">
                                 </div>
                             </div>
-                            <p class="mb-0 w-auto"><button onclick="removeBank('bank${bankIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
+                        </div>`
+            let targetParentElement = document.getElementById(targetParent)
+            targetParentElement.innerHTML += html;
+        }
 
-                        </div>
-                         `
+        async function removeFile(courseId, topicId, fileId, parentElement) {
 
-                let accordionBody = document.getElementById(targetAccordionBodyId)
-                accordionBody.innerHTML += html;
-                $('#addFileModal').modal('hide')
-            } else {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'error',
-                    title: 'Please enter title and description',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+            try {
+                if (courseId && fileId) {
+                    let response = await fetch(`/api/courses/${courseId}/${topicId}/${fileId}/delete-file`, {
+                        method: 'post'
+                    });
+                    let result = await response.json();
+                    if (result.status === 200) {
+                        document.getElementById(parentElement).remove()
+                    }
+                } else {
+                    document.getElementById(parentElement).remove()
+                }
+
+            } catch (error) {
+                console.error(error)
             }
+
         }
 
-        function removeVideo(videoId) {
-            document.getElementById(videoId).remove()
-        }
-
-        function removeBank(bankId) {
-            document.getElementById(bankId).remove()
-        }
 
         async function removeTopic(courseId, topicId, parentElement) {
             try {
@@ -599,13 +728,6 @@
 
         }
 
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('accordionId', accordionId);
-            localStorage.setItem('collapseId', collapseId);
-            localStorage.setItem('headingId', headingId);
-            localStorage.setItem('videoIdCounter', videoIdCounter);
-            localStorage.setItem('bankIdCounter', bankIdCounter);
-        });
     </script>
     <script>
         const form = document.getElementById('my-form');
@@ -633,7 +755,7 @@
                         text: result.message,
                     })
 
-                    // location.reload();
+                    location.reload();
                 } else if (result.status === 400) {
                     let message = result.message;
                     let errorMessage = ``;
