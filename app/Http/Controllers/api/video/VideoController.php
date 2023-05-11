@@ -60,10 +60,10 @@ class VideoController extends Controller
             $videoPath = $this->storeFile($request->video, 'videos/');
             $imagePath = $this->storeFile($request->cover_image, 'images/videos/coverImages');
             $video = video::create([
-                'title' => $request->title,
+                'title_en' => $request->title,
                 'title_ar' => $request->title_ar,
                 'title_ku' => $request->title_ku,
-                'description' => $request->description,
+                'description_en' => $request->description,
                 'description_ar' => $request->description_ar,
                 'description_ku' => $request->description_ku,
                 'coach_id' => $request->coach_id,
@@ -141,7 +141,7 @@ class VideoController extends Controller
                 }
 
                 if ($request->title) {
-                    $video->title = $request->title;
+                    $video->title_en = $request->title;
                 }
                 if ($request->title_ar) {
                     $video->title_ar = $request->title_ar;
@@ -150,7 +150,7 @@ class VideoController extends Controller
                     $video->title_ku = $request->title_ku;
                 }
                 if ($request->description) {
-                    $video->description = $request->description;
+                    $video->description_en = $request->description;
                 }
                 if ($request->description_ar) {
                     $video->description_ar = $request->description_ar;

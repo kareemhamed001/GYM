@@ -57,10 +57,10 @@ class BrandController extends Controller
             $path = $this->storeFile($request->cover_image, 'images/brands/coverImages');
             if ($path) {
                 $brand = brand::create([
-                    'name' => $request->name,
+                    'name_en' => $request->name,
                     'name_ar' => $request->name_ar,
                     'name_ku' => $request->name_ku,
-                    'description' => $request->description,
+                    'description_en' => $request->description,
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
                     'coach_id' => $request->coach_id,
@@ -123,7 +123,7 @@ class BrandController extends Controller
                     $path = $this->replaceFile($brand->cover_image, $request->cover_image, 'images/brands/coverImages');
                 }
                 if ($request->name) {
-                    $brand->name = $request->name;
+                    $brand->name_en = $request->name;
                 }
                 if ($request->name_ar) {
                     $brand->name_ar = $request->name_ar;
@@ -132,7 +132,7 @@ class BrandController extends Controller
                     $brand->name_ku = $request->name_ku;
                 }
                 if ($request->description) {
-                    $brand->description = $request->description;
+                    $brand->description_en = $request->description;
                 }
                 if ($request->description_ar) {
                     $brand->description_ar = $request->description_ar;

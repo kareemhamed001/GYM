@@ -69,10 +69,10 @@ class SupplementController extends Controller
             $supplement = DB::transaction(function () use ($request) {
                 $path = $this->storeFile($request->cover_image, 'images/supplements/coverImages');
                 $supplement = supplement::create([
-                    'name' => $request->name,
+                    'name_en' => $request->name,
                     'name_ar' => $request->name_ar,
                     'name_ku' => $request->name_ku,
-                    'description' => $request->description,
+                    'description_en' => $request->description,
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
                     'price' => $request->price,
@@ -180,7 +180,7 @@ class SupplementController extends Controller
                 $supplement->discount = $request->discount;
 
                 if ($request->name) {
-                    $supplement->name = $request->name;
+                    $supplement->name_en = $request->name;
                 }
                 if ($request->name_ar) {
                     $supplement->name_ar = $request->name_ar;
@@ -189,7 +189,7 @@ class SupplementController extends Controller
                     $supplement->name_ku = $request->name_ku;
                 }
                 if ($request->description) {
-                    $supplement->description = $request->description;
+                    $supplement->description_en = $request->description;
                 }
                 if ($request->description_ar) {
                     $supplement->description_ar = $request->description_ar;

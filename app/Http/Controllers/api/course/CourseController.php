@@ -63,10 +63,10 @@ class CourseController extends Controller
             DB::transaction(function () use ($request) {
                 $path = $this->storeFile($request->cover_image, 'images/courses/coverImages');
                 $course = course::create([
-                    'title' => $request->title,
+                    'title_en' => $request->title,
                     'title_ar' => $request->title_ar,
                     'title_ku' => $request->title_ku,
-                    'description' => $request->description,
+                    'description_en' => $request->description,
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
                     'coach_id' => $request->coach_id,
@@ -162,7 +162,7 @@ class CourseController extends Controller
                 }
 
                 if ($request->title) {
-                    $course->title = $request->title;
+                    $course->title_en = $request->title;
                 }
                 if ($request->title_ar) {
                     $course->title_ar = $request->title_ar;
@@ -171,7 +171,7 @@ class CourseController extends Controller
                     $course->title_ku = $request->title_ku;
                 }
                 if ($request->description) {
-                    $course->description = $request->description;
+                    $course->description_en = $request->description;
                 }
                 if ($request->description_ar) {
                     $course->description_ar = $request->description_ar;
