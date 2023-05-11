@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 //    Route::get('/dashboard', function (){
 //        return view('coach.Dashboard.analytics');
 //    });
+
+Route::get('/', function(){
+  return  redirect(url('/coach/analytics'));
+});
 Route::resource('/categories', \App\Http\Controllers\coach\category\CategoryController::class);
 Route::resource('/brands', \App\Http\Controllers\coach\brand\BrandController::class);
 Route::resource('/products', \App\Http\Controllers\coach\supplement\SupplementController::class);
