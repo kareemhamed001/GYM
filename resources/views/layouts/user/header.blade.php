@@ -34,7 +34,7 @@
                     <a class=" dropdown-toggle " href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{{asset(Auth::user())}}" alt="">
                     </a>
-                    @dd(Auth::user()->id)
+
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         @if(Auth::check()&& Auth::user()?->role_as==1)
                             <a class="dropdown-item" href="{{url('/coach')}}">Dashboard</a>
