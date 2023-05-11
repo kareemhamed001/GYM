@@ -142,7 +142,7 @@
 
 
                             <div class="action-btns">
-                                <a href="{{url('coach/courses',$course->id)}}" class="action-btn btn-view bs-tooltip me-2"
+                                <a href="{{url('/course/',$course->id)}}" class="action-btn btn-view bs-tooltip me-2"
                                    data-toggle="tooltip" data-placement="top" title="View">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

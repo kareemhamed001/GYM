@@ -85,7 +85,7 @@
                                     <div class="pricing">
 
                                         <span
-                                            class="discounted-price">${{$product->price * ($product->discount/100) }}</span>
+                                            class="discounted-price">${{$product->price- ($product->price* ($product->discount/100) )}}</span>
                                         <span class="regular-price">${{$product->price}}</span>
 
                                     </div>

@@ -80,21 +80,14 @@ class CourseController extends Controller
                 if ($request->topics) {
                     foreach ($request->topics as $key => $topic) {
                         $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
-                        $curriculum = curriculum::create([
-                            'title' => $topic['title'],
-                            'cover_image' => $topicPath,
-                            'course_id' => $course->id
-                        ]);
-
+                        $curriculum=$this->storeCurriculum($topic['title'],$topicPath,$course->id);
                         if ($topic['files']) {
-
-
                             foreach ($topic['files'] as $title => $file) {
                                 $path = '';
                                 $type = null;
                                 if (intval($file['type']) == 0) {
                                     $type = 0;
-                                    $video = video::find($file['id']);
+                                    $video = video::find($file['videoId']);
                                     if ($video) {
                                         $path = $video->path;
                                     }
@@ -103,13 +96,7 @@ class CourseController extends Controller
                                     $path = $this->storeFile($file['file'], 'files');
                                 }
                                 if ($path) {
-                                    curriculum_file::create([
-                                        'title' => $file['title'],
-                                        'description' => $file['description'],
-                                        'path' => $path,
-                                        'type' => $type,
-                                        'curriculum_id' => $curriculum->id
-                                    ]);
+                                    $this->storeCurriculumFile($file['title'],$file['description'], $path,$type,$curriculum->id);
                                 }
                             }
                         }
@@ -169,7 +156,6 @@ class CourseController extends Controller
             $course = CourseClass::get($id);
 
 
-
             if ($course) {
                 if ($request->cover_image) {
                     $path = $this->replaceFile($course->cover_image, $request->cover_image, 'images/brands/coverImages');
@@ -209,73 +195,100 @@ class CourseController extends Controller
                     $course->type = $request->type;
                 }
 
-                if ($request->topics) {
+                $course->save();
+
+                //check if there is any topic
+                if ($request->topics)
+                {
                     foreach ($request->topics as $topic) {
+                        //check if this topic is stored before
                         if (isset($topic['id'])) {
+                            //get topic from database
                             $curriculum = curriculum::find($topic['id']);
+                            //check if curriculum exists on database
                             if ($curriculum->id) {
+                                //update topic title
                                 $curriculum->title = $topic['title'];
+                                //check if a new cover image is sent
                                 if (isset($topic['cover_image'])) {
+                                    //replace old cover with new cover
                                     $curriculum->cover_image = $this->replaceFile($curriculum->cover_image, $topic['cover_image'], 'images/courses/topics/coverImages');
                                 }
+                                //save changes
                                 $curriculum->save();
                             }
-                        } else {
-                            $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
-                            $curriculum = curriculum::create([
-                                'title' => $topic['title'],
-                                'cover_image' => $topicPath,
-                                'course_id' => $course->id
-                            ]);
+                        } //if this topic not stored before create new topic
+                        else {
+                            //topic's cover image path
+                            $topicPath = '';
+                            if (isset($topic['cover_image'])) {
+                                //store topic image
+                                $topicPath = $this->storeFile($topic['cover_image'], 'images/courses/topics/coverImages');
+                            }
+                            $curriculum=$this->storeCurriculum($topic['title'],$topicPath,$course->id);
                         }
 
+                        //if this topic has files
                         if (isset($topic['files'])) {
-
 
                             foreach ($topic['files'] as $title => $file) {
 
+                                //check if this file is stored before
                                 if (isset($file['id'])) {
+                                    //get file from database
                                     $fileStored = curriculum_file::find($file['id']);
+                                    //check if file exists on database
                                     if ($fileStored->id) {
+                                        //update file title
                                         $fileStored->title = $file['title'];
+                                        //update file description
                                         $fileStored->description = $file['description'];
+                                        //check if new file is sent
                                         if (isset($file['file'])) {
+                                            //replace old file with the new one
                                             $fileStored->path = $this->replaceFile($fileStored->path, $file['file'], 'files');
                                         }
+                                        //if the file is stored before and its type is stored video
                                         if (isset($file['videoId'])) {
+                                            //get stored video by its id
                                             $video = video::find($file['videoId']);
                                             if ($video) {
+                                                //update the file path with the stored video path
                                                 $fileStored->path = $video->path;
                                             }
                                         }
                                         $fileStored->save();
                                     }
-
-
-                                } else {
+                                }
+                                //if this file is new one
+                                else
+                                {
+                                    //if file type is stored video
                                     if (intval($file['type']) == 0) {
                                         $path = '';
                                         $type = 0;
 
+                                        //check if stored video id is sent
                                         if (isset($file['videoId'])) {
+                                            //get video by id
                                             $video = video::find($file['videoId']);
                                             if ($video) {
+                                                //make the file path = stored video path
                                                 $path = $video->path;
                                             }
                                         }
 
-                                    } elseif (intval($file['type']) == 1) {
+                                    }
+                                    //if file type is uploaded file
+                                    elseif (intval($file['type']) == 1) {
                                         $type = 1;
+                                        //the file path
                                         $path = $this->storeFile($file['file'], 'files');
                                     }
+
                                     if ($path) {
-                                        curriculum_file::create([
-                                            'title' => $file['title'],
-                                            'description' => $file['description'],
-                                            'path' => $path,
-                                            'type' => $type,
-                                            'curriculum_id' => $curriculum->id
-                                        ]);
+                                        //store this file
+                                        $this->storeCurriculumFile($file['title'], $file['description'], $path, $type, $curriculum->id);
                                     }
                                 }
                             }
@@ -283,13 +296,40 @@ class CourseController extends Controller
                     }
                 }
 
-                $course->save();
-
                 return $this->apiResponse($course, 'success', 200);
             }
             return $this->apiResponse('', 'No course with this id', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getTrace(), 'error', 400);
+        }
+    }
+
+    function storeCurriculum(string $title, string $coverImagePath, int $courseId)
+    {
+        try {
+            return curriculum::create([
+                'title' => $title,
+                'cover_image' => $coverImagePath,
+                'course_id' => $courseId
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+    function storeCurriculumFile(string $title, string $description, string $path, string $type, int $curriculum_id)
+    {
+        try {
+            curriculum_file::create([
+                'title' => $title,
+                'description' => $description,
+                'path' => $path,
+                'type' => $type,
+                'curriculum_id' => $curriculum_id
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 

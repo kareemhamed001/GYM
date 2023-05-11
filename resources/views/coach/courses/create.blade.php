@@ -1,4 +1,8 @@
 @extends('layouts.app-blog-create')
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/light/widgets/modules-widgets.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/dark/widgets/modules-widgets.css')}}">
+@endsection
 @section('content')
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -248,56 +252,88 @@
     <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
     <script>
 
-        let accordionId = 1
-        let collapseId = 1
-        let headingId = 1
-
+        let topicsCounter = 0;
+        let filesCounter = 0;
         function addTopic() {
-            if ($('#exampleModalInputName1').val()) {
-                let topicName = $('#exampleModalInputName1').val()
-                accordionId++;
-                collapseId++;
-                headingId++;
-
-                accordionNewId = 'accordionExample' + accordionId
-
+            let topicName = $('#exampleModalInputName1').val()
+            if (topicName) {
+                topicsCounter++;
                 let html = `
-                <div class="accordion accordion-icon accordion-bg-light" id="accordionExample${accordionNewId}">
-                                <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden" name="topics[${topicName}][title]" value="${topicName}" required>
+                <div class="widget widget-table-one my-3" id="curriculum${topicsCounter}">
+                                <div class="widget-heading">
+                                    <h5 class="d-flex align-items-center">
+                                        Topic:${topicName}</h5>
+                                    <div class="task-action">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle show" href="#" role="button" id="transactions"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-more-horizontal">
+                                                    <circle cx="12" cy="12" r="1"></circle>
+                                                    <circle cx="19" cy="12" r="1"></circle>
+                                                    <circle cx="5" cy="12" r="1"></circle>
+                                                </svg>
+                                            </a>
 
-                    <!-- Item -->
-                    <div class="accordion-item mb-3">
-                        <h6 class="accordion-header font-base d-flex" id="heading-${headingId}">
-                            <button
-                                class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed"
-                                type="button" data-toggle="collapse" href="#collapse-${collapseId}"
-                                aria-expanded="true" aria-controls="collapse-${collapseId}">
-                                <i onclick="removeTopic('accordionExample${accordionNewId}')" class="fa fa-remove fa-1x text-danger me-2"></i>
+                                            <div class="dropdown-menu left show" aria-labelledby="transactions"
+                                                 style="will-change: transform; position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 22px, 0px);"
+                                                 data-popper-placement="bottom-start">
+                                                <a class="dropdown-item "
+                                                   onclick="removeTopic('','','curriculum${topicsCounter}')"><i
+                                                        class="fa fa-trash text-danger "></i> Delete</a>
 
-                                ${$('#exampleModalInputName1').val()}
-<input class="form-control m-2" type="file" name="topics[${topicName}][cover_image]" required>
-                            </button>
-                        </h6>
-                        <div id="collapse-${collapseId}" class="accordion-collapse collapse show"
-                             aria-labelledby="heading-1" data-bs-parent="#accordionExample${accordionId}">
-                            <div class="accordion-body mt-3" id="accordion${accordionId}Body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <button
-                                    onclick="setTopicName('accordion${accordionId}Body','${$('#exampleModalInputName1').val()}')"
-                                    type="button"
-                                    class="btn btn-sm btn-primary my-2" data-toggle="modal" data-target="#addVideoModal">
-                                    <i class="fa fa-plus-circle"></i> Add Video
-                                </button>
-                                   <button
-                                    onclick="setTopicName('accordion${accordionId}Body','${$('#exampleModalInputName1').val()}')"
-                                    type="button"
-                                    class="btn btn-sm btn-primary my-2" data-toggle="modal" data-target="#addFileModal">
-                                    <i class="fa fa-plus-circle"></i> Add File
-                                </button>
+                                <div class="widget-content">
+                                    <div class="row">
+                                        <div class="form-group col-md-6 my-2">
+                                            <label for="topic${topicsCounter}title">Title</label>
+                                            <input class="text-truncate text-muted form-control  mb-0 h5 fw-light " type="text"
+                                                   id="topic${topicsCounter}title"
+
+                                                   required value="${topicName}" disabled>
+                                            <input class="text-truncate text-muted form-control  mb-0 h5 fw-light " type="hidden"
+                                                   id="topic${topicsCounter}title"
+                                                   name="topics[${topicName}][title]"
+                                                   required value="${topicName}" >
+                                        </div>
+                                        <div class="form-group col-md-6 my-2">
+                                            <label for="topic${topicsCounter}coverImage">Cover Image</label>
+                                            <input class="form-control" type="file"
+                                                   id="topic${topicsCounter}coverImage"
+                                                   name="topics[${topicName}][cover_image]">
+                                        </div>
+
+
+                                        <div class="accordion-body mt-3" id="curriculum${topicsCounter}Body">
+
+                                        </div>
+                                        <button
+                                            onclick="addVideo('curriculum${topicsCounter}Body','${topicName}')"
+                                            type="button"
+                                            class="btn btn-sm btn-primary my-2"
+                                        >
+                                            <i class="fa fa-plus-circle"></i> Add Video
+                                        </button>
+                                        <button
+                                            onclick="addFile('curriculum${topicsCounter}Body','${topicName}')"
+                                            type="button"
+                                            class="btn btn-sm btn-primary my-2" >
+                                            <i class="fa fa-plus-circle"></i> Add File
+                                        </button>
+
+
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>`
+
+`
                 $('#tab3').append(html)
                 $('#exampleModal').modal('hide')
             } else {
@@ -311,137 +347,311 @@
             }
 
         }
+        function addVideo(targetParent, topicName) {
+            let html = `
+                        <div class="" id="file${filesCounter}">
+                                <hr>
+                                <div class="d-flex justify-content-between my-2">
+                                    <h5>New Video</h5>
+                                    <p class="mb-0 w-auto">
+                                        <button onclick="removeFile('file${filesCounter}')"
+                                                class=" btn btn-danger  "
+                                                type="button"
+                                                title="Delete File"
+                                        >
+                                            <i class="fa-light fa-trash"></i>
 
-        let videoId = null
-        let videoTitle = null
-        const select = document.getElementById('videoId');
-        select.addEventListener('change', (event) => {
-            videoId = event.target.value;
-            videoTitle = event.target.options[event.target.selectedIndex].textContent
-        });
+                                                                    Delete
 
-        let homeworkDescription = null
-        let homeTitle = null
-        const homeworkDescriptionElement = document.getElementById('homeWorkDescription');
-        const homeworkTitleElement = document.getElementById('homeWorkTitle');
-        homeworkDescriptionElement.addEventListener('change', (event) => {
-            homeworkDescription = event.target.value
-        });
-        homeworkTitleElement.addEventListener('change', (event) => {
-            homeTitle = event.target.value
-        });
-
-        let targetAccordionBodyId = null
-        let topicName = null
-
-        function setTopicName(accordionBodyId, topic) {
-            targetAccordionBodyId = accordionBodyId
-            topicName = topic
-        }
-
-        let videoIdCounter = 0
-        let bankIdCounter = 0
-
-        function addVideo() {
-            if (videoId && videoTitle) {
-                videoIdCounter++
-                bankIdCounter++
-                let html = `
-                        <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="video${videoIdCounter}">
-                            <div class="position-relative d-flex align-items-center">
-
-                                <div class="d-flex flex-column">
-
-                                     <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="0">
-                                     <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][id]" value="${videoId}">
-
-                                        <div class="form-group">
-                                            <label>Title</label>
-                                            <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][title]" value="${videoTitle}"required>
-                                            <label>Description</label>
-                                            <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][description]" required>
-
-                                        </div>
-
+                                        </button>
+                                    </p>
                                 </div>
-                            </div>
-                            <p class="mb-0"><button onclick="removeVideo('video${videoIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
 
-                        </div>
-                         `
-                let accordionBody = document.getElementById(targetAccordionBodyId)
-                accordionBody.innerHTML += html;
-                $('#addVideoModal').modal('hide')
-            } else {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'error',
-                    title: 'Please select a video',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
-        }
+                                <div class="row">
 
+                                    <input type="hidden"
+                                           name="topics[${topicName}][files][file${filesCounter}][type]"
+                                           value="0">
 
-        function addHomework() {
-
-            if (homeTitle && homeworkDescription) {
-                bankIdCounter++
-                let html = `
-                        <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="bank${bankIdCounter}">
-                            <div class="position-relative d-flex align-items-center">
-                                <div class="d-flex flex-column">
-                                    <div class="form-group my-2">
-
-                                        <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="1">
+                                    <div class="form-group my-2 col-md-6">
                                         <label>Title</label>
-                                        <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][title]" value="${homeTitle}"required>
-                                        <label>Description</label>
-                                        <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][description]" value="${homeworkDescription}"required>
-                                        <label>File</label>
-                                        <input class="form-control" type="file" name="topics[${topicName}][files][file${bankIdCounter}][file]" required accept="application/pdf,image/*,video/*" >
+                                        <input
+                                            class="text-truncate form-control  mb-0 h5 fw-light "
+                                            name="topics[${topicName}][files][file${filesCounter}][title]"
+                                            required>
                                     </div>
+                                    <div class="form-group my-2 col-md-6">
+                                        <label>Description</label>
+                                        <input
+                                            class="text-truncate form-control  mb-0 h5 fw-light "
+                                            name="topics[${topicName}][files][file${filesCounter}][description]"
+                                            required>
+                                    </div>
+                                    <div class="form-group my-2 col-md-6">
+                                        <label>Video</label>
+                                        <select name="topics[${topicName}][files][file${filesCounter}][videoId]" class="form-select " id="videoId" required>
+                                            <option>--Video--</option>
+                                            @forelse($videos as $video)
+            <option value="{{$video->id}}">{{$video->title}}</option>
+            @empty
+            @endforelse
+
+            </select>
+        </div>
+    </div>
+</div>
+`
+            let targetParentElement = document.getElementById(targetParent)
+            targetParentElement.innerHTML += html;
+        }
+
+        function addFile(targetParent, topicName) {
+            filesCounter++;
+            let html = `
+                        <div class="" id="file${filesCounter}">
+
+                            <hr>
+                            <div class="d-flex justify-content-between my-2">
+                                <h5>New File</h5>
+                                <p class="mb-0 w-auto">
+                                    <button onclick="removeFile('file${filesCounter}')"
+                                            class=" btn btn-danger  "
+                                            type="button"
+                                            title="Delete File"
+                                    >
+                                        <i class="fa-light fa-trash"></i>
+
+                                                                    Delete
+
+                                    </button>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 my-2">
+                                    <input
+                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                        type="hidden"
+                                        name="topics[${topicName}][files][file${filesCounter}][type]"
+                                        value="1">
+                                    <label>Title</label>
+                                    <input
+                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                        name="topics[${topicName}][files][file${filesCounter}][title]"
+                                         required>
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label>Description</label>
+                                    <input
+                                        class="text-truncate form-control  mb-0 h5 fw-light "
+                                        name="topics[${topicName}][files][file${filesCounter}][description]"
+                                        required>
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label>File</label>
+                                    <input class="form-control" type="file"
+                                           name="topics[${topicName}][files][file${filesCounter}][file]"
+                                           accept="application/pdf,image/*,video/*">
                                 </div>
                             </div>
-                            <p class="mb-0 w-auto"><button onclick="removeBank('bank${bankIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
-
-                        </div>
-                         `
-
-                let accordionBody = document.getElementById(targetAccordionBodyId)
-                accordionBody.innerHTML += html;
-                $('#addFileModal').modal('hide')
-            } else {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'error',
-                    title: 'Please enter title and description',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
+                        </div>`
+            let targetParentElement = document.getElementById(targetParent)
+            targetParentElement.innerHTML += html;
         }
 
-        function removeVideo(videoId) {
-            document.getElementById(videoId).remove()
+         function removeFile(parentElement) {
+             document.getElementById(parentElement).remove()
         }
-
-        function removeBank(bankId) {
-            document.getElementById(bankId).remove()
+         function removeTopic(parentElement) {
+                    document.getElementById(parentElement).remove()
         }
+//         let accordionId = 1
+//         let collapseId = 1
+//         let headingId = 1
+//
+//         function addTopic() {
+//             if ($('#exampleModalInputName1').val()) {
+//                 let topicName = $('#exampleModalInputName1').val()
+//                 accordionId++;
+//                 collapseId++;
+//                 headingId++;
+//
+//                 accordionNewId = 'accordionExample' + accordionId
+//
+//                 let html = `
+//                 <div class="accordion accordion-icon accordion-bg-light" id="accordionExample${accordionNewId}">
+//                                 <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden" name="topics[${topicName}][title]" value="${topicName}" required>
+//
+//                     <!-- Item -->
+//                     <div class="accordion-item mb-3">
+//                         <h6 class="accordion-header font-base d-flex" id="heading-${headingId}">
+//                             <button
+//                                 class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed"
+//                                 type="button" data-toggle="collapse" href="#collapse-${collapseId}"
+//                                 aria-expanded="true" aria-controls="collapse-${collapseId}">
+//                                 <i onclick="removeTopic('accordionExample${accordionNewId}')" class="fa fa-remove fa-1x text-danger me-2"></i>
+//
+//                                 ${$('#exampleModalInputName1').val()}
+// <input class="form-control m-2" type="file" name="topics[${topicName}][cover_image]" required>
+//                             </button>
+//                         </h6>
+//                         <div id="collapse-${collapseId}" class="accordion-collapse collapse show"
+//                              aria-labelledby="heading-1" data-bs-parent="#accordionExample${accordionId}">
+//                             <div class="accordion-body mt-3" id="accordion${accordionId}Body">
+//
+//                                 <button
+//                                     onclick="setTopicName('accordion${accordionId}Body','${$('#exampleModalInputName1').val()}')"
+//                                     type="button"
+//                                     class="btn btn-sm btn-primary my-2" data-toggle="modal" data-target="#addVideoModal">
+//                                     <i class="fa fa-plus-circle"></i> Add Video
+//                                 </button>
+//                                    <button
+//                                     onclick="setTopicName('accordion${accordionId}Body','${$('#exampleModalInputName1').val()}')"
+//                                     type="button"
+//                                     class="btn btn-sm btn-primary my-2" data-toggle="modal" data-target="#addFileModal">
+//                                     <i class="fa fa-plus-circle"></i> Add File
+//                                 </button>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 </div>`
+//                 $('#tab3').append(html)
+//                 $('#exampleModal').modal('hide')
+//             } else {
+//                 Swal.fire({
+//                     position: 'top',
+//                     icon: 'error',
+//                     title: 'Please enter topic name',
+//                     showConfirmButton: false,
+//                     timer: 2000
+//                 })
+//             }
+//
+//         }
+//
+//         let videoId = null
+//         let videoTitle = null
+//         const select = document.getElementById('videoId');
+//         select.addEventListener('change', (event) => {
+//             videoId = event.target.value;
+//             videoTitle = event.target.options[event.target.selectedIndex].textContent
+//         });
+//
+//         let homeworkDescription = null
+//         let homeTitle = null
+//         const homeworkDescriptionElement = document.getElementById('homeWorkDescription');
+//         const homeworkTitleElement = document.getElementById('homeWorkTitle');
+//         homeworkDescriptionElement.addEventListener('change', (event) => {
+//             homeworkDescription = event.target.value
+//         });
+//         homeworkTitleElement.addEventListener('change', (event) => {
+//             homeTitle = event.target.value
+//         });
+//
+//         let targetAccordionBodyId = null
+//         let topicName = null
+//
+//         function setTopicName(accordionBodyId, topic) {
+//             targetAccordionBodyId = accordionBodyId
+//             topicName = topic
+//         }
+//
+//         let videoIdCounter = 0
+//         let bankIdCounter = 0
+//
+//         function addVideo() {
+//             if (videoId && videoTitle) {
+//                 videoIdCounter++
+//                 bankIdCounter++
+//                 let html = `
+//                         <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="video${videoIdCounter}">
+//                             <div class="position-relative d-flex align-items-center">
+//
+//                                 <div class="d-flex flex-column">
+//
+//                                      <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="0">
+//                                      <input type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][id]" value="${videoId}">
+//
+//                                         <div class="form-group">
+//                                             <label>Title</label>
+//                                             <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][title]" value="${videoTitle}"required>
+//                                             <label>Description</label>
+//                                             <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][description]" required>
+//
+//                                         </div>
+//
+//                                 </div>
+//                             </div>
+//                             <p class="mb-0"><button onclick="removeVideo('video${videoIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
+//
+//                         </div>
+//                          `
+//                 let accordionBody = document.getElementById(targetAccordionBodyId)
+//                 accordionBody.innerHTML += html;
+//                 $('#addVideoModal').modal('hide')
+//             } else {
+//                 Swal.fire({
+//                     position: 'top',
+//                     icon: 'error',
+//                     title: 'Please select a video',
+//                     showConfirmButton: false,
+//                     timer: 1500
+//                 })
+//             }
+//         }
+//
+//
+//         function addHomework() {
+//
+//             if (homeTitle && homeworkDescription) {
+//                 bankIdCounter++
+//                 let html = `
+//                         <div class="d-flex justify-content-between align-items-center border-bottom my-1" id="bank${bankIdCounter}">
+//                             <div class="position-relative d-flex align-items-center">
+//                                 <div class="d-flex flex-column">
+//                                     <div class="form-group my-2">
+//
+//                                         <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden" name="topics[${topicName}][files][file${bankIdCounter}][type]" value="1">
+//                                         <label>Title</label>
+//                                         <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][title]" value="${homeTitle}"required>
+//                                         <label>Description</label>
+//                                         <input class="text-truncate form-control  mb-0 h5 fw-light " name="topics[${topicName}][files][file${bankIdCounter}][description]" value="${homeworkDescription}"required>
+//                                         <label>File</label>
+//                                         <input class="form-control" type="file" name="topics[${topicName}][files][file${bankIdCounter}][file]" required accept="application/pdf,image/*,video/*" >
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                             <p class="mb-0 w-auto"><button onclick="removeBank('bank${bankIdCounter}')" class=" btn btn-danger btn-sm" type="button"><i class="fa fa-remove"></i></button></p>
+//
+//                         </div>
+//                          `
+//
+//                 let accordionBody = document.getElementById(targetAccordionBodyId)
+//                 accordionBody.innerHTML += html;
+//                 $('#addFileModal').modal('hide')
+//             } else {
+//                 Swal.fire({
+//                     position: 'top',
+//                     icon: 'error',
+//                     title: 'Please enter title and description',
+//                     showConfirmButton: false,
+//                     timer: 1500
+//                 })
+//             }
+//         }
+//
+//         function removeVideo(videoId) {
+//             document.getElementById(videoId).remove()
+//         }
+//
+//         function removeBank(bankId) {
+//             document.getElementById(bankId).remove()
+//         }
+//
+//         function removeTopic(topicId) {
+//             document.getElementById(topicId).remove()
+//         }
 
-        function removeTopic(topicId) {
-            document.getElementById(topicId).remove()
-        }
 
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('accordionId', accordionId);
-            localStorage.setItem('collapseId', collapseId);
-            localStorage.setItem('headingId', headingId);
-            localStorage.setItem('videoIdCounter', videoIdCounter);
-            localStorage.setItem('bankIdCounter', bankIdCounter);
-        });
     </script>
     <script>
         const form = document.getElementById('my-form');

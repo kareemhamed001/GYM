@@ -48,7 +48,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user=User::find($id);
-        return view('coach.categories.edit',compact('user'));
+        return view('coach.users.edit',compact('user'));
     }
 
     /**

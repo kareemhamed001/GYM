@@ -30,9 +30,29 @@
                     </a>
                 </li>
 
+                <li class="dropdown show ">
+                    <a class=" dropdown-toggle " href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{asset(Auth::user())}}" alt="">
+                    </a>
+                    @dd(Auth::user()->id)
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        @if(Auth::check()&& Auth::user()?->role_as==1)
+                            <a class="dropdown-item" href="{{url('/coach')}}">Dashboard</a>
+                        @endif
+
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
             </ul>
 
         </div>
+        <ul class="navbar-nav  ">
+
+{{--                <a class="nav-link text-white" href="{{url('/profile')}}"><i class="fa-light fa-user fa-2x"></i></a>--}}
+
+
+        </ul>
     </div>
 </nav>
 

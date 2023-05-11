@@ -104,11 +104,11 @@
             <div id="coachInfo"  class="m-0 p-0 d-flex flex-wrap">
 
 
-                @if(intval($user->role_as)==1 &&$user->coach)
+                @if(intval($user->role_as)==1 && $user->coach)
                     <div class="form-group col-md-6 my-2 px-1">
                         <label for="nick_name">nick name</label>
                         <input name="coach_nick_name" class="form-control" type="text" id="nick_name"
-                               placeholder="Enter coach nick name *" value="{{$user->coach->nick_name}}">
+                               placeholder="Enter coach nick name *" value="{{$user->coach?->nick_name??''}}">
                         @error('coach_nick_name')
                         <span class="text-danger">{{$message}}</span>
                         @enderror

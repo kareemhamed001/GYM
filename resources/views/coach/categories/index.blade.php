@@ -363,7 +363,16 @@
                 $('#editCategoryModal').modal('show')
 
             } else if (result.status === 400) {
-
+                console.log(result)
+                let messages = result
+                Swal.fire({
+                    title: "error",
+                    text: messages,
+                    icon: "error",
+                    button: "Ok",
+                    position: 'center',
+                    timer: 3000
+                })
 
             }
         }
@@ -436,7 +445,6 @@
                 selectedValues.push(parseInt($(this).val()));
             });
 
-            console.log(selectedValues)
 
             if (selectedValues.length > 0) {
 

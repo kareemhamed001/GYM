@@ -65,7 +65,7 @@ body:before {
     height: auto;
   }
   .auth-container .card {
-    background-color: transparent;
+    /*background-color: transparent;*/
     box-shadow: none;
   }
   .auth-container .card .card-body {

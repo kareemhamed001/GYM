@@ -66,7 +66,7 @@ class CategoryClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return category::with(['brands'])->find($id);
+            return category::find($id);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

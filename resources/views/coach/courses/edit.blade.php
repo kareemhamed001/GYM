@@ -1,6 +1,7 @@
 @extends('layouts.app-blog-create')
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/light/widgets/modules-widgets.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/dark/widgets/modules-widgets.css')}}">
 @endsection
 @section('content')
 
@@ -248,11 +249,11 @@
                             <div class="widget widget-table-one my-3" id="curriculum{{$curriculum->id}}">
                                 <div class="widget-heading">
                                     <h5 class="d-flex align-items-center">
-                                        <a target="_blank" href="{{asset($curriculum->cover_image)}}"><img
+                                        <a class="me-2" target="_blank" href="{{asset($curriculum->cover_image)}}"><img
                                                 class="img-fluid  "
                                                 style="object-fit: scale-down ;height: 50px;width: 50px;border-radius: 50%"
                                                 src="{{asset($curriculum->cover_image)}}"></a>
-                                        Topic:{{$curriculum->title}}</h5>
+                                         Topic : {{$curriculum->title}}</h5>
                                     <div class="task-action">
                                         <div class="dropdown">
                                             <a class="dropdown-toggle show" href="#" role="button" id="transactions"
@@ -570,8 +571,6 @@
             }
 
         }
-
-
         function addVideo(targetParent, topicName) {
             let html = `
                         <div class="" id="file${filesCounter}">
@@ -629,7 +628,6 @@
             let targetParentElement = document.getElementById(targetParent)
             targetParentElement.innerHTML += html;
         }
-
         function addFile(targetParent, topicName) {
 
 
@@ -684,7 +682,6 @@
             let targetParentElement = document.getElementById(targetParent)
             targetParentElement.innerHTML += html;
         }
-
         async function removeFile(courseId, topicId, fileId, parentElement) {
 
             try {
@@ -705,8 +702,6 @@
             }
 
         }
-
-
         async function removeTopic(courseId, topicId, parentElement) {
             try {
                 if (courseId && topicId) {
