@@ -39,8 +39,8 @@
                 <div class="row align-items-center p-0 m-0 col-12 ">
                     <div class="col-md-12 mb-3">
 
-                        <h2>Login</h2>
-                        <p>Enter your email and password to login</p>
+                        <h2 class="text-white">Login</h2>
+                        <p class="text-white">Enter your email and password to login</p>
 
                     </div>
                     <form class="rounded-0 row p-0 m-0 col-12  justify-content-center " method="POST" id="registerForm" action="{{ route('login') }}">
@@ -123,7 +123,7 @@
 
                     <div class="col-12">
                         <div class="text-center">
-                            <p class="mb-0">Dont have account ? <a href="{{route('register')}}" class="text-warning">Register</a></p>
+                            <p class="mb-0 text-white">Dont have account ? <a href="{{route('register')}}" class="text-warning">Register</a></p>
                         </div>
                     </div>
 

@@ -28,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
 
-            Route::middleware(['web','checkRole'])
+            Route::middleware('web')
                 ->prefix('coach')
                 ->group(base_path('routes/coachRoutes.php'));
 
