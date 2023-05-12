@@ -3,49 +3,49 @@
 @section('content')
 
     <!-- Modal -->
-    <div class="modal fade" id="deletevideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="deletecategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete video?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete category?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        the video will be deleted forever!
+                        the category will be deleted forever!
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deletevideo()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deletecategory()">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="deleteArrayOfvideosModal" tabindex="-1" role="dialog"
+    <div class="modal fade" id="deleteArrayOfCategoriesModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected videos?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected categories?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these videos will be deleted forever !
+                        these categories will be deleted forever !
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
@@ -54,59 +54,54 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade modal-xl" id="addVideoModal" tabindex="-1" role="dialog"
+    <div class="modal fade modal-xl" id="addCategoryModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">add a new video</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">add a new category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="createVideoForm" class="d-flex flex-wrap" enctype="multipart/form-data">
+                    <form id="createCategoryForm" class="d-flex flex-wrap" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
-                        <div class="form-group pe-1 col-md-6 my-1">
-                            <label for="video">Video</label>
-                            <input name="video" class="form-control" type="file" id="video"
-                                   placeholder="Enter name in english" accept="video/*">
-                        </div>
-                        <div class="form-group ps-1 col-md-6 my-1">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control" type="file" id="coverImage"
-                                   placeholder="Enter name in english" accept="image/*">
-                        </div>
+                        <input name="category_id" type="hidden" value="{{$category->id}}">
                         <div class="form-group col-12 my-1">
-                            <label for="videoNameEn">Title En</label>
-                            <input name="title" class="form-control" type="text" id="videoNameEn"
+                            <label for="coverImage">Cover Image</label>
+                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
                                    placeholder="Enter name in english">
                         </div>
-                        <div class="form-group col-6 pe-1 my-1">
-                            <label for="videoNameAr">Title Ar</label>
-                            <input name="title_ar" class="form-control" type="text" id="videoNameAr"
+                        <div class="form-group col-12 my-1">
+                            <label for="categoryNameEn">Name En</label>
+                            <input name="name" class="form-control" type="text" id="categoryNameEn"
+                                   placeholder="Enter name in english">
+                        </div>
+                        <div class="form-group col-6 px-1 my-1">
+                            <label for="categoryNameAr">Name Ar</label>
+                            <input name="name_ar" class="form-control" type="text" id="categoryNameAr"
                                    placeholder="Enter name in arabic">
                         </div>
-                        <div class="form-group col-6 ps-1 my-1">
-                            <label for="videoNameKu">Title Ku</label>
-                            <input name="title_ku" class="form-control" type="text" id="videoNameKu"
+                        <div class="form-group col-6 px-1 my-1">
+                            <label for="categoryNameKu">Name Ku</label>
+                            <input name="name_ku" class="form-control" type="text" id="categoryNameKu"
                                    placeholder="Enter name in kurdish">
                         </div>
                         <div class="form-group col-12 my-1">
-                            <label for="videoDescriptionEn">Description En</label>
-                            <textarea name="description" class="form-control" type="text" id="videoDescriptionEn"
+                            <label for="categoryDescriptionEn">Description En</label>
+                            <textarea name="description" class="form-control" type="text" id="categoryDescriptionEn"
                                       placeholder="Enter Description in english"></textarea>
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="videoDescriptionAr">Description Ar</label>
-                            <textarea name="description_ar" class="form-control" type="text" id="videoDescriptionAr"
+                            <label for="categoryDescriptionAr">Description Ar</label>
+                            <textarea name="description_ar" class="form-control" type="text" id="categoryDescriptionAr"
                                       placeholder="Enter Description in arabic"></textarea>
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="videoDescriptionKu">Description Ku</label>
-                            <textarea name="description_ku" class="form-control" type="text" id="videoDescriptionKu"
+                            <label for="categoryDescriptionKu">Description Ku</label>
+                            <textarea name="description_ku" class="form-control" type="text" id="categoryDescriptionKu"
                                       placeholder="Enter Description in kurdish"></textarea>
                         </div>
 
@@ -115,15 +110,15 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="createVideoForm">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="createCategoryForm">Save changes</button>
 
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade modal-xl" id="editvideoModal" tabindex="-1" role="dialog"
+    <div class="modal fade modal-xl" id="editCategoryModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -136,10 +131,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editvideoForm" class="d-flex flex-wrap" enctype="multipart/form-data">
+                    <form id="editCategoryForm" class="d-flex flex-wrap" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
                         <div class="col-6 my-1">
                             <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
                         </div>
@@ -150,35 +144,35 @@
                                    placeholder="Enter name in english">
                         </div>
                         <div class="form-group col-12 my-1">
-                            <label for="videoNameEnEdit">Name En</label>
-                            <input name="name" class="form-control" type="text" id="videoNameEnEdit"
+                            <label for="categoryNameEnEdit">Name En</label>
+                            <input name="name" class="form-control" type="text" id="categoryNameEnEdit"
                                    placeholder="Enter name in english">
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="videoNameArEdit">Name Ar</label>
-                            <input name="name_ar" class="form-control" type="text" id="videoNameArEdit"
+                            <label for="categoryNameArEdit">Name Ar</label>
+                            <input name="name_ar" class="form-control" type="text" id="categoryNameArEdit"
                                    placeholder="Enter name in arabic">
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="videoNameKuEdit">Name Ku</label>
-                            <input name="name_ku" class="form-control" type="text" id="videoNameKuEdit"
+                            <label for="categoryNameKuEdit">Name Ku</label>
+                            <input name="name_ku" class="form-control" type="text" id="categoryNameKuEdit"
                                    placeholder="Enter name in kurdish">
                         </div>
                         <div class="form-group col-12 my-1">
-                            <label for="videoDescriptionEnEdit">Description En</label>
-                            <textarea name="description" class="form-control" type="text" id="videoDescriptionEnEdit"
+                            <label for="categoryDescriptionEnEdit">Description En</label>
+                            <textarea name="description" class="form-control" type="text" id="categoryDescriptionEnEdit"
                                       placeholder="Enter Description in english"></textarea>
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="videoDescriptionArEdit">Description Ar</label>
+                            <label for="categoryDescriptionArEdit">Description Ar</label>
                             <textarea name="description_ar" class="form-control" type="text"
-                                      id="videoDescriptionArEdit"
+                                      id="categoryDescriptionArEdit"
                                       placeholder="Enter Description in arabic"></textarea>
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="videoDescriptionKuEdit">Description Ku</label>
+                            <label for="categoryDescriptionKuEdit">Description Ku</label>
                             <textarea name="description_ku" class="form-control" type="text"
-                                      id="videoDescriptionKuEdit"
+                                      id="categoryDescriptionKuEdit"
                                       placeholder="Enter Description in kurdish"></textarea>
                         </div>
 
@@ -188,10 +182,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
                         Close
                     </button>
-                    <button type="submit" class="btn btn-primary" form="editvideoForm">Save changes</button>
+                    <button type="submit" class="btn btn-primary" form="editCategoryForm">Save changes</button>
 
                 </div>
             </div>
@@ -201,13 +195,13 @@
 
     <div class="row my-3">
         <div class="d-flex justify-content-between">
-            <h3>videos</h3>
+            <h3>Sub Categories</h3>
             <div>
-                <button type="button" data-toggle="modal" data-target="#deleteArrayOfvideosModal"
+                <button type="button" data-toggle="modal" data-target="#deleteArrayOfCategoriesModal"
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addVideoModal">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#addCategoryModal">
                     Add
                 </button>
 
@@ -245,44 +239,44 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($videos as $video)
+            @foreach($categories as $category)
                 <tr>
                     <td>
                         <div class="form-check form-check-primary">
-                            <input class="form-check-input" type="checkbox" name="videos[]"
-                                   value="{{$video->id}}">
+                            <input class="form-check-input" type="checkbox" name="categories[]"
+                                   value="{{$category->id}}">
                         </div>
                     </td>
                     <td>
                         <div class="media">
                             <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($video->cover_image)}}" class="rounded-circle"/>
+                                <img alt="avatar" src="{{asset($category->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$video->title}}</h6>
-                                <span class="text-success">{{$video->description}}</span>
+                                <h6 class="mb-0">{{$category->name}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category->description,0,50)}}... </span>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="mb-0">{{$video->title_ar??'NULL'}}</p>
-                        <span class="text-success">{{$video->description_ar??'NULL'}}</span>
+                        <p class="mb-0">{{$category->name_ar??'NULL'}}</p>
+                        <span class="text-success d-block">{{Str::substr($category->description_ar,0,50)??'NULL'}}...</span>
                     </td>
                     <td>
-                        <p class="mb-0">{{$video->title_ku??'NULL'}}</p>
-                        <span class="text-success">{{$video->description_ku??'NULL'}}</span>
+                        <p class="mb-0">{{$category->name_ku??'NULL'}}</p>
+                        <span class="text-success d-block">{{Str::substr($category->description_ku,0,50)??'NULL'}}...</span>
                     </td>
                     <td class="text-center">
-                        <p class="mb-0">{{\Carbon\Carbon::make($video->created_at)->toDateString()??'NULL'}}</p>
+                        <p class="mb-0">{{\Carbon\Carbon::make($category->created_at)->toDateString()??'NULL'}}</p>
                         <span
-                            class="text-success">{{\Carbon\Carbon::make($video->created_at)->toTimeString()??'NULL'}}</span>
+                            class="text-success">{{\Carbon\Carbon::make($category->created_at)->toTimeString()??'NULL'}}</span>
                     </td>
                     <td class="cursor-pointer ">
                         <div class="d-flex align-items-center">
 
 
                             <div class="action-btns">
-                                <a href="{{url('coach/videos',$video->id)}}" class="action-btn btn-view bs-tooltip me-2"
+                                <a href="{{url('coach/categories',$category->id)}}" class="action-btn btn-view bs-tooltip me-2"
                                    data-toggle="tooltip" data-placement="top" title="View">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -291,7 +285,7 @@
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
                                 </a>
-                                <a onclick="preparevideotoedit({{$video->id}})"
+                                <a onclick="preparecategorytoedit({{$category->id}})"
                                    href="javascript:void(0);" class="action-btn btn-edit bs-tooltip me-2"
                                    data-placement="top" title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -300,9 +294,9 @@
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                                     </svg>
                                 </a>
-                                <a type="button" data-toggle="modal" data-target="#deletevideoModal"
+                                <a type="button" data-toggle="modal" data-target="#deletecategoryModal"
                                    href="javascript:void(0);" class="action-btn btn-delete bs-tooltip"
-                                   data-placement="top" title="Delete" onclick="preparevideo({{$video->id}})">
+                                   data-placement="top" title="Delete" onclick="preparecategory({{$category->id}})">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                          stroke-linejoin="round" class="feather feather-trash-2">
@@ -322,7 +316,7 @@
             @endforeach
             </tbody>
         </table>
-        {{$videos->links()}}
+        {{$categories->links()}}
 
     </div>
 
@@ -332,7 +326,7 @@
     <script>
         $(document).ready(function () {
             $('#selectAll').click(function () {
-                $('[name="videos[]"]').prop('checked', this.checked);
+                $('[name="categories[]"]').prop('checked', this.checked);
             });
         });
         $.ajaxSetup({
@@ -340,122 +334,111 @@
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        let videoId;
+        let categoryId;
         let price;
 
-        function preparevideo(id) {
-            console.log(id)
-            videoId = id;
+        function preparecategory(id) {
+            categoryId = id;
         }
 
-        let videoIdEdit = 0
+        let categoryIdEdit = 0
 
-        async function preparevideotoedit(id) {
+        async function preparecategorytoedit(id) {
 
-            videoIdEdit = id
-            const response = await fetch(`/api/videos/${id}`, {
+            categoryIdEdit = id
+            showLoader();
+            const response = await fetch(`/api/categories/${id}`, {
                 method: 'GET'
             });
+            removeLoader()
             const result = await response.json();
             if (result.status === 200) {
 
-                document.querySelector('#videoNameEnEdit').value = result.data.name;
-                document.querySelector('#videoNameArEdit').value = result.data.name_ar;
-                document.querySelector('#videoNameKuEdit').value = result.data.name_ku;
-                document.querySelector('#videoDescriptionEnEdit').value = result.data.description;
-                document.querySelector('#videoDescriptionArEdit').value = result.data.description_ar;
-                document.querySelector('#videoDescriptionKuEdit').value = result.data.description_ku;
+                document.querySelector('#categoryNameEnEdit').value = result.data.name;
+                document.querySelector('#categoryNameArEdit').value = result.data.name_ar;
+                document.querySelector('#categoryNameKuEdit').value = result.data.name_ku;
+                document.querySelector('#categoryDescriptionEnEdit').value = result.data.description;
+                document.querySelector('#categoryDescriptionArEdit').value = result.data.description_ar;
+                document.querySelector('#categoryDescriptionKuEdit').value = result.data.description_ku;
                 document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`
-                $('#editvideoModal').modal('show')
+                $('#editCategoryModal').modal('show')
 
             } else if (result.status === 400) {
-
-                console.error(result)
+                console.log(result)
+                let messages = result
+                Swal.fire({
+                    title: "error",
+                    text: messages,
+                    icon: "error",
+                    button: "Ok",
+                    position: 'center',
+                    timer: 3000
+                })
 
             }
         }
 
         function closeeditmodal() {
-            $('#editvideoModal').modal('hide')
+            $('#editCategoryModal').modal('hide')
         }
 
-        async function deletevideo() {
-
-
-            if (videoId) {
-                try {
-                    const response = await fetch(`/api/videos/${videoId}`, {
-                        method: 'delete'
-                    });
-
-                    const result = await response.json();
-                    if (result.status === 200) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: result.message,
-                        })
-
-                        $('#deletevideoModal').modal('hide')
-                        location.reload();
-                    } else if (result.status === 400) {
-                        let message = result.message;
-                        let errorMessage = ``;
-                        for (const key in message) {
-                            errorMessage += message[key] + `\n`
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: errorMessage,
-                        })
-                    }
-
-                } catch (error) {
-                    console.error(error);
-                }
-
+        async function deletecategory() {
+            if (categoryId) {
+                showLoader()
                 $.ajax({
-                    url: `/api/videos/${videoId}`,
+                    url: `/api/sub-categories/${categoryId}`,
                     method: 'DELETE',
                     success: function (response) {
+                        removeLoader()
                         Swal.fire({
                             title: "Success",
-                            text: `video ${videoId} deleted successfully`,
+                            text: `category ${categoryId} deleted successfully`,
                             icon: "success",
                             button: "Ok",
                             position: 'center',
                             timer: 3000
                         })
 
-                        $('#deletevideoModal').modal('hide')
+                        categoryId = null
+                        price = null
+                        $('#deletecategoryModal').modal('hide')
                         location.reload();
                     },
                     error: function (error) {
+                        removeLoader()
                         price = null;
-                        videoId = null;
+                        categoryId = null;
                         let messages = error.responseJSON.message
                         // $.each(messages, function(index, value) {
                         //     console.log(`Item at index ${index} is ${value}`);
                         // });
-
+                        Swal.fire({
+                            title: "error",
+                            text: messages,
+                            icon: "error",
+                            button: "Ok",
+                            position: 'center',
+                            timer: 3000
+                        })
                     }
                 });
             } else {
-                swal.fire({
-                    title: "Error",
-                    text: `video Id does not set`,
+                removeLoader()
+                swal("category id not set", "error");
+                Swal.fire({
+                    title: "error",
+                    text: `category id not set`,
                     icon: "error",
                     button: "Ok",
                     position: 'center',
                     timer: 3000
-                });
+                })
             }
         }
 
 
         function deleteSelected() {
-            let checkboxes = $('[name="videos[]"]:checked');
+            let checkboxes = $('[name="categories[]"]:checked');
             // Create an empty array to store the selected values
             let selectedValues = [];
             // Loop through the checked checkboxes and push their values to the array
@@ -463,7 +446,6 @@
                 selectedValues.push(parseInt($(this).val()));
             });
 
-            console.log(selectedValues)
 
             if (selectedValues.length > 0) {
 
@@ -473,11 +455,13 @@
                     }
                 });
 
+                showLoader()
                 $.ajax({
-                    url: `/api/videos/delete-collection`,
-                    method: 'post',
-                    data: {'videos': selectedValues},
+                    url: `http:\\api/sub-categories/delete-collection`,
+                    method: 'POST',
+                    data: {'categories': selectedValues},
                     success: function (response) {
+                        removeLoader()
                         console.log(response)
                         Swal.fire({
                             title: "Success",
@@ -488,11 +472,11 @@
                             timer: 3000
                         })
                         selectedValues = null
-                        $('#deleteArrayOfvideosModal').modal('hide')
+                        $('#deleteArrayOfCategoriesModal').modal('hide')
                         location.reload();
                     },
                     error: function (error) {
-                        console.log(error)
+                        removeLoader()
                         let messages = error.responseJSON.message
                         Swal.fire({
                             title: "error",
@@ -505,16 +489,17 @@
                     }
                 });
             } else {
+                removeLoader()
 
                 Swal.fire({
-                    title: "No videos selected",
-                    text: `select at least one video to delete`,
+                    title: "No categories selected",
+                    text: `select at least one category to delete`,
                     icon: "error",
                     button: "Ok",
                     position: 'center',
                     timer: 3000
                 })
-                $('#deleteArrayOfvideosModal').modal('hide')
+                $('#deleteArrayOfCategoriesModal').modal('hide')
             }
 
 
@@ -525,7 +510,7 @@
     <script>
 
 
-        const form = document.querySelector('#createVideoForm');
+        const form = document.querySelector('#createCategoryForm');
 
 
         form.addEventListener('submit', async (e) => {
@@ -534,12 +519,14 @@
             const formData = new FormData(form);
 
             try {
-                const response = await fetch('/api/videos', {
+                showLoader()
+                const response = await fetch('/api/sub-categories', {
                     method: 'post',
                     body: formData
                 });
-
+                removeLoader()
                 const result = await response.json();
+                console.log(result)
                 if (result.status === 200) {
                     Swal.fire({
                         icon: 'success',
@@ -547,7 +534,7 @@
                         text: result.message,
                     })
 
-                    $('#addVideoModal').modal('hide')
+                    $('#addCategoryModal').modal('hide')
                     location.reload();
                 } else if (result.status === 400) {
                     let message = result.message;
@@ -563,24 +550,27 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        const editForm = document.querySelector('#editvideoForm');
+        const editForm = document.querySelector('#editCategoryForm');
         editForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const formDataEdit = new FormData(editForm);
 
             try {
-                const response = await fetch(`/api/videos/${videoIdEdit}`, {
+                showLoader()
+                const response = await fetch(`/api/categories/${categoryIdEdit}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
                     },
                     body: formDataEdit
                 });
+                removeLoader()
 
                 const result = await response.json();
                 console.log(result)
@@ -591,7 +581,7 @@
                         text: 'Updated Successfully',
                     })
 
-                    $('#addVideoModal').modal('hide')
+                    $('#addCategoryModal').modal('hide')
                     location.reload();
                 } else if (result.status === 400) {
                     let message = result.message;
@@ -607,6 +597,7 @@
                 }
 
             } catch (error) {
+                removeLoader()
                 console.error(error);
             }
         });

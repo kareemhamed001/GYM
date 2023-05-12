@@ -20,7 +20,7 @@ class coach extends Model
         return $this->hasMany(video::class,'coach_id','id');
     }
     public function courses(){
-        return $this->hasMany(course::class,'coach_id','id');
+        return $this->hasMany(muscle::class,'coach_id','id');
     }
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');

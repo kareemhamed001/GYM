@@ -159,13 +159,13 @@
                                     </div>
                                 </div>
                                 <div class="t-name">
-                                    <h4>Courses</h4>
+                                    <h4>muscles</h4>
                                     <p class="meta-date time-field" id="timeField"></p>
                                 </div>
 
                             </div>
                             <div class="t-rate rate-dec">
-                                <p><span id="courses-body"></span></p>
+                                <p><span id="muscles-body"></span></p>
                             </div>
                         </div>
                     </div>
@@ -174,33 +174,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6 col-12 layout-spacing">
-            <div class="widget widget-table-one">
-                <div class="widget-content">
-                    <div class="transactions-list">
-                        <div class="t-item">
-                            <div class="t-company-name">
-                                <div class="t-icon">
-                                    <div class="icon">
-                                        <i class="fa-light fa-video text-warning"></i>
-                                    </div>
-                                </div>
-                                <div class="t-name">
-                                    <h4>Videos</h4>
-                                    <p class="meta-date time-field" id="timeField"></p>
-                                </div>
 
-                            </div>
-                            <div class="t-rate rate-dec">
-                                <p><span id="videos-body"></span></p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
         <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6 col-12 layout-spacing">
             <div class="widget widget-table-one">
                 <div class="widget-content">
@@ -326,14 +300,7 @@
         <div id="chartArea" class="col-xl-6 col-12 layout-spacing">
             <div class="statbox widget box box-shadow">
                 <div class="widget-content widget-content-area">
-                    <div id="s-line-area-courses" class=""></div>
-                </div>
-            </div>
-        </div>
-        <div id="chartArea" class="col-xl-6 col-12 layout-spacing">
-            <div class="statbox widget box box-shadow">
-                <div class="widget-content widget-content-area">
-                    <div id="s-line-area-videos" class=""></div>
+                    <div id="s-line-area-muscles" class=""></div>
                 </div>
             </div>
         </div>
@@ -343,9 +310,9 @@
         <div class="widget widget-table-three">
 
             <div class="widget-heading">
-                <h5 class="">Recent Courses Clients </h5>
-                <label for="RecentCoursesClientsSelect">Items</label>
-                <select class="form-control col-md-4" id="RecentCoursesClientsSelect">
+                <h5 class="">Recent muscles Clients </h5>
+                <label for="RecentmusclesClientsSelect">Items</label>
+                <select class="form-control col-md-4" id="RecentmusclesClientsSelect">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -355,7 +322,7 @@
 
             <div class="widget-content">
                 <div class="table-responsive">
-                    <table class="table table-scroll" id="recentCoursesClientsTable">
+                    <table class="table table-scroll" id="recentmusclesClientsTable">
                         <thead>
                         <tr>
                             <th>
@@ -372,11 +339,11 @@
                                 <div class="th-content">Age</div>
                             </th>
                             <th>
-                                <div class="th-content">Course</div>
+                                <div class="th-content">muscle</div>
                             </th>
                         </tr>
                         </thead>
-                        <tbody id="recentCoursesClientsTableBody">
+                        <tbody id="recentmusclesClientsTableBody">
 
                         </tbody>
                     </table>
@@ -443,13 +410,13 @@
 
 
 
-            let RecentCoursesClientsSelect=document.getElementById('RecentCoursesClientsSelect')
-            let selectedOptionCourses = RecentCoursesClientsSelect.options[RecentCoursesClientsSelect.selectedIndex];
+            let RecentmusclesClientsSelect=document.getElementById('RecentmusclesClientsSelect')
+            let selectedOptionmuscles = RecentmusclesClientsSelect.options[RecentmusclesClientsSelect.selectedIndex];
 
-            getRecentCoursesClients(selectedOptionCourses.value)
-            RecentCoursesClientsSelect.addEventListener('change', (e) => {
+            getRecentmusclesClients(selectedOptionmuscles.value)
+            RecentmusclesClientsSelect.addEventListener('change', (e) => {
                 //selectedType.options[selectedType.selectedIndex].text
-                getRecentCoursesClients(e.target.value)
+                getRecentmusclesClients(e.target.value)
 
                 });
             let RecentProductsClientsSelect=document.getElementById('RecentProductsClientsSelect')
@@ -470,6 +437,7 @@
             })
             let result = await response.json();
 
+            console.log(result)
             let time = new Date(result.data.time);
             $('.time-field').append(time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds())
             $('#users-body').html(result.data.users)
@@ -477,8 +445,7 @@
             $('#products-body').html(result.data.products)
             $('#brands-body').html(result.data.brands)
             $('#categories-body').html(result.data.categories)
-            $('#courses-body').html(result.data.courses)
-            $('#videos-body').html(result.data.videos)
+            $('#muscles-body').html(result.data.muscles)
             $('#subscriptions-body').html(result.data.subscriptions)
             $('#purchases-body').html(result.data.purchases)
             $('#sales-body').html(Math.round( result.data.sales,3) + ' $')
@@ -486,20 +453,21 @@
 
 
 
-        async function getRecentCoursesClients(limit) {
-            const recentCoursesClientsTable = document.getElementById('recentCoursesClientsTable');
-            var rowCount = recentCoursesClientsTable.rows.length;
+        async function getRecentmusclesClients(limit) {
+            const recentmusclesClientsTable = document.getElementById('recentmusclesClientsTable');
+            var rowCount = recentmusclesClientsTable.rows.length;
             for (var i = rowCount - 1; i > 0; i--) { // loop through rows starting from bottom
-                recentCoursesClientsTable.deleteRow(i); // delete each row
+                recentmusclesClientsTable.deleteRow(i); // delete each row
             }
 
-            let response = await fetch(`/api/recent-courses-clients/${limit}`, {
+            let response = await fetch(`/api/recent-muscles-clients/${limit}`, {
                 method: 'GET'
             })
             let result = await response.json();
 
+            console.log(result)
             result.data.recentClients.forEach(item => {
-                const newRow = recentCoursesClientsTable.insertRow(); // create a new row
+                const newRow = recentmusclesClientsTable.insertRow(); // create a new row
 
                 // add cells to the row to display the data
                 const nameCell = newRow.insertCell();
@@ -523,10 +491,10 @@
                 const ageCell = newRow.insertCell();
                 ageCell.innerHTML = item.user.age;
 
-                const courseCell = newRow.insertCell();
-                courseCell.innerHTML = `
-                <a href="/coach/courses/${item.course.id}">
-                    ${item.course.title}
+                const muscleCell = newRow.insertCell();
+                muscleCell.innerHTML = `
+                <a href="/coach/muscles/${item.muscle.id}">
+                    ${item.muscle.title}
                 </a>`;
             });
         }
@@ -571,8 +539,8 @@
                 const ageCell = newRow.insertCell();
                 ageCell.innerHTML = item.user.age;
 
-                const courseCell = newRow.insertCell();
-                courseCell.innerHTML = `
+                const muscleCell = newRow.insertCell();
+                muscleCell.innerHTML = `
                 <a href="/coach/products/${item.product.id}">
                     ${item.product.name}
                       <p class="prd-category">Quantity:${item.quantity}</p>

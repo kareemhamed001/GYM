@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\coach\supplement;
+namespace App\Http\Controllers\coach\equipment;
 
 use App\classes\category\CategoryClass;
 use App\classes\supplement\SupplementClass;
@@ -11,7 +11,7 @@ use App\Models\subCategory;
 use App\Models\supplement;
 use Illuminate\Http\Request;
 
-class SupplementController extends Controller
+class EquipmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -85,8 +85,8 @@ class SupplementController extends Controller
 
     function categories(){
 
-        $categories=subCategory::where('category_id',1)->paginate();
-        $category=category::find(1);
+        $categories=subCategory::where('category_id',2)->paginate();
+        $category=category::find(2);
 
         return view('coach.subCategories.index',compact('categories','category'));
     }

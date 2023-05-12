@@ -1,12 +1,12 @@
 <?php
 
-namespace App\classes\course;
+namespace App\classes\muscle;
 
 use App\classes\general\GeneralFunctionsClass;
 use App\Models\coach;
-use App\Models\course;
+use App\Models\muscle;
 
-class CourseClass extends GeneralFunctionsClass
+class MuscleClass extends GeneralFunctionsClass
 {
 
     /**
@@ -15,7 +15,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function store(array $params)
     {
         try {
-            return course::create($params);
+            return muscle::create($params);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -27,7 +27,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function update(array $params)
     {
         try {
-            return course::update($params);
+            return muscle::update($params);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -39,8 +39,8 @@ class CourseClass extends GeneralFunctionsClass
     public static function destroy(int $id)
     {
         try {
-            $course=course::find($id);
-            $course->delete();
+            $muscle=muscle::find($id);
+            $muscle->delete();
             return true;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
@@ -53,7 +53,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function destroyAll()
     {
         try {
-            $course=course::all()->delete();
+            $muscle=muscle::all()->delete();
             return true;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
@@ -66,7 +66,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return course::find($id);
+            return muscle::find($id);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -75,7 +75,7 @@ class CourseClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15)
     {
         try {
-            return course::paginate($pagination);
+            return muscle::paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }

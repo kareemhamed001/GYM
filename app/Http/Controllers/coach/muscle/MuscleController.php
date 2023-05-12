@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\coach\course;
+namespace App\Http\Controllers\coach\muscle;
 
-use App\classes\course\CourseClass;
+use App\classes\muscle\MuscleClass;
 use App\Http\Controllers\Controller;
-use App\Models\course;
+use App\Models\muscle;
 use App\Models\video;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class MuscleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $courses=CourseClass::getAll();
-        return view('coach.courses.index',compact('courses'));
+        $muscles=MuscleClass::getAll();
+        return view('coach.muscles.index',compact('muscles'));
 
     }
 
@@ -25,8 +25,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        $videos=video::where('coach_id',1)->get();
-        return view('coach.courses.create',compact('videos'));
+        return view('coach.muscles.create');
     }
 
     /**
@@ -51,12 +50,11 @@ class CourseController extends Controller
     public function edit(string $id)
     {
         try {
-            $course=course::find($id);
-            if (!$course){
-                return redirect()->back()->with('error','Course not found');
+            $muscle=muscle::find($id);
+            if (!$muscle){
+                return redirect()->back()->with('error','muscle not found');
             }
-            $videos=video::where('coach_id',1)->get();
-            return view('coach.courses.edit',compact('course','videos'));
+            return view('coach.muscles.edit',compact('muscle'));
         }catch (\Exception $e){
             return redirect()->back()->with('error',$e->getMessage());
         }

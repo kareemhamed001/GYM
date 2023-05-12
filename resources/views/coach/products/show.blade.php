@@ -21,7 +21,7 @@
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteproduct()">Delete</button>
@@ -119,7 +119,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
                         Close
                     </button>
                     <button type="submit" class="btn btn-primary" form="editProductForm">Save changes</button>
@@ -158,7 +158,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
                         Close
                     </button>
                     <button type="submit" class="btn btn-primary" form="addBrandForm">Save changes</button>

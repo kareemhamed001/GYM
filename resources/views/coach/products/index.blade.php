@@ -19,7 +19,7 @@
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteproduct()">Delete</button>
@@ -45,7 +45,7 @@
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
@@ -62,7 +62,7 @@
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <a href="{{url('coach/products/create')}}"  class="btn btn-secondary">
+                <a href="{{url('coach/products/create')}}"  class="btn btn-primary">
                     Add
                 </a>
 

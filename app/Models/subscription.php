@@ -14,6 +14,6 @@ class subscription extends Model
         return $this->belongsTo(User::class,'user_id');
     }
     function course(){
-        return $this->belongsTo(course::class,'course_id');
+        return $this->belongsTo(muscle::class,'course_id');
     }
 }

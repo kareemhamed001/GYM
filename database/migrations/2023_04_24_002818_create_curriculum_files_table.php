@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title',200)->nullable();
             $table->text('description')->nullable();
             $table->string('path')->nullable();
-            $table->tinyInteger('type')->comment('0->video,1->file');
             $table->unsignedBigInteger('curriculum_id');
             $table->foreign('curriculum_id')->references('id')->on('curricula')->cascadeOnDelete();
             $table->timestamps();

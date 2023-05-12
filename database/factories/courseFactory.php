@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\course>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\muscle>
  */
 class courseFactory extends Factory
 {

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\coach;
-use App\Models\course;
+use App\Models\muscle;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +19,7 @@ class subscriptionFactory extends Factory
      */
     public function definition(): array
     {
-        $course=course::inRandomOrder()->first();
+        $course=muscle::inRandomOrder()->first();
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'course_id' => $course,

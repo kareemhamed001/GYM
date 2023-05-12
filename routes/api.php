@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\supplement\SupplementController;
 use App\Http\Controllers\api\user\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,6 @@ Route::resource('/brands', \App\Http\Controllers\api\brand\BrandController::clas
 Route::get('brands/{id}/coach', [\App\Http\Controllers\api\brand\BrandController::class, 'getCoachByBrandId']);
 Route::post('brands/to-category', [\App\Http\Controllers\api\brand\BrandController::class, 'addBrandToCategory']);
 Route::get('brands/{id}/products', [\App\Http\Controllers\api\brand\BrandController::class, 'getProductsByBrandId']);
-Route::get('brands/{id}/categories', [\App\Http\Controllers\api\brand\BrandController::class, 'getCategoriesBrandId']);
 Route::post('brands/delete-collection', [\App\Http\Controllers\api\brand\BrandController::class, 'deleteArrayOfBrands']);
 
 
@@ -56,22 +56,20 @@ Route::resource('/coaches', \App\Http\Controllers\api\coach\CoachController::cla
 );
 Route::get('coaches/{id}/products', [\App\Http\Controllers\api\coach\CoachController::class, 'getProductsByCoachId']);
 Route::get('coaches/{id}/brands', [\App\Http\Controllers\api\coach\CoachController::class, 'getBrandsByCoachId']);
-Route::get('coaches/{id}/videos', [\App\Http\Controllers\api\coach\CoachController::class, 'getVideosByCoachId']);
-Route::get('coaches/{id}/courses', [\App\Http\Controllers\api\coach\CoachController::class, 'getCoursesByCoachId']);
+Route::get('coaches/{id}/muscles', [\App\Http\Controllers\api\coach\CoachController::class, 'getmusclesByCoachId']);
 
 Route::resource('/categories', \App\Http\Controllers\api\category\CategoryController::class,
     [
         'only' => [
-            'index', 'destroy', 'store', 'update', 'show'
+            'update'
         ]
     ]
 );
 
-Route::get('categories/{id}/brands', [\App\Http\Controllers\api\category\CategoryController::class, 'getBrandsByCategoryId']);
-Route::post('categories/delete-collection', [\App\Http\Controllers\api\category\CategoryController::class, 'deleteArrayOfCategories']);
-Route::post('categories/add-brand', [\App\Http\Controllers\api\category\CategoryController::class, 'addBrandToCategory']);
 
-Route::resource('/courses', \App\Http\Controllers\api\course\CourseController::class,
+Route::post('sub-categories/delete-collection', [\App\Http\Controllers\api\subCategory\SubCategoryController::class, 'deleteArrayOfSubCategories']);
+
+Route::resource('/sub-categories', \App\Http\Controllers\api\subCategory\SubCategoryController::class,
     [
         'only' => [
             'index', 'destroy', 'store', 'update', 'show'
@@ -79,11 +77,18 @@ Route::resource('/courses', \App\Http\Controllers\api\course\CourseController::c
     ]
 );
 
-Route::get('courses/{id}/videos', [\App\Http\Controllers\api\course\CourseController::class, 'getVideosByCourseId']);
-Route::post('courses/{courseId}/{curriculumId}/delete-curriculum', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculum']);
-Route::post('courses/{courseId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\course\CourseController::class, 'deleteCurriculumFile']);
-Route::get('courses/{id}/coach', [\App\Http\Controllers\api\course\CourseController::class, 'getCourseCoach']);
-Route::post('courses/delete-collection', [\App\Http\Controllers\api\course\CourseController::class, 'deleteArrayOfCourses']);
+Route::resource('/muscles', \App\Http\Controllers\api\muscle\MuscleController::class,
+    [
+        'only' => [
+            'index', 'destroy', 'store', 'update', 'show'
+        ]
+    ]
+);
+
+Route::post('muscles/{muscleId}/{curriculumId}/delete-curriculum', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCurriculum']);
+Route::post('muscles/{muscleId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCurriculumFile']);
+Route::get('muscles/{id}/coach', [\App\Http\Controllers\api\muscle\MuscleController::class, 'getmuscleCoach']);
+Route::post('muscles/delete-collection', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteArrayOfmuscles']);
 
 Route::resource('/purchases', \App\Http\Controllers\api\purchase\PurchaseController::class,
     [
@@ -104,7 +109,7 @@ Route::resource('/subscriptions', \App\Http\Controllers\api\subscription\Subscri
     ]
 );
 Route::get('subscriptions/{id}/user', [\App\Http\Controllers\api\subscription\SubscriptionController::class, 'getUserBySubscriptionId']);
-Route::get('subscriptions/{id}/course', [\App\Http\Controllers\api\subscription\SubscriptionController::class, 'getCourseBySubscriptionId']);
+Route::get('subscriptions/{id}/muscle', [\App\Http\Controllers\api\subscription\SubscriptionController::class, 'getmuscleBySubscriptionId']);
 
 
 Route::resource('/products', \App\Http\Controllers\api\supplement\SupplementController::class,
@@ -122,17 +127,6 @@ Route::get('products/{id}/coach', [\App\Http\Controllers\api\supplement\Suppleme
 Route::get('products/{id}/purchases', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getPurchasesByProductId']);
 Route::post('products/delete-collection', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteArrayOfProducts']);
 
-
-Route::resource('/videos', \App\Http\Controllers\api\video\VideoController::class,
-    [
-        'only' => [
-            'index', 'destroy', 'store', 'update', 'show'
-        ]
-    ]
-);
-Route::get('videos/{id}/coach', [\App\Http\Controllers\api\video\VideoController::class, 'getCoachByVideoId']);
-Route::get('videos/{id}/courses', [\App\Http\Controllers\api\video\VideoController::class, 'getCoursesByVideoId']);
-Route::post('videos/delete-collection', [\App\Http\Controllers\api\video\VideoController::class, 'deleteArrayOfVideos']);
 
 Route::resource('/carts', \App\Http\Controllers\api\cart\CartController::class,
     [
@@ -157,7 +151,7 @@ Route::get('wishlists/{id}/product', [\App\Http\Controllers\api\wishlist\WishLis
 
 Route::get('statistics', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'overAllStatistics']);
 Route::get('year-statistics', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'yearStatistics']);
-Route::get('recent-courses-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentCoursesClients']);
+Route::get('recent-muscles-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentmusclesClients']);
 Route::get('recent-products-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentProductsClients']);
 
 Route::post('users/delete-collection', [\App\Http\Controllers\api\user\UserController::class, 'deleteArrayOfUsers']);

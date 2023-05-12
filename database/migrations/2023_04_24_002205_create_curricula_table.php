@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('cover_image');
-            $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('courses')->cascadeOnDelete();
+            $table->unsignedBigInteger('muscle_id');
+            $table->foreign('muscle_id')->references('id')->on('muscles')->cascadeOnDelete();
             $table->timestamps();
         });
     }

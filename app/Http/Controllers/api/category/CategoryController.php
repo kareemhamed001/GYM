@@ -34,44 +34,44 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        try {
-
-
-            $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:100'],
-                'name_ar' => ['nullable', 'string', 'max:100'],
-                'name_ku' => ['nullable', 'string', 'max:100'],
-                'description' => ['required', 'string', 'max:500'],
-                'description_ar' => ['nullable', 'string', 'max:500'],
-                'description_ku' => ['nullable', 'string', 'max:500'],
-                'cover_image' => ['required', 'image'],
-            ]);
-            if ($validator->fails()) {
-                return $this->apiResponse(null, $validator->errors(), 400);
-            }
-
-            $path = $this->storeFile($request->cover_image, 'images/categories/coverImages');
-            if ($path) {
-                $category = category::create([
-                    'name' => $request->name,
-                    'name_ar' => $request->name_ar,
-                    'name_ku' => $request->name_ku,
-                    'description' => $request->description,
-                    'description_ar' => $request->description_ar,
-                    'description_ku' => $request->description_ku,
-                    'cover_image' => $path
-                ]);
-                return $this->apiResponse($category, 'success', 200);
-            }
-
-            return $this->apiResponse('', 'Something went wrong while storing cover image', 200);
-
-        } catch (\Exception $e) {
-            return $this->apiResponse($e->getMessage(), 'error', 400);
-        }
-    }
+//    public function store(Request $request)
+//    {
+//        try {
+//
+//
+//            $validator = Validator::make($request->all(), [
+//                'name' => ['required', 'string', 'max:100'],
+//                'name_ar' => ['nullable', 'string', 'max:100'],
+//                'name_ku' => ['nullable', 'string', 'max:100'],
+//                'description' => ['required', 'string', 'max:500'],
+//                'description_ar' => ['nullable', 'string', 'max:500'],
+//                'description_ku' => ['nullable', 'string', 'max:500'],
+//                'cover_image' => ['required', 'image'],
+//            ]);
+//            if ($validator->fails()) {
+//                return $this->apiResponse(null, $validator->errors(), 400);
+//            }
+//
+//            $path = $this->storeFile($request->cover_image, 'images/categories/coverImages');
+//            if ($path) {
+//                $category = category::create([
+//                    'name_en' => $request->name,
+//                    'name_ar' => $request->name_ar,
+//                    'name_ku' => $request->name_ku,
+//                    'description_en' => $request->description,
+//                    'description_ar' => $request->description_ar,
+//                    'description_ku' => $request->description_ku,
+//                    'cover_image' => $path
+//                ]);
+//                return $this->apiResponse($category, 'success', 200);
+//            }
+//
+//            return $this->apiResponse('', 'Something went wrong while storing cover image', 200);
+//
+//        } catch (\Exception $e) {
+//            return $this->apiResponse($e->getMessage(), 'error', 400);
+//        }
+//    }
 
     /**
      * Display the specified resource.
@@ -120,7 +120,7 @@ class CategoryController extends Controller
                     $path = $this->replaceFile($category->cover_image, $request->cover_image, 'images/categories/coverImages');
                 }
                 if ($request->name) {
-                    $category->name = $request->name;
+                    $category->name_en = $request->name;
                 }
                 if ($request->name_ar) {
                     $category->name_ar = $request->name_ar;
@@ -129,7 +129,7 @@ class CategoryController extends Controller
                     $category->name_ku = $request->name_ku;
                 }
                 if ($request->description) {
-                    $category->description = $request->description;
+                    $category->description_en = $request->description;
                 }
                 if ($request->description_ar) {
                     $category->description_ar = $request->description_ar;

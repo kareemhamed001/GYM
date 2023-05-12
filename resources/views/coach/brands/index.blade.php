@@ -19,7 +19,7 @@
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deletebrand()">Delete</button>
@@ -45,7 +45,7 @@
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
@@ -110,7 +110,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" form="createbrandForm">Save changes</button>
 
                 </div>
@@ -183,7 +183,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeeditmodal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
                         Close
                     </button>
                     <button type="submit" class="btn btn-primary" form="editbrandForm">Save changes</button>
@@ -202,7 +202,7 @@
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addBrandModal">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBrandModal">
                     Add
                 </button>
 

@@ -3,49 +3,49 @@
 @section('content')
 
     <!-- Modal -->
-    <div class="modal fade" id="deletecourseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="deletemuscleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete course?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete muscle?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        the course will be deleted forever!
+                        the muscle will be deleted forever!
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deletecourse()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deletemuscle()">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="deleteArrayOfcoursesModal" tabindex="-1" role="dialog"
+    <div class="modal fade" id="deleteArrayOfmusclesModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected courses?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected muscles?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these courses will be deleted forever !
+                        these muscles will be deleted forever !
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
@@ -57,13 +57,13 @@
     <div class="row my-3">
 
         <div class="d-flex justify-content-between">
-            <h3>courses</h3>
+            <h3>muscles</h3>
             <div>
-                <button type="button" data-toggle="modal" data-target="#deleteArrayOfcoursesModal"
+                <button type="button" data-toggle="modal" data-target="#deleteArrayOfmusclesModal"
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <a href="{{url('coach/courses/create')}}" type="button" class="btn btn-secondary">
+                <a href="{{url('coach/muscles/create')}}" type="button" class="btn btn-primary">
                     Add
                 </a>
 
@@ -102,47 +102,47 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($courses as $course)
+            @foreach($muscles as $muscle)
                 <tr>
                     <td>
                         <div class="form-check form-check-primary">
-                            <input class="form-check-input" type="checkbox" name="courses[]"
-                                   value="{{$course->id}}">
+                            <input class="form-check-input" type="checkbox" name="muscles[]"
+                                   value="{{$muscle->id}}">
                         </div>
                     </td>
                     <td>
                         <div class="media">
                             <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($course->cover_image)}}" class="rounded-circle"/>
+                                <img alt="avatar" src="{{asset($muscle->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$course->name}}</h6>
-                                <span class="text-success">{{$course->description}}</span>
+                                <h6 class="mb-0">{{$muscle->name}}</h6>
+                                <span class="text-success">{{$muscle->description}}</span>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="mb-0">{{$course->title_ar??'NULL'}}</p>
-                        <span class="text-success">{{$course->description_ar??'NULL'}}</span>
+                        <p class="mb-0">{{$muscle->title_ar??'NULL'}}</p>
+                        <span class="text-success">{{$muscle->description_ar??'NULL'}}</span>
                     </td>
                     <td>
-                        <p class="mb-0">{{$course->title_ku??'NULL'}}</p>
-                        <span class="text-success">{{$course->description_ku??'NULL'}}</span>
+                        <p class="mb-0">{{$muscle->title_ku??'NULL'}}</p>
+                        <span class="text-success">{{$muscle->description_ku??'NULL'}}</span>
                     </td>
                     <td>
-                        {{$course->curricula->count()}}
+                        {{$muscle->curricula->count()}}
                     </td>
                     <td class="text-center">
-                        <p class="mb-0">{{\Carbon\Carbon::make($course->created_at)->toDateString()??'NULL'}}</p>
+                        <p class="mb-0">{{\Carbon\Carbon::make($muscle->created_at)->toDateString()??'NULL'}}</p>
                         <span
-                            class="text-success">{{\Carbon\Carbon::make($course->created_at)->toTimeString()??'NULL'}}</span>
+                            class="text-success">{{\Carbon\Carbon::make($muscle->created_at)->toTimeString()??'NULL'}}</span>
                     </td>
                     <td class="cursor-pointer ">
                         <div class="d-flex align-items-center">
 
 
                             <div class="action-btns">
-                                <a href="{{url('/course/',$course->id)}}" class="action-btn btn-view bs-tooltip me-2"
+                                <a href="{{url('/muscle/',$muscle->id)}}" class="action-btn btn-view bs-tooltip me-2"
                                    data-toggle="tooltip" data-placement="top" title="View">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -152,7 +152,7 @@
                                     </svg>
                                 </a>
                                 <a
-                                   href="{{url('/coach/courses/'.$course->id.'/edit')}}" class="action-btn btn-edit bs-tooltip me-2"
+                                   href="{{url('/coach/muscles/'.$muscle->id.'/edit')}}" class="action-btn btn-edit bs-tooltip me-2"
                                    data-placement="top" title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -160,9 +160,9 @@
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                                     </svg>
                                 </a>
-                                <a type="button" data-toggle="modal" data-target="#deletecourseModal"
+                                <a type="button" data-toggle="modal" data-target="#deletemuscleModal"
                                    href="javascript:void(0);" class="action-btn btn-delete bs-tooltip"
-                                   data-placement="top" title="Delete" onclick="preparecourse({{$course->id}})">
+                                   data-placement="top" title="Delete" onclick="preparemuscle({{$muscle->id}})">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                          stroke-linejoin="round" class="feather feather-trash-2">
@@ -182,7 +182,7 @@
             @endforeach
             </tbody>
         </table>
-        {{$courses->links()}}
+        {{$muscles->links()}}
 
     </div>
 
@@ -192,7 +192,7 @@
     <script>
         $(document).ready(function () {
             $('#selectAll').click(function () {
-                $('[name="courses[]"]').prop('checked', this.checked);
+                $('[name="muscles[]"]').prop('checked', this.checked);
             });
         });
         $.ajaxSetup({
@@ -200,35 +200,35 @@
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
         });
-        let courseId;
+        let muscleId;
         let price;
 
-        function preparecourse(id) {
+        function preparemuscle(id) {
             console.log(id)
-            courseId = id;
+            muscleId = id;
         }
 
-        let courseIdEdit = 0
+        let muscleIdEdit = 0
 
-        async function preparecoursetoedit(id) {
+        async function preparemuscletoedit(id) {
 
-            courseIdEdit = id
+            muscleIdEdit = id
             showLoader()
-            const response = await fetch(`/api/courses/${id}`, {
+            const response = await fetch(`/api/muscles/${id}`, {
                 method: 'GET'
             });
             removeLoader()
             const result = await response.json();
             if (result.status === 200) {
 
-                document.querySelector('#courseNameEnEdit').value = result.data.name;
-                document.querySelector('#courseNameArEdit').value = result.data.name_ar;
-                document.querySelector('#courseNameKuEdit').value = result.data.name_ku;
-                document.querySelector('#courseDescriptionEnEdit').value = result.data.description;
-                document.querySelector('#courseDescriptionArEdit').value = result.data.description_ar;
-                document.querySelector('#courseDescriptionKuEdit').value = result.data.description_ku;
+                document.querySelector('#muscleNameEnEdit').value = result.data.name;
+                document.querySelector('#muscleNameArEdit').value = result.data.name_ar;
+                document.querySelector('#muscleNameKuEdit').value = result.data.name_ku;
+                document.querySelector('#muscleDescriptionEnEdit').value = result.data.description;
+                document.querySelector('#muscleDescriptionArEdit').value = result.data.description_ar;
+                document.querySelector('#muscleDescriptionKuEdit').value = result.data.description_ku;
                 document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`
-                $('#editcourseModal').modal('show')
+                $('#editmuscleModal').modal('show')
 
             } else if (result.status === 400) {
 
@@ -238,16 +238,16 @@
         }
 
         function closeeditmodal() {
-            $('#editcourseModal').modal('hide')
+            $('#editmuscleModal').modal('hide')
         }
 
-        async function deletecourse() {
+        async function deletemuscle() {
 
 
-            if (courseId) {
+            if (muscleId) {
                 try {
                     showLoader()
-                    const response = await fetch(`/api/courses/${courseId}`, {
+                    const response = await fetch(`/api/muscles/${muscleId}`, {
                         method: 'delete'
                     });
                     removeLoader()
@@ -260,7 +260,7 @@
                             text: result.message,
                         })
 
-                        $('#deletecourseModal').modal('hide')
+                        $('#deletemuscleModal').modal('hide')
                         location.reload();
                     } else if (result.status === 400) {
                         let message = result.message;
@@ -283,7 +283,7 @@
             } else {
                 swal.fire({
                     title: "Error",
-                    text: `course Id does not set`,
+                    text: `muscle Id does not set`,
                     icon: "error",
                     button: "Ok",
                     position: 'center',
@@ -294,7 +294,7 @@
 
 
         function deleteSelected() {
-            let checkboxes = $('[name="courses[]"]:checked');
+            let checkboxes = $('[name="muscles[]"]:checked');
             // Create an empty array to store the selected values
             let selectedValues = [];
             // Loop through the checked checkboxes and push their values to the array
@@ -313,9 +313,9 @@
                 });
 
                 $.ajax({
-                    url: `/api/courses/delete-collection`,
+                    url: `/api/muscles/delete-collection`,
                     method: 'post',
-                    data: {'courses': selectedValues},
+                    data: {'muscles': selectedValues},
                     success: function (response) {
                         console.log(response)
                         Swal.fire({
@@ -327,7 +327,7 @@
                             timer: 3000
                         })
                         selectedValues = null
-                        $('#deleteArrayOfcoursesModal').modal('hide')
+                        $('#deleteArrayOfmusclesModal').modal('hide')
                         location.reload();
                     },
                     error: function (error) {
@@ -346,14 +346,14 @@
             } else {
 
                 Swal.fire({
-                    title: "No courses selected",
-                    text: `select at least one course to delete`,
+                    title: "No muscles selected",
+                    text: `select at least one muscle to delete`,
                     icon: "error",
                     button: "Ok",
                     position: 'center',
                     timer: 3000
                 })
-                $('#deleteArrayOfcoursesModal').modal('hide')
+                $('#deleteArrayOfmusclesModal').modal('hide')
             }
 
 
@@ -364,7 +364,7 @@
     <script>
 
 
-        const form = document.querySelector('#createcourseForm');
+        const form = document.querySelector('#createmuscleForm');
 
 
         form.addEventListener('submit', async (e) => {
@@ -373,7 +373,7 @@
             const formData = new FormData(form);
 
             try {
-                const response = await fetch('/api/courses', {
+                const response = await fetch('/api/muscles', {
                     method: 'post',
                     body: formData
                 });
@@ -386,7 +386,7 @@
                         text: result.message,
                     })
 
-                    $('#addcourseModal').modal('hide')
+                    $('#addmuscleModal').modal('hide')
                     location.reload();
                 } else if (result.status === 400) {
                     let message = result.message;
@@ -406,14 +406,14 @@
             }
         });
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        const editForm = document.querySelector('#editcourseForm');
+        const editForm = document.querySelector('#editmuscleForm');
         editForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const formDataEdit = new FormData(editForm);
 
             try {
-                const response = await fetch(`/api/courses/${courseIdEdit}`, {
+                const response = await fetch(`/api/muscles/${muscleIdEdit}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
@@ -430,7 +430,7 @@
                         text: 'Updated Successfully',
                     })
 
-                    $('#addcourseModal').modal('hide')
+                    $('#addmuscleModal').modal('hide')
                     location.reload();
                 } else if (result.status === 400) {
                     let message = result.message;

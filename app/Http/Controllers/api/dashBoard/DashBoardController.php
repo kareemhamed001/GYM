@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api\dashBoard;
 use App\Models\brand;
 use App\Models\category;
 use App\Models\coach;
-use App\Models\course;
+use App\Models\muscle;
 use App\Models\purchase;
 use App\Models\subscription;
 use App\Models\supplement;
@@ -15,7 +15,6 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use function PHPUnit\TestFixture\func;
 
 class DashBoardController
 {
@@ -27,8 +26,8 @@ class DashBoardController
     //products
     //brands
     //categories
-    //courses
-    //videos
+    //muscles
+
     function overAllStatistics(): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
     {
 
@@ -38,8 +37,7 @@ class DashBoardController
             $products = supplement::count();
             $brands = brand::count();
             $categories = category::count();
-            $courses = course::count();
-            $videos = video::count();
+            $muscles = muscle::count();
             $sales = subscription::select(DB::raw('count(*) as count,sum(price) as sales'))->first();
             $purchases=purchase::select(DB::raw('count(*) as count,sum(price) as sales'))->first();
 
@@ -49,11 +47,10 @@ class DashBoardController
                 'products' => $products,
                 'brands' => $brands,
                 'categories' => $categories,
-                'courses' => $courses,
-                'videos' => $videos,
+                'muscles' => $muscles,
                 'subscriptions' => $sales->count,
                 'purchases' => $purchases->count,
-                'courses_sales'=>$sales->sales,
+                'muscles_sales'=>$sales->sales,
                 'products_sales'=>$purchases->sales,
                 'sales' => $sales->sales + $purchases->sales?? 0,
                 'time' => now()
@@ -115,22 +112,13 @@ class DashBoardController
                 $categoriesResult=[['counts'=>$counts,'months'=>$months]];
             }
 
-            $courses = course::select(DB::raw('count(*) as count,month(created_at) as month'))->whereYear('created_at', '=', Carbon::now())->groupBy('month')->orderBy('month', 'asc')->get();
-            $coursesResult = $courses->map(function ($item)use($months,$counts) {
+            $muscles = muscle::select(DB::raw('count(*) as count,month(created_at) as month'))->whereYear('created_at', '=', Carbon::now())->groupBy('month')->orderBy('month', 'asc')->get();
+            $musclesResult = $muscles->map(function ($item)use($months,$counts) {
                 $counts[$item->month-1] = $item->count;
                 return ['counts' => $counts, 'months' => $months];
             });
-            if ($courses->count()==0){
-                $coursesResult=[['counts'=>$counts,'months'=>$months]];
-            }
-
-            $videos = video::select(DB::raw('count(*) as count,month(created_at) as month'))->whereYear('created_at', '=', Carbon::now())->groupBy('month')->orderBy('month', 'asc')->get();
-            $videosResult = $videos->map(function ($item)use($months,$counts) {
-                $counts[$item->month-1] = $item->count;
-                return ['counts' => $counts, 'months' => $months];
-            });
-            if ($videos->count()==0){
-                $videosResult=[['counts'=>$counts,'months'=>$months]];
+            if ($muscles->count()==0){
+                $musclesResult=[['counts'=>$counts,'months'=>$months]];
             }
 
             return $this->apiResponse([
@@ -139,8 +127,8 @@ class DashBoardController
                 'products' => $productsResult,
                 'brands' => $brandsResult,
                 'categories' => $categoriesResult,
-                'courses' => $coursesResult,
-                'videos' => $videosResult,
+                'muscles' => $musclesResult,
+
                 'time' => now()
             ], 'success', 200);
         } catch (\Exception $e) {
@@ -165,12 +153,12 @@ class DashBoardController
         }
     }
 
-    function recentCoursesClients(int $limit=10){
+    function recentmusclesClients(int $limit=10){
         try {
-            $recent=subscription::select('user_id','course_id')->orderBy('created_at', 'desc')
+            $recent=subscription::select('user_id','muscle_id')->orderBy('created_at', 'desc')
                 ->take($limit)
                 ->get()->map(function($subscription){
-                    return ['user'=>User::find($subscription->user_id),'course'=>course::find($subscription->course_id)];
+                    return ['user'=>User::find($subscription->user_id),'muscle'=>muscle::find($subscription->muscle_id)];
                 });
             return $this->apiResponse([
                 'recentClients' => $recent,

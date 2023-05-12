@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('muscles', function (Blueprint $table) {
             $table->id();
             $table->string('title_en');
             $table->string('title_ar')->nullable();
@@ -18,13 +18,8 @@ return new class extends Migration {
             $table->text('description_en');
             $table->text('description_ar')->nullable();
             $table->text('description_ku')->nullable();
-            $table->unsignedBigInteger('coach_id');
-            $table->integer('price');
-            $table->integer('discount');
             $table->string('cover_image');
-            $table->tinyInteger('type')->comment('0->1month,1->3months,2->6months,3->12month');
             $table->timestamps();
-            $table->foreign('coach_id')->references('id')->on('coaches')->cascadeOnDelete();
         });
     }
 

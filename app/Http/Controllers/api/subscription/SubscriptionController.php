@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\subscription;
 
 use App\classes\subscription\SubscriptionClass;
 use App\Http\Controllers\Controller;
-use App\Models\course;
+use App\Models\muscle;
 use App\Models\subscription;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;

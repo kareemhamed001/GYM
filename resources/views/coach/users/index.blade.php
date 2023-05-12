@@ -19,7 +19,7 @@
 {{--                     </span>--}}
 {{--                </div>--}}
 {{--                <div class="modal-footer">--}}
-{{--                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">--}}
+{{--                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">--}}
 {{--                        Close--}}
 {{--                    </button>--}}
 {{--                    <button type="button" class="btn btn-danger" onclick="deleteuser()">Delete</button>--}}
@@ -45,7 +45,7 @@
                      </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
                         Close
                     </button>
                     <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
@@ -66,7 +66,7 @@
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <a type="button" class="btn btn-secondary" href="{{url('coach/users/create')}}">
+                <a type="button" class="btn btn-primary" href="{{url('coach/users/create')}}">
                     Add
                 </a>
 

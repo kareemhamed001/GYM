@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\purchase;
 
 use App\classes\purchase\PurchaseClass;
 use App\Http\Controllers\Controller;
-use App\Models\course;
+use App\Models\muscle;
 use App\Models\purchase;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;

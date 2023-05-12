@@ -18,10 +18,10 @@ class categoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name_en' => fake()->name(),
             'name_ar' => fake()->name(),
             'name_ku' => fake()->name(),
-            'description' => fake()->realTextBetween(50,500),
+            'description_en' => fake()->realTextBetween(50,500),
             'description_ar' => fake()->realTextBetween(50,500),
             'description_ku' => fake()->realTextBetween(50,500),
             'cover_image' => 'storage/images/courses/coverImages/6N0Nzoc7h79SKlLQjXcm67eWQ8l4FvOlvtzyJHoy.jpg',
