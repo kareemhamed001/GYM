@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::middleware(['web','auth:web'])->group(function (){
+Route::middleware(['web'])->group(function (){
     Route::get('/', [\App\Http\Controllers\user\home\HomeController::class,'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/coaches', [\App\Http\Controllers\user\coach\CoachController::class,'index']);
