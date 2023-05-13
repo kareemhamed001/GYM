@@ -13,6 +13,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use function PHPUnit\TestFixture\func;
@@ -31,6 +32,7 @@ class ProductsController extends Controller
             $products = product::all();
             return $this->apiResponse($products, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -110,6 +112,7 @@ class ProductsController extends Controller
 
             return $this->apiResponse($product, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollBack();
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
@@ -129,6 +132,7 @@ class ProductsController extends Controller
             return $this->apiResponse('', 'No product with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -240,6 +244,7 @@ class ProductsController extends Controller
             }
             return $this->apiResponse('', 'No product with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -266,6 +271,7 @@ class ProductsController extends Controller
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -292,6 +298,7 @@ class ProductsController extends Controller
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -318,6 +325,7 @@ class ProductsController extends Controller
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -339,6 +347,7 @@ class ProductsController extends Controller
             return $this->apiResponse('', 'No product with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -354,6 +363,7 @@ class ProductsController extends Controller
             return $this->apiResponse('', 'No product with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }

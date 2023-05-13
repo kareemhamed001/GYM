@@ -394,13 +394,13 @@
 
             try {
                 showLoader()
-                const response = await fetch('/api/courses', {
+                const response = await fetch('/api/muscles', {
                     method: 'POST',
                     body: formData
                 })
+                console.log(response)
                 removeLoader()
                 const result = await response.json();
-
                 console.log(result)
                 if (result.status === 200) {
                     Swal.fire({

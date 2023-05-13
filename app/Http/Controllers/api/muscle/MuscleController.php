@@ -15,6 +15,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -32,6 +33,7 @@ class MuscleController extends Controller
             $muscles = MuscleClass::getAll();
             return $this->apiResponse($muscles, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -59,6 +61,7 @@ class MuscleController extends Controller
 
             DB::transaction(function () use ($request) {
                 $path = $this->storeFile($request->cover_image, 'images/muscles/coverImages');
+
                 $muscle = muscle::create([
                     'title_en' => $request->title,
                     'title_ar' => $request->title_ar,
@@ -66,15 +69,18 @@ class MuscleController extends Controller
                     'description_en' => $request->description,
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
-                    'cover_image' => $path,
+                    'cover_image' => $path
                 ]);
 
 
                 if ($request->parts) {
                     foreach ($request->parts as $key => $part) {
+                        $partPath='';
+                        if (isset($part['cover_image'])){
                         $partPath = $this->storeFile($part['cover_image'], 'images/muscles/parts/coverImages');
+                        }
                         $curriculum = $this->storeCurriculum($part['title'], $partPath, $muscle->id);
-                        if ($part['files']) {
+                        if (isset($part['files'])) {
                             foreach ($part['files'] as $title => $file) {
                                 $path = '';
                                 $type = null;
@@ -89,7 +95,8 @@ class MuscleController extends Controller
             });
             return $this->apiResponse(null, 'success', 200);
         } catch (\Exception $e) {
-            return $this->apiResponse('', $e->getMessage(), 400);
+            Log::error($e->getMessage());
+            return $this->apiResponse('', $e->getTrace(), 400);
         }
     }
 
@@ -107,6 +114,7 @@ class MuscleController extends Controller
             return $this->apiResponse('', 'No muscle with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -119,6 +127,7 @@ class MuscleController extends Controller
     {
 
         try {
+
 
             $validator = Validator::make($request->all(), [
                 'title' => ['required', 'string', 'max:100'],
@@ -174,7 +183,7 @@ class MuscleController extends Controller
                             //get part from database
                             $curriculum = curriculum::find($part['id']);
                             //check if curriculum exists on database
-                            if ($curriculum->id) {
+                            if (isset($curriculum->id)) {
                                 //update part title
                                 $curriculum->title = $part['title'];
                                 //check if a new cover image is sent
@@ -240,10 +249,13 @@ class MuscleController extends Controller
                     }
                 }
 
+                Log::info('Muscle'.$muscle->id.' updated successfully');
                 return $this->apiResponse($muscle, 'success', 200);
             }
+            Log::info('Muscle'.$muscle->id.' not found while updating it');
             return $this->apiResponse('', 'No muscle with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getTrace(), 'error', 400);
         }
     }
@@ -257,6 +269,7 @@ class MuscleController extends Controller
                 'muscle_id' => $muscleId
             ]);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new \Exception($e->getMessage());
         }
     }
@@ -272,6 +285,7 @@ class MuscleController extends Controller
             ]);
             return true;
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new \Exception($e->getMessage());
         }
     }
@@ -291,6 +305,7 @@ class MuscleController extends Controller
             return $this->apiResponse('', 'No muscle with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -306,6 +321,7 @@ class MuscleController extends Controller
             return $this->apiResponse('', 'No muscle with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -321,6 +337,7 @@ class MuscleController extends Controller
             return $this->apiResponse('', 'No muscle with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -347,6 +364,7 @@ class MuscleController extends Controller
             return $this->apiResponse('', 'success', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
@@ -372,6 +390,7 @@ class MuscleController extends Controller
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -401,6 +420,7 @@ class MuscleController extends Controller
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }

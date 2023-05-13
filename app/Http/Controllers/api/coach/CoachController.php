@@ -10,6 +10,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,7 @@ class CoachController
             $coaches = CoachClass::getAll();
             return $this->apiResponse($coaches, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -66,6 +68,7 @@ class CoachController
 
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -84,6 +87,7 @@ class CoachController
             return $this->apiResponse('', 'No coach with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -144,6 +148,7 @@ class CoachController
             }
             return $this->apiResponse('', 'No coach with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -163,6 +168,7 @@ class CoachController
             return $this->apiResponse('', 'No coach with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -178,6 +184,7 @@ class CoachController
             return $this->apiResponse('', 'No coach with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -192,6 +199,7 @@ class CoachController
             return $this->apiResponse('', 'No coach with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -206,6 +214,7 @@ class CoachController
             return $this->apiResponse('', 'No coach with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -220,6 +229,7 @@ class CoachController
             return $this->apiResponse('', 'No coach with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }

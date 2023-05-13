@@ -24,7 +24,7 @@ trait ImagesOperations
     public function replaceFile($oldFilePath, $newFile, $newFilePath, $disk = 'public')
     {
         try {
-            if ($oldFilePath&& $newFile&& $newFilePath){
+
                 $path = $this->storeFile($newFile, $newFilePath, $disk);
                 if ($path){
                     $oldPath = public_path($oldFilePath);
@@ -33,7 +33,7 @@ trait ImagesOperations
                     }
                     return $path;
                 }
-            }
+
             return null;
         } catch (\Exception $e) {
             return false;

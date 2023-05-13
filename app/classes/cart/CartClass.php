@@ -4,6 +4,7 @@ namespace App\classes\cart;
 
 use App\classes\general\GeneralFunctionsClass;
 use App\Models\cart;
+use Illuminate\Support\Facades\Log;
 
 class CartClass extends GeneralFunctionsClass
 {
@@ -75,6 +76,7 @@ class CartClass extends GeneralFunctionsClass
         try {
             return cart::with(['user', 'supplement'])->paginate($pagination);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new \Exception($e->getMessage());
         }
     }

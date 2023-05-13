@@ -15,6 +15,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DashBoardController
 {
@@ -56,6 +57,7 @@ class DashBoardController
                 'time' => now()
             ], 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
@@ -132,6 +134,7 @@ class DashBoardController
                 'time' => now()
             ], 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
@@ -149,6 +152,7 @@ class DashBoardController
                 'time' => now()
             ], 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }

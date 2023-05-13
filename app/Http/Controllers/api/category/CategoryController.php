@@ -10,6 +10,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,7 @@ class CategoryController extends Controller
             $categories = CategoryClass::getAll();
             return $this->apiResponse($categories, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -87,6 +89,7 @@ class CategoryController extends Controller
             return $this->apiResponse('', 'No category with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -147,6 +150,7 @@ class CategoryController extends Controller
             }
             return $this->apiResponse('', 'No category with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -166,6 +170,7 @@ class CategoryController extends Controller
             return $this->apiResponse('', 'No category with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -181,6 +186,7 @@ class CategoryController extends Controller
             return $this->apiResponse('', 'No category with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -207,6 +213,7 @@ class CategoryController extends Controller
             return $this->apiResponse('', 'success', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
@@ -233,6 +240,7 @@ class CategoryController extends Controller
             brands_category::create($validator->validated());
             return $this->apiResponse('', 'Brand has been added to this category', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }

@@ -12,6 +12,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -29,6 +30,7 @@ class BrandController extends Controller
             $brands = BrandClass::getAll();
             return $this->apiResponse($brands, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -72,6 +74,7 @@ class BrandController extends Controller
             return $this->apiResponse('', 'Something went wrong while storing cover image', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -90,6 +93,7 @@ class BrandController extends Controller
             return $this->apiResponse('', 'No brand with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -153,6 +157,7 @@ class BrandController extends Controller
             }
             return $this->apiResponse('', 'No brand with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -172,6 +177,7 @@ class BrandController extends Controller
             return $this->apiResponse('', 'No brand with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -185,6 +191,7 @@ class BrandController extends Controller
             }
             return $this->apiResponse('', 'No brand with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
@@ -198,6 +205,7 @@ class BrandController extends Controller
             }
             return $this->apiResponse('', 'No brand with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
@@ -212,6 +220,7 @@ class BrandController extends Controller
             }
             return $this->apiResponse('', 'No brand with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
@@ -238,6 +247,7 @@ class BrandController extends Controller
             return $this->apiResponse('','success',200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }

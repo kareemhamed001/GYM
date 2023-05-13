@@ -254,7 +254,7 @@
                                         <div class="form-group col-md-6 my-2">
                                             <label for="part{{$curriculum->id}}coverImage">Cover Image</label>
                                             <input class="form-control" type="file"
-                                                   id="part{{$curriculum->id}}coverImage"
+                                                   id="parts{{$curriculum->id}}coverImage"
                                                    name="parts[{{$curriculum->title}}][cover_image]">
                                         </div>
 

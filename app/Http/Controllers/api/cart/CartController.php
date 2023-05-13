@@ -9,6 +9,7 @@ use App\Models\video;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -26,6 +27,7 @@ class CartController extends Controller
             $carts = CartClass::getAll();
             return $this->apiResponse($carts, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -70,6 +72,7 @@ class CartController extends Controller
 
             return $this->apiResponse($cart, 'success', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -88,6 +91,7 @@ class CartController extends Controller
             return $this->apiResponse('', 'No cart with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -137,6 +141,7 @@ class CartController extends Controller
             }
             return $this->apiResponse('', 'No cart with this id', 200);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -156,6 +161,7 @@ class CartController extends Controller
             return $this->apiResponse('', 'No cart with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -171,6 +177,7 @@ class CartController extends Controller
             return $this->apiResponse('', 'No cart with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
@@ -186,6 +193,7 @@ class CartController extends Controller
             return $this->apiResponse('', 'No cart with this id', 200);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
