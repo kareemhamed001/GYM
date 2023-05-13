@@ -5,21 +5,22 @@
         <nav class="breadcrumb-style-one mb-3  col-lg-6" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('coach')}}">Coach</a></li>
-                <li class="breadcrumb-item"><a href="{{url('coach/products')}}">products</a></li>
+                <li class="breadcrumb-item"><a href="{{url('coach/category/'.$category->id.'/products')}}">products</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Create product</li>
             </ol>
         </nav>
-        <h4 class="my-3">Add Product</h4>
+        <h4 class="my-3">Edit Product</h4>
 
 
-        @if($brands->count()==0 )
+        @if(isset($subcategories) &&$subcategories->count() ==0)
+
             <div class="alert alert-warning" role="alert">
-                You must add brands before adding product
+                You must add sub categories before adding product to category {{$category->name_en}}
             </div>
         @endif
-        @if($categories->count()==0 )
+        @if(isset($brands) &&$brands->count() ==0 )
             <div class="alert alert-warning" role="alert">
-                You must add categories before adding product
+                You must add brands before adding product
             </div>
         @endif
 
@@ -27,7 +28,7 @@
         <form id="editProductForm" class="my-2">
             @csrf
             @method('PUT')
-            <input type="hidden" name="coach_id" value="{{\Illuminate\Support\Facades\Auth::user()?->id??1}}">
+            <input type="hidden" name="coach_id" value="{{\Illuminate\Support\Facades\Auth::user()?->id}}">
             <div class="row">
                 <div class="my-1 col-md-6">
                     <label for="cover_image">Cover_image</label>
@@ -35,6 +36,7 @@
                            onchange="previewImage(event)">
                 </div>
 
+                @if(isset($brands) )
                 <div class="my-1 col-md-3">
                     <label for="brand_id">Brand</label>
                     <select class="form-select" id="brand_id" name="brand_id">
@@ -44,19 +46,23 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="my-1 col-md-3">
-                    <label for="category_id">Category</label>
-                    <select class="form-select" id="category_id" name="category_id">
-                        <option value="{{$product->category_id}}">{{$product->category->name}}</option>
-                        @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->name}}</option>
+                @endif
+                <input type="hidden" name="category_id" value="{{$category->id}}">
+                @if(isset($subcategories)  )
+                <div class="my-1 col">
+                    <label for="category_id">Sub Category</label>
+                    <select class="form-select" id="category_id" name="subcategory_id">
+                        <option value="{{$product->subcategory_id}}">{{$product->subcategory->name_en}}</option>
+                        @foreach($subcategories as $category)
+                            <option value="{{$category->id}}">{{$category->name_en}}</option>
                         @endforeach
                     </select>
                 </div>
+                @endif
                 <div class="my-1 col-12">
                     <label for="name_en">Name En</label>
                     <input type="text" class="form-control" id="name_en" name="name"
-                           placeholder="Product Name In English *" value="{{$product->name}}">
+                           placeholder="Product Name In English *" value="{{$product->name_en}}">
                 </div>
                 <div class="my-1 col-md-6">
                     <label for="name_ar">Name Ar</label>
@@ -71,7 +77,7 @@
                 <div class="my-1 col-12">
                     <label for="description_en">Description En</label>
                     <textarea type="text" class="form-control" id="description_en" name="description"
-                              placeholder="Product Description In English *">{{$product->description}}</textarea>
+                              placeholder="Product Description In English *">{{$product->description_en}}</textarea>
                 </div>
                 <div class="my-1 col-md-6">
                     <label for="description_ar">Description Ar</label>
@@ -83,22 +89,18 @@
                     <textarea type="text" class="form-control" id="description_ku" name="description_ku"
                               placeholder="Product Description In Kurdish *">{{$product->description_ku}}</textarea>
                 </div>
-                <div class="my-1 col-md-3 col-6">
+                <div class="my-1 col-md-4 col-6">
                     <label for="quantity">Quantity</label>
                     <input type="text" class="form-control" id="quantity" name="quantity"
                            placeholder="Product Description In Kurdish *" value="{{$product->quantity}}">
                 </div>
-                <div class="my-1 col-md-3 col-6">
-                    <label for="unit">Unit(EX.KG)</label>
-                    <input type="text" class="form-control" id="unit" name="unit"
-                           placeholder="Unit of product *" value="{{$product->unit}}">
-                </div>
-                <div class="my-1 col-md-3 col-6">
+
+                <div class="my-1 col-md-4 col-6">
                     <label for="price">Price</label>
                     <input type="text" class="form-control" id="price" name="price"
                            placeholder="Price *" value="{{$product->price}}">
                 </div>
-                <div class="my-1 col-md-3 col-6">
+                <div class="my-1 col-md-4 col-6">
                     <label for="discount">Discount</label>
                     <input type="text" class="form-control" id="discount" name="discount"
                            placeholder="Discount in percent *" value="{{$product->discount}}">
@@ -245,7 +247,12 @@
             }
         }
 
+        @if(isset($color->id))
         let colorCounter = {{$color->id+1}}
+            @else
+            let colorCounter=0
+        @endif
+
 
             function
         addColor()

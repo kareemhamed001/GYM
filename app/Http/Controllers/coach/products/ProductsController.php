@@ -32,11 +32,9 @@ class ProductsController extends Controller
         return view('coach.subCategories.index',compact('categories','category'));
     }
 
-    public function edit(category $category,product $id)
+    public function edit(category $category,product $product)
     {
-        $categories=category::all();
-        $brands=brand::all();
-        $product=product::find($id);
-        return view('coach.products.edit',compact('product','brands','categories'));
+        $subcategories=subCategory::where('category_id',$category->id)->get();
+        return view('coach.products.edit',compact('subcategories','category','product'));
     }
 }

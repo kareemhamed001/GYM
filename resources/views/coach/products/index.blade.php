@@ -62,7 +62,7 @@
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <a href="{{url('coach/products/create')}}"  class="btn btn-primary">
+                <a href="{{url('coach/category/'.$category->id.'/products/create')}}"  class="btn btn-primary">
                     Add
                 </a>
 
@@ -151,7 +151,7 @@
                                     </svg>
                                 </a>
                                 <a
-                                   href="{{url('coach/products/'.$product->id.'/edit')}}" class="action-btn btn-edit bs-tooltip me-2"
+                                   href="{{url('coach/category/'.$category->id.'/products/'.$product->id.'/edit')}}" class="action-btn btn-edit bs-tooltip me-2"
                                    data-placement="top" title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

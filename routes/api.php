@@ -119,13 +119,13 @@ Route::resource('/products', \App\Http\Controllers\api\products\ProductsControll
         ]
     ]
 );
-Route::get('products/{id}/brand', [\App\Http\Controllers\api\products\SupplementController::class, 'getBrandByProductId']);
-Route::post('products/{productId}/{imageId}/delete-image', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteImage']);
-Route::post('products/{productId}/{imageId}/delete-color', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteColor']);
-Route::post('products/{productId}/{imageId}/delete-size', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteSize']);
-Route::get('products/{id}/coach', [\App\Http\Controllers\api\products\SupplementController::class, 'getCoachByProductId']);
-Route::get('products/{id}/purchases', [\App\Http\Controllers\api\products\SupplementController::class, 'getPurchasesByProductId']);
-Route::post('products/delete-collection', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteArrayOfProducts']);
+Route::get('products/{id}/brand', [\App\Http\Controllers\api\products\ProductsController::class, 'getBrandByProductId']);
+Route::post('products/{productId}/{imageId}/delete-image', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteImage']);
+Route::post('products/{productId}/{imageId}/delete-color', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteColor']);
+Route::post('products/{productId}/{imageId}/delete-size', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteSize']);
+Route::get('products/{id}/coach', [\App\Http\Controllers\api\products\ProductsController::class, 'getCoachByProductId']);
+Route::get('products/{id}/purchases', [\App\Http\Controllers\api\products\ProductsController::class, 'getPurchasesByProductId']);
+Route::post('products/delete-collection', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteArrayOfProducts']);
 
 
 Route::resource('/carts', \App\Http\Controllers\api\cart\CartController::class,

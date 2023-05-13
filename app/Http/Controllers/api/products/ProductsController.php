@@ -155,9 +155,9 @@ class ProductsController extends Controller
                 'brand_id' => ['integer', Rule::exists('brands', 'id')],
                 'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
                 'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
-                'coach_id' => ['required', 'integer', Rule::exists('coaches', 'id')],
-                'images' => ['required', 'array'],
-                'cover_image' => ['required', 'image'],
+                'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
+                'images' => [ 'array'],
+                'cover_image' => [ 'image'],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);

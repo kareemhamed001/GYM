@@ -5,7 +5,7 @@
         <nav class="breadcrumb-style-one mb-3  col-lg-6" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('coach')}}">Coach</a></li>
-                <li class="breadcrumb-item"><a href="{{url('coach/products')}}">products</a></li>
+                <li class="breadcrumb-item"><a href="{{url('coach/category/'.$category->id.'/products')}}">products</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Create product</li>
             </ol>
         </nav>
