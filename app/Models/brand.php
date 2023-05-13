@@ -14,7 +14,7 @@ class brand extends Model
         return $this->belongsTo(coach::class,'coach_id','id');
     }
     public function supplements(){
-        return $this->hasMany(supplement::class,'brand_id','id');
+        return $this->hasMany(product::class,'brand_id','id');
     }
 
 

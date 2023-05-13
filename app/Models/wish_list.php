@@ -14,6 +14,6 @@ class wish_list extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
     public function supplement(){
-        return $this->belongsTo(supplement::class,'supplement_id','id');
+        return $this->belongsTo(product::class,'supplement_id','id');
     }
 }

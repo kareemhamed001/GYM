@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\category;
 use App\Models\subCategory;
-use App\Models\supplement;
+use App\Models\product;
 use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
@@ -46,7 +46,7 @@ class EquipmentController extends Controller
     public function show(string $id)
     {
         try {
-            $product=supplement::find($id);
+            $product=product::find($id);
             if (!$product){
                 return redirect()->back()->with('error','No product with this id');
             }
@@ -63,7 +63,7 @@ class EquipmentController extends Controller
     {
         $categories=category::all();
         $brands=brand::all();
-        $product=supplement::find($id);
+        $product=product::find($id);
         return view('coach.products.edit',compact('product','brands','categories'));
     }
 
@@ -83,11 +83,5 @@ class EquipmentController extends Controller
         //
     }
 
-    function categories(){
 
-        $categories=subCategory::where('category_id',2)->paginate();
-        $category=category::find(2);
-
-        return view('coach.subCategories.index',compact('categories','category'));
-    }
 }

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
             $table->string('value',200);
-            $table->unsignedBigInteger('supplement_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
-            $table->foreign('supplement_id')->references('id')->on('supplements')->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
         });
     }
 

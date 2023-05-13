@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\api\supplement\SupplementController;
+use App\Http\Controllers\api\products\SupplementController;
 use App\Http\Controllers\api\user\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,7 +61,7 @@ Route::get('coaches/{id}/muscles', [\App\Http\Controllers\api\coach\CoachControl
 Route::resource('/categories', \App\Http\Controllers\api\category\CategoryController::class,
     [
         'only' => [
-            'update'
+            'show','update'
         ]
     ]
 );
@@ -112,20 +112,20 @@ Route::get('subscriptions/{id}/user', [\App\Http\Controllers\api\subscription\Su
 Route::get('subscriptions/{id}/muscle', [\App\Http\Controllers\api\subscription\SubscriptionController::class, 'getmuscleBySubscriptionId']);
 
 
-Route::resource('/products', \App\Http\Controllers\api\supplement\SupplementController::class,
+Route::resource('/products', \App\Http\Controllers\api\products\ProductsController::class,
     [
         'only' => [
             'index', 'destroy', 'store', 'update', 'show'
         ]
     ]
 );
-Route::get('products/{id}/brand', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getBrandByProductId']);
-Route::post('products/{productId}/{imageId}/delete-image', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteImage']);
-Route::post('products/{productId}/{imageId}/delete-color', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteColor']);
-Route::post('products/{productId}/{imageId}/delete-size', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteSize']);
-Route::get('products/{id}/coach', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getCoachByProductId']);
-Route::get('products/{id}/purchases', [\App\Http\Controllers\api\supplement\SupplementController::class, 'getPurchasesByProductId']);
-Route::post('products/delete-collection', [\App\Http\Controllers\api\supplement\SupplementController::class, 'deleteArrayOfProducts']);
+Route::get('products/{id}/brand', [\App\Http\Controllers\api\products\SupplementController::class, 'getBrandByProductId']);
+Route::post('products/{productId}/{imageId}/delete-image', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteImage']);
+Route::post('products/{productId}/{imageId}/delete-color', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteColor']);
+Route::post('products/{productId}/{imageId}/delete-size', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteSize']);
+Route::get('products/{id}/coach', [\App\Http\Controllers\api\products\SupplementController::class, 'getCoachByProductId']);
+Route::get('products/{id}/purchases', [\App\Http\Controllers\api\products\SupplementController::class, 'getPurchasesByProductId']);
+Route::post('products/delete-collection', [\App\Http\Controllers\api\products\SupplementController::class, 'deleteArrayOfProducts']);
 
 
 Route::resource('/carts', \App\Http\Controllers\api\cart\CartController::class,

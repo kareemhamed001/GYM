@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\supplement;
+use App\Models\product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +18,7 @@ class purchaseFactory extends Factory
      */
     public function definition(): array
     {
-        $supplement=supplement::inRandomOrder()->first();
+        $supplement=product::inRandomOrder()->first();
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'supplement_id' => $supplement->id,

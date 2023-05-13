@@ -253,8 +253,8 @@
                                 <img alt="avatar" src="{{asset($category->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$category->name}}</h6>
-                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category->description,0,50)}}... </span>
+                                <h6 class="mb-0">{{$category->name_en}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category->description_en,0,50)}}... </span>
                             </div>
                         </div>
                     </td>
@@ -354,10 +354,10 @@
             const result = await response.json();
             if (result.status === 200) {
 
-                document.querySelector('#categoryNameEnEdit').value = result.data.name;
+                document.querySelector('#categoryNameEnEdit').value = result.data.name_en;
                 document.querySelector('#categoryNameArEdit').value = result.data.name_ar;
                 document.querySelector('#categoryNameKuEdit').value = result.data.name_ku;
-                document.querySelector('#categoryDescriptionEnEdit').value = result.data.description;
+                document.querySelector('#categoryDescriptionEnEdit').value = result.data.description_en;
                 document.querySelector('#categoryDescriptionArEdit').value = result.data.description_ar;
                 document.querySelector('#categoryDescriptionKuEdit').value = result.data.description_ku;
                 document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`

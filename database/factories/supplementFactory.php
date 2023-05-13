@@ -7,7 +7,7 @@ use App\Models\coach;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\supplement>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\product>
  */
 class supplementFactory extends Factory
 {

@@ -32,25 +32,25 @@
 
 <div class=" d-flex p-0 m-0   ">
 
-{{--            <div class="col-lg-6 d-lg-flex d-none text-center justify-content-center flex-column   position-relative">--}}
+    {{--            <div class="col-lg-6 d-lg-flex d-none text-center justify-content-center flex-column   position-relative">--}}
 
 
-{{--                    <div class="w-100 h-100 position-absolute " style="background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, rgba(255, 19, 97, 0.75) 100%);"></div>--}}
+    {{--                    <div class="w-100 h-100 position-absolute " style="background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, rgba(255, 19, 97, 0.75) 100%);"></div>--}}
 
 
-{{--                <div class="auth-cover">--}}
+    {{--                <div class="auth-cover">--}}
 
-{{--                    <div class="position-relative">--}}
+    {{--                    <div class="position-relative">--}}
 
-{{--                        <img src="{{asset('assets/src/assets/img/dumbel1.svg')}}" alt="auth-img">--}}
+    {{--                        <img src="{{asset('assets/src/assets/img/dumbel1.svg')}}" alt="auth-img">--}}
 
-{{--                        <h2 class="mt-5 text-white font-weight-bolder px-2">Join the community of expert developers</h2>--}}
-{{--                        <p class="text-white px-2">It is easy to setup with great customer experience. Start your 7-day free trial</p>--}}
-{{--                    </div>--}}
+    {{--                        <h2 class="mt-5 text-white font-weight-bolder px-2">Join the community of expert developers</h2>--}}
+    {{--                        <p class="text-white px-2">It is easy to setup with great customer experience. Start your 7-day free trial</p>--}}
+    {{--                    </div>--}}
 
-{{--                </div>--}}
+    {{--                </div>--}}
 
-{{--            </div>--}}
+    {{--            </div>--}}
     <div class="col-lg-12 col-12  h-100 d-flex   position-relative justify-content-center">
         <div class="w-100 h-100 position-absolute " style="background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, rgba(255, 19, 97, 0.75) 100%);"></div>
         <div class="card bg-transparent p-0 m-0 rounded-0 col-md-8 col-lg-6 col-sm-10 col-11">

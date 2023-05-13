@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\brands_category;
 use App\Models\category;
-use App\Models\supplement;
+use App\Models\product;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -207,7 +207,7 @@ class BrandController extends Controller
         try {
             $brand = brand::find($id);
             if ($brand) {
-                $categories=supplement::select('category_id,categories.name,categories.name_ar,categories.name_ku,categories.description,categories.description_ar,categories.description_ku,categories.cover_image')->join('categories','supplements.category_id','=','categories.id')->where('supplements.brand_id',$brand->id)->get();
+                $categories=product::select('category_id,categories.name,categories.name_ar,categories.name_ku,categories.description,categories.description_ar,categories.description_ku,categories.cover_image')->join('categories','supplements.category_id','=','categories.id')->where('supplements.brand_id',$brand->id)->get();
                 return $this->apiResponse($categories, 'success', 200);
             }
             return $this->apiResponse('', 'No brand with this id', 200);

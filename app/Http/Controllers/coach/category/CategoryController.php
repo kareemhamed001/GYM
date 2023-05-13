@@ -6,7 +6,7 @@ use App\classes\category\CategoryClass;
 use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\category;
-use App\Models\supplement;
+use App\Models\product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -44,7 +44,7 @@ class CategoryController extends Controller
         try {
             $category=category::find($id);
             if ($category){
-                $brands=supplement::select(\DB::raw('brands.id,brands.coach_id,brands.name,brands.name_ar,brands.name_ku,brands.description,brands.description_ar,brands.description_ku,brands.cover_image'))->join('brands','supplements.brand_id','=','brands.id')->where('supplements.category_id',$category->id)->paginate();
+                $brands=product::select(\DB::raw('brands.id,brands.coach_id,brands.name,brands.name_ar,brands.name_ku,brands.description,brands.description_ar,brands.description_ku,brands.cover_image'))->join('brands','supplements.brand_id','=','brands.id')->where('supplements.category_id',$category->id)->paginate();
 
                 return view('coach.categories.show',compact('category','brands'));
             }

@@ -15,6 +15,6 @@ class purchase extends Model
     }
 
     function supplement(){
-        return $this->belongsTo(supplement::class,'supplement_id','id');
+        return $this->belongsTo(product::class,'supplement_id','id');
     }
 }

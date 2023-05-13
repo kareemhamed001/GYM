@@ -8,7 +8,7 @@ use App\Models\coach;
 use App\Models\muscle;
 use App\Models\purchase;
 use App\Models\subscription;
-use App\Models\supplement;
+use App\Models\product;
 use App\Models\User;
 use App\Models\video;
 use App\traits\ApiResponse;
@@ -34,7 +34,7 @@ class DashBoardController
         try {
             $users = User::count();
             $coaches = coach::count();
-            $products = supplement::count();
+            $products = product::count();
             $brands = brand::count();
             $categories = category::count();
             $muscles = muscle::count();
@@ -85,7 +85,7 @@ class DashBoardController
             }
 
 
-            $products = supplement::select(DB::raw('count(*) as count,month(created_at) as month'))->whereYear('created_at', '=', Carbon::now())->groupBy('month')->orderBy('month', 'asc')->get();
+            $products = product::select(DB::raw('count(*) as count,month(created_at) as month'))->whereYear('created_at', '=', Carbon::now())->groupBy('month')->orderBy('month', 'asc')->get();
             $productsResult = $products->map(function ($item)use($months,$counts) {
                 $counts[$item->month-1] = $item->count;
                 return ['counts' => $counts, 'months' => $months];
@@ -174,7 +174,7 @@ class DashBoardController
             $recent=purchase::select('user_id','supplement_id','number','price','discount')->orderBy('created_at', 'desc')
                 ->take($limit)
                 ->get()->map(function($subscription){
-                    return ['quantity'=>$subscription->number,'price'=>$subscription->price,'discount'=>$subscription->discount,'user'=>User::find($subscription->user_id),'product'=>supplement::find($subscription->supplement_id)];
+                    return ['quantity'=>$subscription->number,'price'=>$subscription->price,'discount'=>$subscription->discount,'user'=>User::find($subscription->user_id),'product'=>product::find($subscription->supplement_id)];
                 });
             return $this->apiResponse([
                 'recentClients' => $recent,

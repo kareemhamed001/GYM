@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\api\supplement;
+namespace App\Http\Controllers\api\products;
 
-use App\classes\supplement\SupplementClass;
 use App\Http\Controllers\Controller;
 use App\Models\brand;
+use App\Models\product;
 use App\Models\product_color;
 use App\Models\product_image;
 use App\Models\product_size;
 use App\Models\purchase;
-use App\Models\supplement;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -18,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use function PHPUnit\TestFixture\func;
 
-class SupplementController extends Controller
+class ProductsController extends Controller
 {
     use ApiResponse;
     use ImagesOperations;
@@ -29,8 +28,8 @@ class SupplementController extends Controller
     public function index()
     {
         try {
-            $supplements = SupplementClass::getAll();
-            return $this->apiResponse($supplements, 'success', 200);
+            $products = product::all();
+            return $this->apiResponse($products, 'success', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
@@ -52,43 +51,40 @@ class SupplementController extends Controller
                 'description' => ['required', 'string', 'max:500'],
                 'description_ar' => ['nullable', 'string', 'max:500'],
                 'description_ku' => ['nullable', 'string', 'max:500'],
+                'quantity' => ['required', 'numeric', 'min:1'],
                 'price' => ['required', 'numeric'],
                 'discount' => ['required', 'numeric', 'max:100'],
-                'quantity' => ['required', 'numeric', 'min:1'],
-                'brand_id' => ['required', 'integer', Rule::exists('brands', 'id')],
+                'brand_id' => ['integer', Rule::exists('brands', 'id')],
                 'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
-                'coach_id' => ['required', 'integer', Rule::exists('coaches', 'id')],
+                'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
+                'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
                 'images' => ['required', 'array'],
                 'cover_image' => ['required', 'image'],
-                'unit' => ['required', 'string', 'max:20'],
-
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
-            $supplement = DB::transaction(function () use ($request) {
-                $path = $this->storeFile($request->cover_image, 'images/supplements/coverImages');
-                $supplement = supplement::create([
+            $product = DB::transaction(function () use ($request) {
+                $path = $this->storeFile($request->cover_image, 'images/products/coverImages');
+                $product = product::create([
                     'name_en' => $request->name,
                     'name_ar' => $request->name_ar,
                     'name_ku' => $request->name_ku,
                     'description_en' => $request->description,
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
+                    'quantity' => $request->quantity,
                     'price' => $request->price,
                     'discount' => $request->discount,
-                    'quantity' => $request->quantity,
-                    'brand_id' => $request->brand_id,
                     'category_id' => $request->category_id,
-                    'coach_id' => $request->coach_id,
+                    'subcategory_id' => $request->category_id,
                     'cover_image' => $path,
-                    'unit' => $request->unit
                 ]);
 
                 foreach ($request->images as $image) {
-                    $path = $this->storeFile($image, 'images/supplements/images');
+                    $path = $this->storeFile($image, 'images/products/images');
                     product_image::create([
-                        'supplement_id' => $supplement->id,
+                        'product_id' => $product->id,
                         'image' => $path
                     ]);
                 }
@@ -96,7 +92,7 @@ class SupplementController extends Controller
                     foreach ($request->colors as $color) {
 
                         product_color::create([
-                            'supplement_id' => $supplement->id,
+                            'product_id' => $product->id,
                             'value' => $color
                         ]);
                     }
@@ -104,15 +100,15 @@ class SupplementController extends Controller
                 if ($request->sizes) {
                     foreach ($request->sizes as $size) {
                         product_size::create([
-                            'supplement_id' => $supplement->id,
+                            'product_id' => $product->id,
                             'value' => $size
                         ]);
                     }
                 }
-                return $supplement;
+                return $product;
             });
 
-            return $this->apiResponse($supplement, 'success', 200);
+            return $this->apiResponse($product, 'success', 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->apiResponse($e->getMessage(), 'error', 400);
@@ -126,11 +122,11 @@ class SupplementController extends Controller
     {
         try {
 
-            $supplement = SupplementClass::get($id);
-            if ($supplement) {
-                return $this->apiResponse($supplement, 'success', 200);
+            $product = product::find($id);
+            if ($product) {
+                return $this->apiResponse($product, 'success', 200);
             }
-            return $this->apiResponse('', 'No supplement with this id', 200);
+            return $this->apiResponse('', 'No product with this id', 200);
 
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
@@ -147,77 +143,74 @@ class SupplementController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-
                 'name' => ['required', 'string', 'max:100'],
                 'name_ar' => ['required', 'string', 'max:100'],
                 'name_ku' => ['required', 'string', 'max:100'],
                 'description' => ['required', 'string', 'max:500'],
                 'description_ar' => ['required', 'string', 'max:500'],
                 'description_ku' => ['required', 'string', 'max:500'],
+                'quantity' => ['required', 'numeric', 'min:1'],
                 'price' => ['required', 'numeric'],
                 'discount' => ['required', 'numeric', 'max:100'],
-                'quantity' => ['required', 'numeric', 'min:1'],
-                'brand_id' => ['required', 'integer', Rule::exists('brands', 'id')],
+                'brand_id' => ['integer', Rule::exists('brands', 'id')],
                 'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
+                'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
                 'coach_id' => ['required', 'integer', Rule::exists('coaches', 'id')],
-                'images' => ['array'],
-                'cover_image' => ['image'],
-                'unit' => ['required', 'string', 'max:20'],
+                'images' => ['required', 'array'],
+                'cover_image' => ['required', 'image'],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 //            return $validator->validated();
-            $supplement = supplement::find($id);
+            $product = product::find($id);
 
-            if ($supplement) {
+            if ($product) {
                 if ($request->cover_image) {
-                    $path = $this->replaceFile($supplement->cover_image, $request->cover_image, 'images/supplements/coverImages');
-                    $supplement->cover_image = $path;
+                    $path = $this->replaceFile($product->cover_image, $request->cover_image, 'images/products/coverImages');
+                    $product->cover_image = $path;
                 }
 
-                $supplement->price = $request->price;
-                $supplement->discount = $request->discount;
+                $product->price = $request->price;
+                $product->discount = $request->discount;
 
                 if ($request->name) {
-                    $supplement->name_en = $request->name;
+                    $product->name_en = $request->name;
                 }
                 if ($request->name_ar) {
-                    $supplement->name_ar = $request->name_ar;
+                    $product->name_ar = $request->name_ar;
                 }
                 if ($request->name_ku) {
-                    $supplement->name_ku = $request->name_ku;
+                    $product->name_ku = $request->name_ku;
                 }
                 if ($request->description) {
-                    $supplement->description_en = $request->description;
+                    $product->description_en = $request->description;
                 }
                 if ($request->description_ar) {
-                    $supplement->description_ar = $request->description_ar;
+                    $product->description_ar = $request->description_ar;
                 }
                 if ($request->description_ku) {
-                    $supplement->description_ku = $request->description_ku;
+                    $product->description_ku = $request->description_ku;
                 }
                 if ($request->quantity) {
-                    $supplement->quantity = $request->quantity;
+                    $product->quantity = $request->quantity;
                 }
                 if ($request->brand_id) {
-                    $supplement->brand_id = $request->brand_id;
+                    $product->brand_id = $request->brand_id;
                 }
                 if ($request->category_id) {
-                    $supplement->category_id = $request->category_id;
+                    $product->category_id = $request->category_id;
                 }
-                if ($request->coach_id) {
-                    $supplement->coach_id = $request->coach_id;
+                if ($request->subcategory_id) {
+                    $product->subcategory_id = $request->subcategory_id;
                 }
-                if ($request->unit) {
-                    $supplement->unit = $request->unit;
-                }
+
 
                 if ($request->images) {
                     foreach ($request->images as $image) {
-                        $path = $this->storeFile($image, 'images/supplements/images');
+                        $path = $this->storeFile($image, 'images/products/images');
                         product_image::create([
-                            'supplement_id' => $supplement->id,
+                            'product_id' => $product->id,
                             'image' => $path
                         ]);
                     }
@@ -227,7 +220,7 @@ class SupplementController extends Controller
                     foreach ($request->colors as $color) {
 
                         product_color::create([
-                            'supplement_id' => $supplement->id,
+                            'product_id' => $product->id,
                             'value' => $color
                         ]);
                     }
@@ -235,37 +228,37 @@ class SupplementController extends Controller
                 if ($request->sizes) {
                     foreach ($request->sizes as $size) {
                         product_size::create([
-                            'supplement_id' => $supplement->id,
+                            'product_id' => $product->id,
                             'value' => $size
                         ]);
                     }
                 }
 
-                $supplement->save();
+                $product->save();
 
-                return $this->apiResponse($supplement, 'success', 200);
+                return $this->apiResponse($product, 'success', 200);
             }
-            return $this->apiResponse('', 'No supplement with this id', 200);
+            return $this->apiResponse('', 'No product with this id', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
 
-    function deleteImage($supplementId, $imageId)
+    function deleteImage($productId, $imageId)
     {
 
         try {
 
-            $supplement = supplement::find($supplementId);
+            $product = product::find($productId);
             $image = product_image::find($imageId);
-            if (!$supplement) {
+            if (!$product) {
                 return $this->apiResponse('', 'This product doesnt exists', 400);
             }
             if (!$image) {
                 return $this->apiResponse('', 'This image doesnt exists', 400);
             }
 
-            if ($image->supplement_id == $supplement->id) {
+            if ($image->product_id == $product->id) {
                 $this->deleteFile($image->image);
                 $image->delete();
                 return $this->apiResponse('', 'success', 200);
@@ -277,21 +270,21 @@ class SupplementController extends Controller
         }
     }
 
-    function deleteColor($supplementId, $colorId)
+    function deleteColor($productId, $colorId)
     {
 
         try {
 
-            $supplement = supplement::find($supplementId);
+            $product = product::find($productId);
             $color = product_color::find($colorId);
-            if (!$supplement) {
+            if (!$product) {
                 return $this->apiResponse('', 'This product doesnt exists', 404);
             }
             if (!$color) {
                 return $this->apiResponse('', 'This color doesnt exists', 200);
             }
 
-            if ($color->supplement_id == $supplement->id) {
+            if ($color->product_id == $product->id) {
 
                 $color->delete();
                 return $this->apiResponse('', 'success', 200);
@@ -303,21 +296,21 @@ class SupplementController extends Controller
         }
     }
 
-    function deleteSize($supplementId, $sizeId)
+    function deleteSize($productId, $sizeId)
     {
 
         try {
 
-            $supplement = supplement::find($supplementId);
+            $product = product::find($productId);
             $size = product_size::find($sizeId);
-            if (!$supplement) {
+            if (!$product) {
                 return $this->apiResponse('', 'This product doesnt exists', 404);
             }
             if (!$size) {
                 return $this->apiResponse('', 'This size doesnt exists', 404);
             }
 
-            if ($size->supplement_id == $supplement->id) {
+            if ($size->product_id == $product->id) {
 
                 $size->delete();
                 return $this->apiResponse('', 'success', 200);
@@ -336,14 +329,14 @@ class SupplementController extends Controller
     {
         try {
 
-            $supplement = SupplementClass::get($id);
-            if ($supplement) {
-                if (!SupplementClass::destroy($id)) {
+            $product = productClass::get($id);
+            if ($product) {
+                if (!productClass::destroy($id)) {
                     return $this->apiResponse('', 'error', 400);
                 }
                 return $this->apiResponse('', 'success', 200);
             }
-            return $this->apiResponse('', 'No supplement with this id', 200);
+            return $this->apiResponse('', 'No product with this id', 200);
 
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
@@ -354,7 +347,7 @@ class SupplementController extends Controller
     {
         try {
 
-            $product = supplement::with('brand')->find($id);
+            $product = product::with('brand')->find($id);
             if ($product) {
                 return $this->apiResponse($product, 'success', 200);
             }
@@ -369,7 +362,7 @@ class SupplementController extends Controller
     {
         try {
 
-            $product = supplement::with('coach')->find($id);
+            $product = product::with('coach')->find($id);
             if ($product) {
                 return $this->apiResponse($product, 'success', 200);
             }
@@ -384,7 +377,7 @@ class SupplementController extends Controller
     {
         try {
 
-            $product = supplement::with('purchases')->find($id);
+            $product = product::with('purchases')->find($id);
             if ($product) {
                 return $this->apiResponse($product, 'success', 200);
             }
@@ -410,12 +403,12 @@ class SupplementController extends Controller
                 return response()->json(['data' => null, 'message' => 'products must be in array'], 200);
             }
 
-            $cover_images_pathes = supplement::query()->whereIn('id', $request->products)->pluck('cover_image');
+            $cover_images_pathes = product::query()->whereIn('id', $request->products)->pluck('cover_image');
 
             if (!$this->deleteCollectionOfFiles($cover_images_pathes)) {
                 return $this->apiResponse('', 'something went wrong whiled deleting images ', 400);
             }
-            supplement::whereIn('id', $request->products)->delete();
+            product::whereIn('id', $request->products)->delete();
             return $this->apiResponse('', 'success', 200);
 
         } catch (\Exception $e) {

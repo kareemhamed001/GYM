@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supplements', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name_en');
             $table->string('name_ar')->nullable();
@@ -20,17 +20,16 @@ return new class extends Migration
             $table->text('description_ar')->nullable();
             $table->text('description_ku')->nullable();
             $table->integer('quantity');
-            $table->text('unit')->comment('Unit of measurement ex.kg ');
             $table->integer('price');
             $table->integer('discount');
-            $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('coach_id');
+            $table->unsignedBigInteger('subcategory_id')->nullable();
             $table->string('cover_image');
             $table->timestamps();
-            $table->foreign('coach_id')->references('id')->on('coaches')->cascadeOnDelete();
             $table->foreign('brand_id')->references('id')->on('brands')->cascadeOnDelete();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->foreign('subcategory_id')->references('id')->on('sub_categories')->cascadeOnDelete();
         });
     }
 

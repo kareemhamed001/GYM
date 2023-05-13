@@ -1,4 +1,4 @@
-@dd(Auth::user())
+
 <nav class="header navbar navbar-expand-sm expand-header position-sticky sticky-top py-3 navbar-light bg-dark shadow-sm">
     <div class="container-md d-flex align-items-center justify-content-end ">
         <a class="fs-4 fw-bold text-black col-md-2 col-lg-1 col-sm-3 col-10 " href="{{url('/')}}"><span class="text-danger">X_</span>Fitness</a>

@@ -9,7 +9,7 @@ use App\Models\muscle;
 use App\Models\curriculum;
 use App\Models\curriculum_file;
 use App\Models\product_image;
-use App\Models\supplement;
+use App\Models\product;
 use App\Models\video;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;

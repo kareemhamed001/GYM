@@ -11,7 +11,7 @@ class coach extends Model
     protected $guarded=[];
 
     public function supplements(){
-        return $this->hasMany(supplement::class,'coach_id','id');
+        return $this->hasMany(product::class,'coach_id','id');
     }
     public function brands(){
         return $this->hasMany(brand::class,'coach_id','id');

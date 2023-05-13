@@ -7,8 +7,9 @@ use App\classes\supplement\SupplementClass;
 use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\category;
+use App\Models\product;
 use App\Models\subCategory;
-use App\Models\supplement;
+
 use Illuminate\Http\Request;
 
 class SupplementController extends Controller
@@ -21,6 +22,17 @@ class SupplementController extends Controller
         $products=SupplementClass::getAll();
         return view('coach.products.index',compact('products'));
     }
+
+//    function index(category $category){
+//        $subCategories=$category->subCategories;
+//
+//        if ($category->id==2){
+//            $products=supplement::where('category_id',$category->id)->paginate();
+//        }
+//        $products=product::where('category_id',$category->id)->paginate();
+//
+//        return view('coach.products.index',compact('category','products'));
+//    }
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +58,7 @@ class SupplementController extends Controller
     public function show(string $id)
     {
         try {
-            $product=supplement::find($id);
+            $product=product::find($id);
             if (!$product){
                 return redirect()->back()->with('error','No product with this id');
             }
@@ -63,7 +75,7 @@ class SupplementController extends Controller
     {
         $categories=category::all();
         $brands=brand::all();
-        $product=supplement::find($id);
+        $product=product::find($id);
         return view('coach.products.edit',compact('product','brands','categories'));
     }
 
@@ -85,8 +97,8 @@ class SupplementController extends Controller
 
     function categories(){
 
-        $categories=subCategory::where('category_id',1)->paginate();
-        $category=category::find(1);
+        $categories=subCategory::where('category_id',2)->paginate();
+        $category=category::find(2);
 
         return view('coach.subCategories.index',compact('categories','category'));
     }

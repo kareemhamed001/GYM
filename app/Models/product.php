@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class supplement extends Model
+class product extends Model
 {
     use HasFactory;
     protected $guarded=[];
 
+    protected $table='products';
     function brand(){
         return $this->belongsTo(brand::class,'brand_id');
     }

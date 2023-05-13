@@ -23,62 +23,45 @@ class DatabaseSeeder extends Seeder
 //         \App\Models\purchase::factory(100)->create();
 
         \App\Models\category::factory()->create([
-            'name_en'=>'Training Video',
-            'name_ar'=>'فيديوهات تدريبية',
-            'name_ku'=>'Vîdyoya Perwerdehiyê',
-            'description_en'=>'Training Video',
-            'description_ar'=>'فيديوهات تدريبية',
-            'description_ku'=>'Vîdyoya Perwerdehiyê',
+            'name_en'=>'Equipment',
+            'name_ar'=>'معدات رياضيه',
+            'name_ku'=>'Equipment',
+            'description_en'=>'Equipment',
+            'description_ar'=>'معدات رياضيه',
+            'description_ku'=>'Equipment',
             'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
         ]);
         \App\Models\category::factory()->create([
-            'name_en'=>'Supplements',
-            'name_ar'=>'معداات الجيم',
+            'name_en'=>'Accessories',
+            'name_ar'=>'Accessories ',
             'name_ku'=>'Supplements',
-            'description_en'=>'Supplements',
-            'description_ar'=>'معداات الجيم',
-            'description_ku'=>'Supplements',
+            'description_en'=>'Accessories',
+            'description_ar'=>' Accessories',
+            'description_ku'=>'Accessories',
             'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
         ]);
 
         \App\Models\category::factory()->create([
-            'name_en'=>'Coaches',
-            'name_ar'=>'المدربين',
-            'name_ku'=>'Coaches',
-            'description_en'=>'Coaches',
-            'description_ar'=>'المدربين',
-            'description_ku'=>'Coaches',
+            'name_en'=>'Sport Wear',
+            'name_ar'=>'Sport Wear',
+            'name_ku'=>'Sport Wear',
+            'description_en'=>'Sport Wear',
+            'description_ar'=>'Sport Wear',
+            'description_ku'=>'Sport Wear',
+            'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
+        ]);
+        \App\Models\category::factory()->create([
+            'name_en'=>'Diet Food',
+            'name_ar'=>'Diet Food ',
+            'name_ku'=>'Diet Food',
+            'description_en'=>'Diet Food',
+            'description_ar'=>' Diet Food',
+            'description_ku'=>'Diet Food',
             'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
         ]);
 
-        \App\Models\category::factory()->create([
-            'name_en'=>'Training Video',
-            'name_ar'=>'فيديوهات تدريبية',
-            'name_ku'=>'Vîdyoya Perwerdehiyê',
-            'description_en'=>'Training Video',
-            'description_ar'=>'فيديوهات تدريبية',
-            'description_ku'=>'Vîdyoya Perwerdehiyê',
-            'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
-        ]);
 
-        \App\Models\category::factory()->create([
-            'name_en'=>'Training Video',
-            'name_ar'=>'فيديوهات تدريبية',
-            'name_ku'=>'Vîdyoya Perwerdehiyê',
-            'description_en'=>'Training Video',
-            'description_ar'=>'فيديوهات تدريبية',
-            'description_ku'=>'Vîdyoya Perwerdehiyê',
-            'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
-        ]);
 
-        \App\Models\category::factory()->create([
-            'name_en'=>'Training Video',
-            'name_ar'=>'فيديوهات تدريبية',
-            'name_ku'=>'Vîdyoya Perwerdehiyê',
-            'description_en'=>'Training Video',
-            'description_ar'=>'فيديوهات تدريبية',
-            'description_ku'=>'Vîdyoya Perwerdehiyê',
-            'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
-        ]);
+
     }
 }

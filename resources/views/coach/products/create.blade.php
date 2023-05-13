@@ -11,22 +11,22 @@
         </nav>
         <h4 class="my-3">Add Product</h4>
 
+        @if(isset($subcategories) &&$subcategories->count() ==0)
 
-        @if($brands->count()==0 )
             <div class="alert alert-warning" role="alert">
-                You must add brands before adding product
+                You must add sub categories before adding product to category {{$category->name_en}}
             </div>
         @endif
-        @if($categories->count()==0 )
+        @if(isset($brands) &&$brands->count() ==0 )
             <div class="alert alert-warning" role="alert">
-                You must add categories before adding product
+                You must add brands before adding product
             </div>
         @endif
 
         <img id="preview">
         <form id="addProductForm" class="my-2">
             @csrf
-            <input type="hidden" name="coach_id" value="{{\Illuminate\Support\Facades\Auth::user()?->id??1}}">
+            <input type="hidden" name="coach_id" value="{{\Illuminate\Support\Facades\Auth::user()?->id}}">
             <div class="row">
                 <div class="my-1 col-md-6">
                     <label for="cover_image">Cover_image</label>
@@ -37,22 +37,14 @@
                     <label for="images">Images</label>
                     <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple>
                 </div>
-                <div class="my-1 col-md-6">
-                    <label for="brand_id">Brand</label>
-                    <select class="form-select" id="brand_id" name="brand_id">
-                        <option value="">--select brand--</option>
-                        @foreach($brands as $brand)
 
-                            <option value="{{$brand->id}}">{{$brand->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <input type="hidden" name="category_id" value="{{$category->id}}">
                 <div class="my-1 col-md-6">
                     <label for="category_id">Category</label>
-                    <select class="form-select" id="category_id" name="category_id">
+                    <select class="form-select" id="subcategory_id" name="category_id">
                         <option value="">--select category--</option>
-                        @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @foreach($subcategories as $category)
+                            <option value="{{$category->id}}">{{$category->name_en}}</option>
                         @endforeach
                     </select>
                 </div>

@@ -4,7 +4,7 @@ namespace App\classes\supplement;
 
 use App\classes\general\GeneralFunctionsClass;
 use App\Models\subscription;
-use App\Models\supplement;
+use App\Models\product;
 use App\traits\ImagesOperations;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\TestFixture\func;
@@ -18,7 +18,7 @@ class SupplementClass extends GeneralFunctionsClass
     public static function store(array $params)
     {
         try {
-            return supplement::create($params);
+            return product::create($params);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -30,7 +30,7 @@ class SupplementClass extends GeneralFunctionsClass
     public static function update(array $params)
     {
         try {
-            return supplement::update($params);
+            return product::update($params);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -42,7 +42,7 @@ class SupplementClass extends GeneralFunctionsClass
     public static function destroy(int $id)
     {
         try {
-            $supplement=supplement::find($id);
+            $supplement=product::find($id);
 
             \DB::transaction(function()use($supplement){
                 $this->deleteFile($supplement->cover_image);
@@ -67,7 +67,7 @@ class SupplementClass extends GeneralFunctionsClass
     public static function destroyAll()
     {
         try {
-            $supplement=supplement::all()->delete();
+            $supplement=product::all()->delete();
             return true;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
@@ -80,7 +80,7 @@ class SupplementClass extends GeneralFunctionsClass
     public static function get(int $id)
     {
         try {
-            return supplement::with(['brand','coach','purchases'])->find($id);
+            return product::with(['brand','coach','purchases'])->find($id);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
@@ -89,7 +89,7 @@ class SupplementClass extends GeneralFunctionsClass
     public static function getAll(int $pagination = 15,$with=['brand','coach'])
     {
         try {
-            return supplement::with($with)->paginate($pagination);
+            return product::with($with)->paginate($pagination);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());
         }
