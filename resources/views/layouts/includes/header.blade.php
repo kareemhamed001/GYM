@@ -259,7 +259,7 @@
                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar-container">
                         <div class="avatar avatar-sm avatar-indicators avatar-online">
-                            <img alt="avatar" src="{{asset(Auth::user()->user?->profile_image??'assets/images/logo/xlogo.png')}}"
+                            <img alt="avatar" src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
                                  class="rounded-circle">
                         </div>
                     </div>
@@ -272,7 +272,7 @@
                                 &#x1F44B;
                             </div>
                             <div class="media-body">
-                                <h5>{{Auth::user()->nick_name??'Name'}}</h5>
+                                <h5>{{Auth::user()->name??'Name'}}</h5>
                                 <p>Coach</p>
                             </div>
                         </div>

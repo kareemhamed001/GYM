@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'age' => 22,
             'gender' => 0, // 0 for male, 1 for female
             'role_as' => 1, // 0 for admin, 1 for coach, 2 for user
-            'profile_image' => 'default.jpg', // default profile image name
+            'profile_image' => 'assets/images/1.jpg', // default profile image name
         ]);
 
         \App\Models\category::factory()->create([

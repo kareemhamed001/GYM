@@ -28,7 +28,7 @@
         <div class="profile-info">
             <div class="user-info">
                 <div class="profile-img">
-                    <img src="{{asset(Auth::user()->user?->profile_image??'assets/images/logo/xlogo.png')}}"
+                    <img src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
                          alt="avatar">
                 </div>
                 <div class="profile-content">
