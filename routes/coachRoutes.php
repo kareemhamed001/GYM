@@ -29,4 +29,5 @@ Route::get('/coaches', [\App\Http\Controllers\coach\user\UserController::class,'
 Route::get('/coaches/create', [\App\Http\Controllers\coach\user\UserController::class,'createCoach']);
 Route::get('/analytics', [\App\Http\Controllers\coach\dashboard\DashboardController::class,'index']);
 Route::get('/sales', [\App\Http\Controllers\coach\dashboard\SalesController::class,'index']);
+Route::get('/gyms', [\App\Http\Controllers\coach\gym\GymController::class,'index']);
 

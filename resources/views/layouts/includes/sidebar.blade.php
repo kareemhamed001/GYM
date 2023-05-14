@@ -204,7 +204,7 @@
                                 <span class="text-uppercase">GYM DISCOUNTS</span></div>
                         </li>
                         <li class="menu">
-                            <a href="{{url('coach/coaches')}}" aria-expanded="false" class="dropdown-toggle">
+                            <a href="{{url('coach/gyms')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-dumbbell fa-2xs"></i>
                                     <span>GYM</span>

@@ -147,8 +147,12 @@ Route::get('statistics', [\App\Http\Controllers\api\dashBoard\DashBoardControlle
 Route::get('year-statistics', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'yearStatistics']);
 Route::get('recent-muscles-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentmusclesClients']);
 Route::get('recent-products-clients/{limit}', [\App\Http\Controllers\api\dashBoard\DashBoardController::class, 'recentProductsClients']);
-
 Route::post('users/delete-collection', [\App\Http\Controllers\api\user\UserController::class, 'deleteArrayOfUsers']);
+
+Route::post('gyms',[\App\Http\Controllers\api\gym\GymController::class,'store']);
+
+
+
 Route::group([
     'prefix' => 'auth'
 ], function ($router) {
