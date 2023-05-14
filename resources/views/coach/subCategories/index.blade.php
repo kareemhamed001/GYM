@@ -68,6 +68,7 @@
                 <div class="modal-body">
                     <form id="createCategoryForm" class="d-flex flex-wrap" enctype="multipart/form-data">
                         @csrf
+                        <input name="coach_id" type="hidden" value="{{Auth::user()->id}}">
                         <input name="category_id" type="hidden" value="{{$category->id}}">
                         <div class="form-group col-12 my-1">
                             <label for="coverImage">Cover Image</label>
@@ -134,6 +135,7 @@
                     <form id="editCategoryForm" class="d-flex flex-wrap" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+                        <input name="coach_id" type="hidden" value="{{Auth::user()->id}}">
                         <div class="col-6 my-1">
                             <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
                         </div>

@@ -17,6 +17,7 @@ Route::get('/category/{category}/sub-categories', [\App\Http\Controllers\coach\p
 Route::get('/category/{category}/products', [\App\Http\Controllers\coach\products\ProductsController::class,'index']);
 Route::get('/category/{category}/products/create', [\App\Http\Controllers\coach\products\ProductsController::class,'create']);
 Route::get('/category/{category}/products/{product}/edit', [\App\Http\Controllers\coach\products\ProductsController::class,'edit']);
+Route::get('/logs', [\App\Http\Controllers\coach\log\LogController::class,'index']);
 //Route::resource('/brands', \App\Http\Controllers\coach\brand\BrandController::class);
 //Route::resource('/products', \App\Http\Controllers\coach\supplement\SupplementController::class);
 //Route::get('/equipments/categories', [\App\Http\Controllers\coach\equipment\EquipmentController::class,'categories']);

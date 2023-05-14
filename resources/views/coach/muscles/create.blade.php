@@ -135,7 +135,7 @@
 
         <form method="post" enctype="multipart/form-data" id="my-form">
             @csrf
-            <input type="hidden" name="coach_id" value="{{Auth::user()->user?->id??1}}">
+            <input type="hidden" name="coach_id" value="{{Auth::user()?->id}}">
             <div class="tab-content">
                 <div id="tab1" class="tab-pane active">
                     <h3 class="my-2">muscle Details</h3>

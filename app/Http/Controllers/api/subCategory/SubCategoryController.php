@@ -49,6 +49,7 @@ class SubCategoryController extends Controller
                 'description_ku' => ['required', 'string', 'max:500'],
                 'category_id' => ['required', Rule::exists('categories','id')],
                 'cover_image' => ['required', 'image'],
+                'coach_id' => ['required',Rule::exists('users','id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
@@ -65,6 +66,13 @@ class SubCategoryController extends Controller
                     'description_ku' => $request->description_ku,
                     'category_id' => $request->category_id,
                     'cover_image' => $path
+                ]);
+
+                \App\Models\log::create([
+                    'table_name'=>'sub_categories',
+                    'item_id'=>$subCategory->id,
+                    'action'=>'store',
+                    'user_id'=>$request->coach_id,
                 ]);
                 return $this->apiResponse($subCategory, 'success', 200);
             }
@@ -111,6 +119,7 @@ class SubCategoryController extends Controller
                 'description_ar' => ['string', 'max:500'],
                 'description_ku' => ['string', 'max:500'],
                 'cover_image' => ['image'],
+                'coach_id' => ['required',Rule::exists('users','id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
@@ -146,6 +155,12 @@ class SubCategoryController extends Controller
 
                 $subCategory->save();
 
+                \App\Models\log::create([
+                    'table_name'=>'sub_categories',
+                    'item_id'=>$subCategory->id,
+                    'action'=>'update',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $this->apiResponse($subCategory, 'success', 200);
             }
             return $this->apiResponse('', 'No sub category with this id', 200);
@@ -157,13 +172,19 @@ class SubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,string $id)
     {
         try {
 
             $subCategory = subCategory::find($id);
             if ($subCategory) {
                 $subCategory->delete();
+                \App\Models\log::create([
+                    'table_name'=>'sub_categories',
+                    'item_id'=>$id,
+                    'action'=>'destroy',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No category with this id', 200);
@@ -194,6 +215,16 @@ class SubCategoryController extends Controller
                 return $this->apiResponse('', 'something went wrong whiled deleting images ', 400);
             }
             subCategory::whereIn('id', $request->categories)->delete();
+
+            foreach ($request->categories as $categoryId){
+                \App\Models\log::create([
+                    'table_name'=>'sub_categories',
+                    'item_id'=>$categoryId,
+                    'action'=>'destroy',
+                    'user_id'=>$request->coach_id,
+                ]);
+            }
+
             return $this->apiResponse('', 'success', 200);
 
         } catch (\Exception $e) {

@@ -70,6 +70,7 @@
                     <form id="editCategoryForm" class="d-flex flex-wrap" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+                        <input type="hidden" name="coach_id" value="{{Auth::user()->id}}">
                         <div class="col-6 my-1">
                             <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
                         </div>
@@ -272,7 +273,6 @@
             $('#editCategoryModal').modal('hide')
         }
 
-
     </script>
 
     <script>
@@ -283,6 +283,7 @@
             e.preventDefault();
 
             const formDataEdit = new FormData(editForm);
+
 
             try {
                 showLoader()

@@ -248,7 +248,8 @@
                 try {
                     showLoader()
                     const response = await fetch(`/api/muscles/${muscleId}`, {
-                        method: 'delete'
+                        method: 'delete',
+                        body:{coach_id:{{Auth::user()->id}}}
                     });
                     removeLoader()
 

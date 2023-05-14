@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\muscle;
 use App\classes\muscle\MuscleClass;
 use App\Http\Controllers\Controller;
 use App\Models\coach;
+
 use App\Models\muscle;
 use App\Models\curriculum;
 use App\Models\curriculum_file;
@@ -53,6 +54,7 @@ class MuscleController extends Controller
                 'description_ar' => ['required', 'string', 'max:500'],
                 'description_ku' => ['required', 'string', 'max:500'],
                 'cover_image' => ['required', 'image'],
+                'coach_id' => ['required',Rule::exists('users','id')],
 
             ]);
             if ($validator->fails()) {
@@ -75,9 +77,9 @@ class MuscleController extends Controller
 
                 if ($request->parts) {
                     foreach ($request->parts as $key => $part) {
-                        $partPath='';
-                        if (isset($part['cover_image'])){
-                        $partPath = $this->storeFile($part['cover_image'], 'images/muscles/parts/coverImages');
+                        $partPath = '';
+                        if (isset($part['cover_image'])) {
+                            $partPath = $this->storeFile($part['cover_image'], 'images/muscles/parts/coverImages');
                         }
                         $curriculum = $this->storeCurriculum($part['title'], $partPath, $muscle->id);
                         if (isset($part['files'])) {
@@ -92,7 +94,14 @@ class MuscleController extends Controller
                         }
                     }
                 }
+                \App\Models\log::create([
+                    'table_name'=>'muscles',
+                    'item_id'=>$muscle->id,
+                    'action'=>'store',
+                    'user_id'=>$request->coach_id,
+                ]);
             });
+
             return $this->apiResponse(null, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -137,6 +146,7 @@ class MuscleController extends Controller
                 'description_ar' => ['required', 'string', 'max:500'],
                 'description_ku' => ['required', 'string', 'max:500'],
                 'cover_image' => ['image'],
+                'coach_id' => ['required',Rule::exists('users','id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
@@ -249,10 +259,16 @@ class MuscleController extends Controller
                     }
                 }
 
-                Log::info('Muscle'.$muscle->id.' updated successfully');
+                \App\Models\log::create([
+                    'table_name'=>'muscles',
+                    'item_id'=>$muscle->id,
+                    'action'=>'update',
+                    'user_id'=>$request->coach_id,
+                ]);
+                Log::info('Muscle' . $muscle->id . ' updated successfully');
                 return $this->apiResponse($muscle, 'success', 200);
             }
-            Log::info('Muscle'.$muscle->id.' not found while updating it');
+            Log::info('Muscle' . $muscle->id . ' not found while updating it');
             return $this->apiResponse('', 'No muscle with this id', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -293,19 +309,26 @@ class MuscleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,string $id)
     {
         try {
+
 
             $muscle = MuscleClass::get($id);
             if ($muscle) {
                 MuscleClass::destroy($id);
+                \App\Models\log::create([
+                    'table_name'=>'muscles',
+                    'item_id'=>$id,
+                    'action'=>'destroy',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No muscle with this id', 200);
 
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }

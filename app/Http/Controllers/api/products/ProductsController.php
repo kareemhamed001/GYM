@@ -107,6 +107,13 @@ class ProductsController extends Controller
                         ]);
                     }
                 }
+
+                \App\Models\log::create([
+                    'table_name'=>'products',
+                    'item_id'=>$product->id,
+                    'action'=>'store',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $product;
             });
 
@@ -240,6 +247,13 @@ class ProductsController extends Controller
 
                 $product->save();
 
+                \App\Models\log::create([
+                    'table_name'=>'products',
+                    'item_id'=>$product->id,
+                    'action'=>'update',
+                    'user_id'=>$request->coach_id,
+                ]);
+
                 return $this->apiResponse($product, 'success', 200);
             }
             return $this->apiResponse('', 'No product with this id', 200);
@@ -333,15 +347,19 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,string $id)
     {
         try {
 
-            $product = productClass::get($id);
+            $product = product::find($id);
             if ($product) {
-                if (!productClass::destroy($id)) {
-                    return $this->apiResponse('', 'error', 400);
-                }
+                $product->delete();
+                \App\Models\log::create([
+                    'table_name'=>'products',
+                    'item_id'=>$id,
+                    'action'=>'destroy',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No product with this id', 200);

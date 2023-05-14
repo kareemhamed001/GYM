@@ -111,6 +111,7 @@ class CategoryController extends Controller
                 'description_ar' => ['string', 'max:500'],
                 'description_ku' => ['string', 'max:500'],
                 'cover_image' => ['image'],
+                'coach_id' => ['required',Rule::exists('users','id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
@@ -145,6 +146,13 @@ class CategoryController extends Controller
                 }
 
                 $category->save();
+
+                \App\Models\log::create([
+                    'table_name'=>'categories',
+                    'item_id'=>$category->id,
+                    'action'=>'update',
+                    'user_id'=>$request->coach_id,
+                ]);
 
                 return $this->apiResponse($category, 'success', 200);
             }

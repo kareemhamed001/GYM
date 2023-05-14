@@ -77,7 +77,7 @@
                 </a>
             </li>
             <li class="menu">
-                <a href="{{url('coach/users')}}" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{url('coach/logs')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i class="fa-regular fa-gear fa-2xs"></i>
                         <span>Logs</span>
