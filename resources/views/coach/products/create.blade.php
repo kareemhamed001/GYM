@@ -39,15 +39,30 @@
                 </div>
 
                 <input type="hidden" name="category_id" value="{{$category->id}}">
-                <div class="my-1 col-md-6">
-                    <label for="category_id">Category</label>
-                    <select class="form-select" id="subcategory_id" name="category_id">
-                        <option value="">--select category--</option>
-                        @foreach($subcategories as $category)
-                            <option value="{{$category->id}}">{{$category->name_en}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                @if(isset($subcategories))
+                    <div class="my-1 col">
+                        <label for="subcategory_id">Category</label>
+                        <select class="form-select" id="subcategory_id" name="category_id">
+                            <option value="">--select category--</option>
+                            @foreach($subcategories as $category)
+                                <option value="{{$category->id}}">{{$category->name_en}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
+                @if(isset($brands))
+                    <div class="my-1 col">
+                        <label for="brand_id">Brand</label>
+                        <select class="form-select" id="brand_id" name="brand_id">
+                            <option value="">--select brand--</option>
+                            @foreach($brands as $brand)
+                                <option value="{{$brand->id}}">{{$brand->name_en}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
                 <div class="my-1 col-12">
                     <label for="name_en">Name En</label>
                     <input type="text" class="form-control" id="name_en" name="name"
@@ -78,22 +93,18 @@
                     <textarea type="text" class="form-control" id="description_ku" name="description_ku"
                               placeholder="Product Description In Kurdish *"></textarea>
                 </div>
-                <div class="my-1 col-6">
+                <div class="my-1 col-md-4">
                     <label for="quantity">Quantity</label>
                     <input type="text" class="form-control" id="quantity" name="quantity"
                            placeholder="Product Description In Kurdish *">
                 </div>
-                <div class="my-1 col-6">
-                    <label for="unit">Unit(EX.KG)</label>
-                    <input type="text" class="form-control" id="unit" name="unit"
-                           placeholder="Unit of product *">
-                </div>
-                <div class="my-1 col-6">
+
+                <div class="my-1 col-md-4">
                     <label for="price">Price</label>
                     <input type="text" class="form-control" id="price" name="price"
                            placeholder="Price *">
                 </div>
-                <div class="my-1 col-6">
+                <div class="my-1 col-md-4">
                     <label for="discount">Discount</label>
                     <input type="text" class="form-control" id="discount" name="discount"
                            placeholder="Discount in percent *">

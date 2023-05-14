@@ -8,7 +8,7 @@ use App\Models\log;
 class LogController extends Controller
 {
     function index(){
-        $logs=log::paginate();
+        $logs=log::paginate(50);
         return view('coach.logs.index',compact('logs'));
     }
 }

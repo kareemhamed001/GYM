@@ -49,7 +49,7 @@ class BrandController extends Controller
                 'description' => ['required', 'string', 'max:500'],
                 'description_ar' => ['nullable', 'string', 'max:500'],
                 'description_ku' => ['nullable', 'string', 'max:500'],
-                'coach_id' => ['required', 'integer', Rule::exists('coaches', 'id')],
+                'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
                 'cover_image' => ['required', 'image'],
             ]);
             if ($validator->fails()) {
@@ -65,8 +65,13 @@ class BrandController extends Controller
                     'description_en' => $request->description,
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
-                    'coach_id' => $request->coach_id,
                     'cover_image' => $path
+                ]);
+                \App\Models\log::create([
+                    'table_name'=>'brands',
+                    'item_id'=>$brand->id,
+                    'action'=>'store',
+                    'user_id'=>$request->coach_id,
                 ]);
                 return $this->apiResponse($brand, 'success', 200);
             }
@@ -113,7 +118,7 @@ class BrandController extends Controller
                 'description' => ['string', 'max:500'],
                 'description_ar' => ['string', 'max:500'],
                 'description_ku' => ['string', 'max:500'],
-                'coach_id' => ['integer', Rule::exists('coaches', 'id')],
+                'coach_id' => ['integer', Rule::exists('users', 'id')],
                 'cover_image' => ['image'],
             ]);
             if ($validator->fails()) {
@@ -144,15 +149,19 @@ class BrandController extends Controller
                 if ($request->description_ku) {
                     $brand->description_ku = $request->description_ku;
                 }
-                if ($request->coach_id) {
-                    $brand->coach_id = $request->coach_id;
-                }
+
                 if ($request->cover_image) {
                     $brand->cover_image = $path;
                 }
 
                 $brand->save();
 
+                \App\Models\log::create([
+                    'table_name'=>'brands',
+                    'item_id'=>$brand->id,
+                    'action'=>'update',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $this->apiResponse($brand, 'success', 200);
             }
             return $this->apiResponse('', 'No brand with this id', 200);
@@ -165,13 +174,19 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,string $id)
     {
 
         try {
             $brand = BrandClass::get($id);
             if ($brand) {
                 BrandClass::destroy($id);
+                \App\Models\log::create([
+                    'table_name'=>'brands',
+                    'item_id'=>$id,
+                    'action'=>'destroy',
+                    'user_id'=>$request->coach_id,
+                ]);
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No brand with this id', 200);

@@ -1,6 +1,6 @@
 <div class="sidebar-wrapper sidebar-theme">
 
-{{--    @dd(\Illuminate\Support\Facades\Auth::user())--}}
+    {{--    @dd(\Illuminate\Support\Facades\Auth::user())--}}
     <nav id="sidebar">
 
         <div class="navbar-nav theme-brand flex-row  text-center">
@@ -28,7 +28,8 @@
         <div class="profile-info">
             <div class="user-info">
                 <div class="profile-img">
-                    <img src="{{asset(Auth::user()->user?->profile_image??'assets/images/logo/xlogo.png')}}" alt="avatar">
+                    <img src="{{asset(Auth::user()->user?->profile_image??'assets/images/logo/xlogo.png')}}"
+                         alt="avatar">
                 </div>
                 <div class="profile-content">
                     <h6 class="">{{Auth::user()->name??'Name'}}</h6>
@@ -138,50 +139,128 @@
 
             @foreach(\App\Models\category::all() as $category)
 
-                @if($category->id==1 || $category->id==2 ||$category->id==3 ||$category->id==4 )
-                    <li class="menu menu-heading">
-                        <div class="heading">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="feather feather-minus">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                            <span class="text-uppercase">{{$category->name_en}}</span></div>
-                    </li>
-
-                    <li class="menu">
-                        <a href="{{url('coach/category/'.$category->id.'/sub-categories')}}" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <i class="fa-regular fa-square fa-2xs"></i>
-                                <span>Categories</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="menu">
-                        <a href="#products{{$category->id}}" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <i class="fa-light fa-box-open fa-2xs"></i>
-                                <span>Products</span>
-                            </div>
-                            <div>
+                @switch($category->id)
+                    @case(5)
+                        <li class="menu menu-heading">
+                            <div class="heading">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" class="feather feather-chevron-right">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="feather feather-minus">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="products{{$category->id}}" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="{{url('coach/category/'.$category->id.'/products')}}"> List </a>
-                            </li>
-                            <li>
-                                <a href="{{url('coach/category/'.$category->id.'/products/create')}}"> Add </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
+                                <span class="text-uppercase">COACHES</span></div>
+                        </li>
+                        <li class="menu">
+                            <a href="{{url('coach/coaches')}}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-regular fa-user-gear fa-2xs"></i>
+                                    <span>Coaches</span>
+                                </div>
+                            </a>
+                        </li>
+                        @break
 
+                    @case(6)
+                        <li class="menu menu-heading">
+                            <div class="heading">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="feather feather-minus">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span class="text-uppercase">Supplements</span></div>
+                        </li>
+                        <li class="menu">
+                            <a href="{{url('coach/supplements/brands')}}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-regular fa-tag fa-2xs"></i>
+                                    <span>Brands</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="{{url('coach/supplements/products')}}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-regular fa-box fa-2xs"></i>
+                                    <span>Products</span>
+                                </div>
+                            </a>
+                        </li>
+                        @break
+                    @case(7)
+                        <li class="menu menu-heading">
+                            <div class="heading">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="feather feather-minus">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span class="text-uppercase">GYM DISCOUNTS</span></div>
+                        </li>
+                        <li class="menu">
+                            <a href="{{url('coach/coaches')}}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-regular fa-dumbbell fa-2xs"></i>
+                                    <span>GYM</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        @break
+                    @default
+                        <li class="menu menu-heading">
+                            <div class="heading">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="feather feather-minus">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span class="text-uppercase">{{$category->name_en}}</span></div>
+                        </li>
+
+                        <li class="menu">
+                            <a href="{{url('coach/category/'.$category->id.'/sub-categories')}}" aria-expanded="false"
+                               class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-regular fa-square fa-2xs"></i>
+                                    <span>Categories</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#products{{$category->id}}" data-bs-toggle="collapse" aria-expanded="false"
+                               class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-light fa-box-open fa-2xs"></i>
+                                    <span>Products</span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" class="feather feather-chevron-right">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </a>
+                            <ul class="collapse submenu list-unstyled" id="products{{$category->id}}"
+                                data-bs-parent="#accordionExample">
+                                <li>
+                                    <a href="{{url('coach/category/'.$category->id.'/products')}}"> List </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('coach/category/'.$category->id.'/products/create')}}"> Add </a>
+                                </li>
+                            </ul>
+                        </li>
+                @endswitch
             @endforeach
 
 
@@ -194,24 +273,24 @@
 
 
 
-{{--            <li class="menu menu-heading">--}}
-{{--                <div class="heading">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
-{{--                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"--}}
-{{--                         class="feather feather-minus">--}}
-{{--                        <line x1="5" y1="12" x2="19" y2="12"></line>--}}
-{{--                    </svg>--}}
-{{--                    <span>GYM DISCOUNT</span></div>--}}
-{{--            </li>--}}
+            {{--            <li class="menu menu-heading">--}}
+            {{--                <div class="heading">--}}
+            {{--                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
+            {{--                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"--}}
+            {{--                         class="feather feather-minus">--}}
+            {{--                        <line x1="5" y1="12" x2="19" y2="12"></line>--}}
+            {{--                    </svg>--}}
+            {{--                    <span>GYM DISCOUNT</span></div>--}}
+            {{--            </li>--}}
 
-{{--            <li class="menu">--}}
-{{--                <a href="{{url('coach/users')}}" aria-expanded="false" class="dropdown-toggle">--}}
-{{--                    <div class="">--}}
-{{--                        <i class="fa-light fa-dumbbell"></i>--}}
-{{--                        <span>Gyms</span>--}}
-{{--                    </div>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+            {{--            <li class="menu">--}}
+            {{--                <a href="{{url('coach/users')}}" aria-expanded="false" class="dropdown-toggle">--}}
+            {{--                    <div class="">--}}
+            {{--                        <i class="fa-light fa-dumbbell"></i>--}}
+            {{--                        <span>Gyms</span>--}}
+            {{--                    </div>--}}
+            {{--                </a>--}}
+            {{--            </li>--}}
 
         </ul>
 

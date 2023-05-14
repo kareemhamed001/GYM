@@ -66,7 +66,7 @@
                         title="delete selected orders"
                         class="btn btn-danger">Delete
                 </button>
-                <a type="button" class="btn btn-primary" href="{{url('coach/users/create')}}">
+                <a type="button" class="btn btn-primary" @if($role==1) href="{{url('coach/coaches/create')}}" @elseif($role==2) href="{{url('coach/users/create')}}" @endif >
                     Add
                 </a>
 

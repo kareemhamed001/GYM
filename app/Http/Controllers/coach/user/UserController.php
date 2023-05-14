@@ -14,8 +14,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=UserClass::getAll();
-        return view('coach.users.index',compact('users'));
+        $role=2;
+        $users=User::where('role_as',2)->paginate();
+        return view('coach.users.index',compact('users','role'));
+    }
+
+    function coaches(){
+        $role=1;
+        $users=User::where('role_as',1)->paginate();
+        return view('coach.users.index',compact('users','role'));
     }
 
     /**
@@ -23,7 +30,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('coach.users.create');
+        $role=2;
+        return view('coach.users.create',compact('role'));
+    }
+    public function createCoach()
+    {
+        $role=1;
+        return view('coach.users.create',compact('role'));
     }
 
     /**

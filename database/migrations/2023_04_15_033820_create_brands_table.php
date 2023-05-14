@@ -18,10 +18,8 @@ return new class extends Migration {
             $table->text('description_en');
             $table->text('description_ar')->nullable();
             $table->text('description_ku')->nullable();
-            $table->unsignedBigInteger('coach_id');
             $table->string('cover_image');
             $table->timestamps();
-            $table->foreign('coach_id')->references('id')->on('coaches')->cascadeOnDelete();
         });
     }
 

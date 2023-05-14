@@ -2,61 +2,10 @@
 
 @section('content')
 
-    <!-- Modal -->
-    <div class="modal fade" id="deletelogModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete log?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                     <span class="text-danger">
-                        the log will be deleted forever!
-                     </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="deletelog()">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="deleteArrayOflogsModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected logs?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                     <span class="text-danger">
-                        these logs will be deleted forever !
-                     </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="row my-3">
-        <div class="d-flex justify-content-between">
-            <h3>logs</h3>
+        <div class="">
+
+            <h3> <i class="fa-light fa-gear"></i> logs</h3>
 
 
         </div>
@@ -98,13 +47,13 @@
 
                     </td>
                     <td>
-                        <a href="{{url('/coach/'.$log->table_name.'/'.$log->item_id)}}">{{$log->item_id}}</a>
+                        {{$log->item_id}}
                     </td>
                     <td>
                         {{$log->action}}
                     </td>
                     <td class="text-center">
-                        <a href="{{url('/coach/users/'.$log->user_id)}}">{{$log->user_id}}</a>
+                        <a href="{{url('/coach/users/'.$log->user_id)}}">{{\App\Models\User::find($log->user_id)->name??$log->user_id??'User not entered'}}</a>
                     </td>
                     <td class="text-center">
                         {{\Carbon\Carbon::make($log->created_at)->toDateTimeString()}}

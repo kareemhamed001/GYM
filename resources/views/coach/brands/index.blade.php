@@ -68,7 +68,8 @@
                 <div class="modal-body">
                     <form id="createbrandForm" class="d-flex flex-wrap" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
+                        <input type="hidden" name="category_id" value="{{$category->id}}">
+                        <input type="hidden" name="coach_id" value="{{Auth::user()?->id}}">
                         <div class="form-group col-12 my-1">
                             <label for="coverImage">Cover Image</label>
                             <input name="cover_image" class="form-control-file" type="file" id="coverImage"
@@ -583,7 +584,7 @@
                     },
                     body: formDataEdit
                 });
-                removeLOader()
+                removeLoader()
 
                 const result = await response.json();
                 console.log(result)

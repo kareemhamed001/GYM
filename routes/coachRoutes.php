@@ -18,17 +18,15 @@ Route::get('/category/{category}/products', [\App\Http\Controllers\coach\product
 Route::get('/category/{category}/products/create', [\App\Http\Controllers\coach\products\ProductsController::class,'create']);
 Route::get('/category/{category}/products/{product}/edit', [\App\Http\Controllers\coach\products\ProductsController::class,'edit']);
 Route::get('/logs', [\App\Http\Controllers\coach\log\LogController::class,'index']);
-//Route::resource('/brands', \App\Http\Controllers\coach\brand\BrandController::class);
-//Route::resource('/products', \App\Http\Controllers\coach\supplement\SupplementController::class);
-//Route::get('/equipments/categories', [\App\Http\Controllers\coach\equipment\EquipmentController::class,'categories']);
 
-//Route::get('/category/{category}/brands', [\App\Http\Controllers\coach\equipment\EquipmentController::class,'categories']);
-//Route::get('/supplements/products', [\App\Http\Controllers\coach\supplement\SupplementController::class,'index']);
-
+Route::get('/supplements/products', [\App\Http\Controllers\coach\supplement\SupplementController::class,'products']);
+Route::get('/supplements/brands', [\App\Http\Controllers\coach\supplement\SupplementController::class,'brands']);
+Route::resource('/brands', \App\Http\Controllers\coach\brand\BrandController::class);
 Route::resource('/muscles', \App\Http\Controllers\coach\muscle\MuscleController::class);
-//Route::resource('/purchase', \App\Http\Controllers\coach\purchase\PurchaseController::class);
-//Route::resource('/subscriptions', \App\Http\Controllers\coach\subscription\SubscriptionController::class);
 Route::resource('/users', \App\Http\Controllers\coach\user\UserController::class);
+Route::get('/users/create', [\App\Http\Controllers\coach\user\UserController::class,'create']);
+Route::get('/coaches', [\App\Http\Controllers\coach\user\UserController::class,'coaches']);
+Route::get('/coaches/create', [\App\Http\Controllers\coach\user\UserController::class,'createCoach']);
 Route::get('/analytics', [\App\Http\Controllers\coach\dashboard\DashboardController::class,'index']);
 Route::get('/sales', [\App\Http\Controllers\coach\dashboard\SalesController::class,'index']);
 

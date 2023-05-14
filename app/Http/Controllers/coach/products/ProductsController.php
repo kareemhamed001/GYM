@@ -20,7 +20,12 @@ class ProductsController extends Controller
 
     function create(category $category){
 
+        if ($category->id==7){
+            $brands=brand::all();
+            return view('coach.products.create',compact('brands','category'));
+        }
         $subcategories=subCategory::where('category_id',$category->id)->get();
+
         return view('coach.products.create',compact('subcategories','category'));
     }
 

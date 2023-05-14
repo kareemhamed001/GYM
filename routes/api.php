@@ -20,12 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-//Route::get('brands',[\App\Http\Controllers\api\brand\BrandController::class,'index']);
-//Route::post('brands',[\App\Http\Controllers\api\brand\BrandController::class,'store']);
-//Route::put('brands/{id}',[\App\Http\Controllers\api\brand\BrandController::class,'update']);
-//Route::delete('brands/{id}',[\App\Http\Controllers\api\brand\BrandController::class,'destroy']);
-//Route::get('brands/{id}',[\App\Http\Controllers\api\brand\BrandController::class,'show']);
 Route::resource('/users', \App\Http\Controllers\api\user\UserController::class,
     [
         'only' => [

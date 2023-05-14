@@ -5,15 +5,17 @@
         <nav class="breadcrumb-style-one mb-3  col-lg-6" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('coach')}}">Coach</a></li>
-                <li class="breadcrumb-item"><a href="{{url('coach/users')}}">users</a></li>
+                <li class="breadcrumb-item"><a @if($role==1) href="{{url('coach/coaches')}}"  @elseif($role==2) href="{{url('coach/users')}}" @endif >@if($role==1) Coaches  @elseif($role==2) Users @endif</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Create user</li>
             </ol>
         </nav>
-        <h4 class="my-3">Add user</h4>
+        <h4 class="my-3">Add @if($role==1) Coach  @elseif($role==2) User @endif</h4>
         <img id="preview">
         <form id="adduserForm" class="my-2 row">
             @csrf
-            <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
+            <input type="hidden" name="coach_id" value="{{Auth::user()?->id}}">
+            <input type="hidden" name="role_as" value="{{$role}}">
+
             <div class="form-group col-md-6 my-2 px-1">
                 <label for="coverImage">Profile Image</label>
                 <input name="profile_image" class="form-control" type="file" id="coverImage"
@@ -22,17 +24,8 @@
                 <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
-            <div class="form-group col-md-6 my-2 px-1">
-                <label for="role_as" class="text-capitalize">role as</label>
-                <select name="role_as" class="form-control" type="text" id="role_as">
-                    <option>--Select Role--</option>
-                    <option value="1">Coach</option>
-                    <option value="2">Client</option>
-                </select>
-                @error('role_as')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
+
+
             <div class="form-group col-md-6 my-2 px-1">
                 <label for="userNameEn">Name</label>
                 <input name="name" class="form-control" type="text" id="userNameEn"
@@ -99,11 +92,59 @@
                 <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
-            <hr>
-            <div id="coachInfo" style="display: none" class="m-0 p-0 flex-wrap">
 
-            </div>
-            <div class="col-md-6 my-2 px-1">
+            @if($role==1)
+                <h4 class="my-2">Coach Info</h4>
+                <div class="form-group col-md-6 my-2 px-1">
+                    <label for="nick_name">nick name</label>
+                    <input name="coach_nick_name" class="form-control" type="text" id="nick_name"
+                           placeholder="Enter coach nick name *">
+                    @error('coach_nick_name')
+                    <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6 my-2 px-1">
+                    <label for="email">Email</label>
+                    <input name="coach_email" class="form-control" type="email" id="email"
+                           placeholder="Enter coach email *">
+                    @error('coach_email')
+                    <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6 my-2 px-1">
+                    <label for="description">description</label>
+                    <input name="coach_description" class="form-control" type="text" id="description"
+                           placeholder="Enter coach description *">
+                    @error('coach_description')
+                    <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6 my-2 px-1">
+                    <label for="phone_number">phone number</label>
+                    <input name="coach_phone_number" class="form-control" type="text" id="phone_number"
+                           placeholder="Enter coach phone number *">
+                    @error('coach_phone_number')
+                    <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6 my-2 px-1">
+                    <label for="experience">experience</label>
+                    <input name="coach_experience" class="form-control" type="text" id="experience"
+                           placeholder="Enter coach experience *">
+                    @error('coach_experience')
+                    <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-6 my-2 px-1">
+                    <label for="coach_intro_video">intro video</label>
+                    <input name="coach_intro_video" class="form-control" type="file" id="coach_intro_video" placeholder="Coach intro video *">
+                    @error('coach_intro_video')
+                    <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div>
+
+            @endif
+            <div class="col-12 my-2 px-1">
 
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
