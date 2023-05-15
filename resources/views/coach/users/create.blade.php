@@ -156,73 +156,73 @@
 @section('scripts')
     <script>
         let selectedType = document.getElementById('role_as')
-        let selectedTypeValue = null;
-        selectedType.addEventListener('change', (e) => {
-            //selectedType.options[selectedType.selectedIndex].text
-            selectedTypeValue = e.target.value;
+        {{--let selectedTypeValue = null;--}}
+        {{--selectedType.addEventListener('change', (e) => {--}}
+        {{--    //selectedType.options[selectedType.selectedIndex].text--}}
+        {{--    selectedTypeValue = e.target.value;--}}
 
-            if (selectedTypeValue === '1') {
+        {{--    if (selectedTypeValue === '1') {--}}
 
-                let coachInfo = document.getElementById('coachInfo');
-                coachInfo.style.display = 'flex';
-                coachInfo.innerHTML = `
-                <div class="form-group col-md-6 my-2 px-1">
-                    <label for="nick_name">nick name</label>
-                    <input name="coach_nick_name" class="form-control" type="text" id="nick_name"
-                           placeholder="Enter coach nick name *">
-                @error('coach_nick_name')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-                </div>
-                <div class="form-group col-md-6 my-2 px-1">
-                    <label for="email">Email</label>
-                    <input name="coach_email" class="form-control" type="email" id="email"
-                           placeholder="Enter coach email *">
-                           @error('coach_email')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-                </div>
-                <div class="form-group col-md-6 my-2 px-1">
-                    <label for="description">description</label>
-                    <input name="coach_description" class="form-control" type="text" id="description"
-                           placeholder="Enter coach description *">
-                           @error('coach_description')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-                </div>
-                <div class="form-group col-md-6 my-2 px-1">
-                    <label for="phone_number">phone number</label>
-                    <input name="coach_phone_number" class="form-control" type="text" id="phone_number"
-                           placeholder="Enter coach phone number *">
-                           @error('coach_phone_number')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-                </div>
-                <div class="form-group col-md-6 my-2 px-1">
-                    <label for="experience">experience</label>
-                    <input name="coach_experience" class="form-control" type="text" id="experience"
-                           placeholder="Enter coach experience *">
-                           @error('coach_experience')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-                </div>
-                <div class="form-group col-md-6 my-2 px-1">
-                    <label for="coach_intro_video">intro video</label>
-                    <input name="coach_intro_video" class="form-control" type="file" id="coach_intro_video" placeholder="Coach intro video *">
-                    @error('coach_intro_video')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-                </div>
-                `;
-            } else {
-                let coachInfo = document.getElementById('coachInfo');
-                // coachInfo.style.display = 'none';
+        {{--        let coachInfo = document.getElementById('coachInfo');--}}
+        {{--        coachInfo.style.display = 'flex';--}}
+        {{--        coachInfo.innerHTML = `--}}
+        {{--        <div class="form-group col-md-6 my-2 px-1">--}}
+        {{--            <label for="nick_name">nick name</label>--}}
+        {{--            <input name="coach_nick_name" class="form-control" type="text" id="nick_name"--}}
+        {{--                   placeholder="Enter coach nick name *">--}}
+        {{--        @error('coach_nick_name')--}}
+        {{--        <span class="text-danger">{{$message}}</span>--}}
+        {{--        @enderror--}}
+        {{--        </div>--}}
+        {{--        <div class="form-group col-md-6 my-2 px-1">--}}
+        {{--            <label for="email">Email</label>--}}
+        {{--            <input name="coach_email" class="form-control" type="email" id="email"--}}
+        {{--                   placeholder="Enter coach email *">--}}
+        {{--                   @error('coach_email')--}}
+        {{--        <span class="text-danger">{{$message}}</span>--}}
+        {{--        @enderror--}}
+        {{--        </div>--}}
+        {{--        <div class="form-group col-md-6 my-2 px-1">--}}
+        {{--            <label for="description">description</label>--}}
+        {{--            <input name="coach_description" class="form-control" type="text" id="description"--}}
+        {{--                   placeholder="Enter coach description *">--}}
+        {{--                   @error('coach_description')--}}
+        {{--        <span class="text-danger">{{$message}}</span>--}}
+        {{--        @enderror--}}
+        {{--        </div>--}}
+        {{--        <div class="form-group col-md-6 my-2 px-1">--}}
+        {{--            <label for="phone_number">phone number</label>--}}
+        {{--            <input name="coach_phone_number" class="form-control" type="text" id="phone_number"--}}
+        {{--                   placeholder="Enter coach phone number *">--}}
+        {{--                   @error('coach_phone_number')--}}
+        {{--        <span class="text-danger">{{$message}}</span>--}}
+        {{--        @enderror--}}
+        {{--        </div>--}}
+        {{--        <div class="form-group col-md-6 my-2 px-1">--}}
+        {{--            <label for="experience">experience</label>--}}
+        {{--            <input name="coach_experience" class="form-control" type="text" id="experience"--}}
+        {{--                   placeholder="Enter coach experience *">--}}
+        {{--                   @error('coach_experience')--}}
+        {{--        <span class="text-danger">{{$message}}</span>--}}
+        {{--        @enderror--}}
+        {{--        </div>--}}
+        {{--        <div class="form-group col-md-6 my-2 px-1">--}}
+        {{--            <label for="coach_intro_video">intro video</label>--}}
+        {{--            <input name="coach_intro_video" class="form-control" type="file" id="coach_intro_video" placeholder="Coach intro video *">--}}
+        {{--            @error('coach_intro_video')--}}
+        {{--        <span class="text-danger">{{$message}}</span>--}}
+        {{--        @enderror--}}
+        {{--        </div>--}}
+        {{--        `;--}}
+        {{--    } else {--}}
+        {{--        let coachInfo = document.getElementById('coachInfo');--}}
+        {{--        // coachInfo.style.display = 'none';--}}
 
-                while (coachInfo.firstChild) {
-                    coachInfo.removeChild(coachInfo.firstChild);
-                }
-            }
-        });
+        {{--        while (coachInfo.firstChild) {--}}
+        {{--            coachInfo.removeChild(coachInfo.firstChild);--}}
+        {{--        }--}}
+        {{--    }--}}
+        {{--});--}}
 
         let form = document.querySelector('#adduserForm')
         form.addEventListener('submit', async (e) => {
@@ -231,7 +231,7 @@
             try {
                 showLoader();
                 let response = await fetch('/api/auth/register', {
-                    method: 'post',
+                    method: 'POST',
                     body: formData,
                 });
                 console.log(response)

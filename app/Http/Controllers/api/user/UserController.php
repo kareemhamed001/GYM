@@ -144,7 +144,7 @@ class UserController extends Controller
 
             return $this->apiResponse($user, 'User successfully registered', 200);
         } catch (\Exception $e) {
-            return $this->apiResponse('', $e->getMessage(), 400);
+            return $this->apiResponse('', $e->getTrace(), 400);
         }
 
     }
