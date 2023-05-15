@@ -166,37 +166,59 @@
                             <input name="cover_image" class="form-control-file" type="file" id="coverImage"
                                    placeholder="Enter name in english">
                         </div>
-                        <div class="form-group col-12 my-1">
+                        <div class="form-group col-md-4 col-12 my-1">
                             <label for="gymNameEnEdit">Name En</label>
-                            <input name="name" class="form-control" type="text" id="gymNameEnEdit"
+                            <input name="name_en" class="form-control" type="text" id="gymNameEnEdit"
                                    placeholder="Enter name in english">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
                             <label for="gymNameArEdit">Name Ar</label>
                             <input name="name_ar" class="form-control" type="text" id="gymNameArEdit"
                                    placeholder="Enter name in arabic">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
                             <label for="gymNameKuEdit">Name Ku</label>
                             <input name="name_ku" class="form-control" type="text" id="gymNameKuEdit"
                                    placeholder="Enter name in kurdish">
                         </div>
-                        <div class="form-group col-12 my-1">
+                        <div class="form-group col-md-4 col-12  my-1">
                             <label for="gymDescriptionEnEdit">Description En</label>
-                            <textarea name="description" class="form-control" type="text" id="gymDescriptionEnEdit"
+                            <textarea name="description_en" class="form-control" type="text" id="gymDescriptionEnEdit"
                                       placeholder="Enter Description in english"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
+                        <div class="form-group col-md-4 col-12  px-1 my-1">
                             <label for="gymDescriptionArEdit">Description Ar</label>
                             <textarea name="description_ar" class="form-control" type="text"
                                       id="gymDescriptionArEdit"
                                       placeholder="Enter Description in arabic"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
+                        <div class="form-group col-md-4 col-12  px-1 my-1">
                             <label for="gymDescriptionKuEdit">Description Ku</label>
                             <textarea name="description_ku" class="form-control" type="text"
                                       id="gymDescriptionKuEdit"
                                       placeholder="Enter Description in kurdish"></textarea>
+                        </div>
+
+                        <div class="form-group col-md-3 col-12 px-1 my-1">
+                            <label for="price">Price</label>
+                            <input name="price" class="form-control" type="number" id="priceEdit"
+                                   placeholder="Enter price">
+                        </div>
+                        <div class="form-group col-md-3 col-12 px-1 my-1">
+                            <label for="open_at">opens at</label>
+                            <input name="open_at" class="form-control" type="time" id="open_atEdit">
+                        </div>
+
+
+                        <div class="form-group col-md-3 col-12 px-1 my-1">
+                            <label for="close_at">closes at</label>
+                            <input name="close_at" class="form-control" type="time" id="close_atEdit">
+                        </div>
+
+                        <div class="form-group col-md-3 col-12 px-1 my-1">
+                            <label for="address">address</label>
+                            <input name="address" class="form-control" type="text" id="addressEdit"
+                                   placeholder="Enter address">
                         </div>
 
                         <hr>
@@ -383,7 +405,11 @@
                 document.querySelector('#gymDescriptionEnEdit').value = result.data.description_en;
                 document.querySelector('#gymDescriptionArEdit').value = result.data.description_ar;
                 document.querySelector('#gymDescriptionKuEdit').value = result.data.description_ku;
-                document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`
+                document.querySelector('#priceEdit').value = result.data.price;
+                document.querySelector('#open_atEdit').value = result.data.open_at;
+                document.querySelector('#close_atEdit').value = result.data.close_at;
+                document.querySelector('#addressEdit').value = result.data.address;
+                document.querySelector('#coverImageEdit').src = `/${result.data.cover_image}`
                 $('#editgymModal').modal('show')
 
             } else if (result.status === 400) {
@@ -409,7 +435,7 @@
             if (gymId) {
                 showLoader()
                 $.ajax({
-                    url: `/api/sub-gyms/${gymId}`,
+                    url: `/api/gyms/${gymId}`,
                     method: 'DELETE',
                     success: function (response) {
                         removeLoader()
@@ -480,7 +506,7 @@
 
                 showLoader()
                 $.ajax({
-                    url: `http:\\api/sub-gyms/delete-collection`,
+                    url: `/api/gyms/delete-collection`,
                     method: 'POST',
                     data: {'gyms': selectedValues},
                     success: function (response) {

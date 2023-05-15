@@ -15,5 +15,7 @@ class brands_category extends Model
     }
     public function brand(){
         return $this->belongsTo(brand::class,'brand_id','id');
+
     }
+
 }

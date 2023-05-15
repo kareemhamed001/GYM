@@ -150,6 +150,11 @@ Route::get('recent-products-clients/{limit}', [\App\Http\Controllers\api\dashBoa
 Route::post('users/delete-collection', [\App\Http\Controllers\api\user\UserController::class, 'deleteArrayOfUsers']);
 
 Route::post('gyms',[\App\Http\Controllers\api\gym\GymController::class,'store']);
+Route::get('gyms/{gym}',[\App\Http\Controllers\api\gym\GymController::class,'show']);
+Route::put('gyms/{gym}',[\App\Http\Controllers\api\gym\GymController::class,'update']);
+Route::delete('gyms/{gym}',[\App\Http\Controllers\api\gym\GymController::class,'destroy']);
+Route::delete('gyms/{gym}',[\App\Http\Controllers\api\gym\GymController::class,'destroy']);
+Route::post('gyms/delete-collection',[\App\Http\Controllers\api\gym\GymController::class,'deleteCollection']);
 
 
 
