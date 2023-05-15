@@ -49,7 +49,7 @@
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                         </svg>
-                        <span>Dashboard</span>
+                        <span>{!! __('sidebar.dashboard')  !!}</span>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -73,7 +73,7 @@
                 <a href="{{url('coach/users')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i class="fa-regular fa-user fa-2xs"></i>
-                        <span>Users</span>
+                        <span>{!! __('sidebar.users')  !!}</span>
                     </div>
                 </a>
             </li>
@@ -81,7 +81,7 @@
                 <a href="{{url('coach/logs')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i class="fa-regular fa-gear fa-2xs"></i>
-                        <span>Logs</span>
+                        <span>{!! __('sidebar.logs')  !!}</span>
                     </div>
                 </a>
             </li>
@@ -89,7 +89,7 @@
                 <a href="" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i class="fa-regular fa-megaphone fa-2xs"></i>
-                        <span>ADS</span>
+                        <span>{!! __('sidebar.ads')  !!}</span>
                     </div>
                 </a>
             </li>
@@ -98,7 +98,7 @@
                 <a href="{{url('coach/categories')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i class="fa-regular fa-square fa-2xs"></i>
-                        <span>Categories</span>
+                        <span>{!! __('sidebar.categories')  !!}</span>
                     </div>
                 </a>
             </li>
@@ -117,7 +117,7 @@
                 <a href="#muscles" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i class="fa-light fa-person-walking"></i>
-                        <span>Muscles</span>
+                        <span>{!! __('sidebar.muscles')  !!}</span>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -156,7 +156,7 @@
                             <a href="{{url('coach/coaches')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-user-gear fa-2xs"></i>
-                                    <span>Coaches</span>
+                                    <span>{!! __('sidebar.coaches')  !!}</span>
                                 </div>
                             </a>
                         </li>
@@ -178,7 +178,7 @@
                             <a href="{{url('coach/supplements/brands')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-tag fa-2xs"></i>
-                                    <span>Brands</span>
+                                    <span>{!! __('sidebar.brands')  !!}</span>
                                 </div>
                             </a>
                         </li>
@@ -186,7 +186,7 @@
                             <a href="{{url('coach/supplements/products')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-box fa-2xs"></i>
-                                    <span>Products</span>
+                                    <span>{!! __('sidebar.products')  !!}</span>
                                 </div>
                             </a>
                         </li>
@@ -207,7 +207,7 @@
                             <a href="{{url('coach/gyms')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-dumbbell fa-2xs"></i>
-                                    <span>GYM</span>
+                                    <span>{!! __('sidebar.gyms')  !!}</span>
                                 </div>
                             </a>
                         </li>
@@ -231,7 +231,7 @@
                                class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-square fa-2xs"></i>
-                                    <span>Categories</span>
+                                    <span>{!! __('sidebar.categories')  !!}</span>
                                 </div>
                             </a>
                         </li>
@@ -240,7 +240,7 @@
                                class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-light fa-box-open fa-2xs"></i>
-                                    <span>Products</span>
+                                    <span>{!! __('sidebar.products')  !!}</span>
                                 </div>
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

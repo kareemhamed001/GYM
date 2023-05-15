@@ -34,21 +34,22 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected users?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> {!! __('users.deleteSelected')  !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these users will be deleted forever !
+                         {!! __('users.deletedForever')  !!}
+
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('users.close')  !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">{!! __('users.delete')  !!}</button>
                 </div>
             </div>
         </div>
@@ -60,14 +61,14 @@
 
     <div class="row my-3">
         <div class="d-flex justify-content-between">
-            <h3>users</h3>
+            <h3>{!! __('users.users')  !!}</h3>
             <div>
                 <button type="button" data-toggle="modal" data-target="#deleteArrayOfusersModal"
                         title="delete selected orders"
-                        class="btn btn-danger">Delete
+                        class="btn btn-danger"> {!! __('users.delete')  !!}
                 </button>
                 <a type="button" class="btn btn-primary" @if($role==1) href="{{url('coach/coaches/create')}}" @elseif($role==2) href="{{url('coach/users/create')}}" @endif >
-                    Add
+                    {!! __('users.add')  !!}
                 </a>
 
             </div>
@@ -99,12 +100,12 @@
                         <input class="form-check-input" type="checkbox" id="selectAll">
                     </div>
                 </th>
-                <th scope="col">User</th>
-                <th scope="col">Address</th>
-                <th scope="col">Age</th>
-                <th scope="col">Role</th>
-                <th scope="col" class="text-center">Created_At</th>
-                <th scope="col" class="text-center">Action</th>
+                <th scope="col">{!! __('users.user')  !!}</th>
+                <th scope="col">{!! __('users.address')  !!}</th>
+                <th scope="col">{!! __('users.age')  !!}</th>
+                <th scope="col">{!! __('users.role')  !!}</th>
+                <th scope="col" class="text-center">{!! __('users.created_at')  !!}</th>
+                <th scope="col" class="text-center">{!! __('users.action')  !!}</th>
 
             </tr>
             </thead>
