@@ -9,15 +9,25 @@
     <title>@yield('title')</title>
     {{--    <link rel="icon" type="image/x-icon" href=""/>--}}
     <link href="{{asset('assets/css/font-awesome/all.min.css')}}" rel="stylesheet" type="text/css"/>
-
-    <link href="{{asset('assets/layouts/modern-light-menu/css/light/loader.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/layouts/modern-light-menu/css/dark/loader.css')}}" rel="stylesheet" type="text/css"/>
-    <script src="{{asset('assets/layouts/modern-light-menu/loader.js')}}"></script>
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{asset('assets/src/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/layouts/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css"/>
+
+    @if(\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()=='ar' ||\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()=='ku')
+        <link href="{{asset('assets/layouts_rtl/modern-light-menu/css/light/loader.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{asset('assets/layouts_rtl/modern-light-menu/css/dark/loader.css')}}" rel="stylesheet" type="text/css"/>
+        <script src="{{asset('assets/layouts_rtl/modern-light-menu/loader.js')}}"></script>
+        <link href="{{asset('assets/layouts_rtl/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{asset('assets/layouts_rtl/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css"/>
+    @else
+        <link href="{{asset('assets/layouts/modern-light-menu/css/light/loader.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{asset('assets/layouts/modern-light-menu/css/dark/loader.css')}}" rel="stylesheet" type="text/css"/>
+        <script src="{{asset('assets/layouts/modern-light-menu/loader.js')}}"></script>
+        <link href="{{asset('assets/layouts/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css"/>
+    @endif
+
+
 
 
     <!-- END GLOBAL MANDATORY STYLES -->
