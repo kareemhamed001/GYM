@@ -37,19 +37,19 @@
                 </div>
 
                 @if(isset($brands) )
-                <div class="my-1 col-md-3">
+                <div class="my-1 col-md-6">
                     <label for="brand_id">Brand</label>
                     <select class="form-select" id="brand_id" name="brand_id">
-                        <option value="{{$product->brand_id}}">{{$product->brand->name}}</option>
+
                         @foreach($brands as $brand)
-                            <option value="{{$brand->id}}">{{$brand->name}}</option>
+                            <option value="{{$brand->id}}" @if($product->brand->id==$brand->id) selected @endif>{{$brand->name_en}}</option>
                         @endforeach
                     </select>
                 </div>
                 @endif
                 <input type="hidden" name="category_id" value="{{$category->id}}">
                 @if(isset($subcategories)  )
-                <div class="my-1 col">
+                <div class="my-1 col-md-6">
                     <label for="category_id">Sub Category</label>
                     <select class="form-select" id="category_id" name="subcategory_id">
                         <option value="{{$product->subcategory_id}}">{{$product->subcategory->name_en}}</option>
@@ -59,32 +59,32 @@
                     </select>
                 </div>
                 @endif
-                <div class="my-1 col-12">
+                <div class="my-1 col-md-4 col-12">
                     <label for="name_en">Name En</label>
                     <input type="text" class="form-control" id="name_en" name="name"
                            placeholder="Product Name In English *" value="{{$product->name_en}}">
                 </div>
-                <div class="my-1 col-md-6">
+                <div class="my-1 col-md-4 col-12">
                     <label for="name_ar">Name Ar</label>
                     <input type="text" class="form-control" id="name_ar" name="name_ar"
                            placeholder="Product Name In Arabic *" value="{{$product->name_ar}}">
                 </div>
-                <div class="my-1 col-md-6">
+                <div class="my-1 col-md-4 col-12">
                     <label for="name_ku">Name Ku</label>
                     <input type="text" class="form-control" id="name_ku" name="name_ku"
                            placeholder="Product Name In Kurdish *" value="{{$product->name_ku}}">
                 </div>
-                <div class="my-1 col-12">
+                <div class="my-1 col-md-4 col-12">
                     <label for="description_en">Description En</label>
                     <textarea type="text" class="form-control" id="description_en" name="description"
                               placeholder="Product Description In English *">{{$product->description_en}}</textarea>
                 </div>
-                <div class="my-1 col-md-6">
+                <div class="my-1 col-md-4 col-12">
                     <label for="description_ar">Description Ar</label>
                     <textarea type="text" class="form-control" id="description_ar" name="description_ar"
                               placeholder="Product Description In Arabic *">{{$product->description_ar}}</textarea>
                 </div>
-                <div class="my-1 col-md-6">
+                <div class="my-1 col-md-4 col-12">
                     <label for="description_ku">Description Ku</label>
                     <textarea type="text" class="form-control" id="description_ku" name="description_ku"
                               placeholder="Product Description In Kurdish *">{{$product->description_ku}}</textarea>

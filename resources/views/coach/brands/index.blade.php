@@ -8,21 +8,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete brand?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('brands.deleteBrand') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        the brand will be deleted forever!
+                        {!! __('brands.deleteBrandForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('brands.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deletebrand()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deletebrand()">{!! __('brands.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -34,21 +34,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected brands?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('brands.deleteSelected') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these brands will be deleted forever !
+                        {!! __('brands.deleteSelectedForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('brands.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">{!! __('brands.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">add a new brand</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">{!! __('brands.addNewBrand') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -71,48 +71,45 @@
                         <input type="hidden" name="category_id" value="{{$category->id}}">
                         <input type="hidden" name="coach_id" value="{{Auth::user()?->id}}">
                         <div class="form-group col-12 my-1">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
-                                   placeholder="Enter name in english">
+                            <label for="coverImage">{!! __('brands.coverImage') !!}</label>
+                            <input name="cover_image" class="form-control" type="file" id="coverImage">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="brandNameEn">Name En</label>
+                        <div class="form-group col-md-4 col-12 my-1">
+                            <label for="brandNameEn">{!! __('brands.nameEn') !!}</label>
                             <input name="name" class="form-control" type="text" id="brandNameEn"
-                                   placeholder="Enter name in english">
+                                   placeholder="{!! __('brands.enterNameEn') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandNameAr">Name Ar</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="brandNameAr">{!! __('brands.nameAr') !!}</label>
                             <input name="name_ar" class="form-control" type="text" id="brandNameAr"
-                                   placeholder="Enter name in arabic">
+                                   placeholder="{!! __('brands.enterNameAr') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandNameKu">Name Ku</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="brandNameKu">{!! __('brands.nameKu') !!}</label>
                             <input name="name_ku" class="form-control" type="text" id="brandNameKu"
-                                   placeholder="Enter name in kurdish">
+                                   placeholder="{!! __('brands.enterNameKu') !!}">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="brandDescriptionEn">Description En</label>
+                        <div class="form-group col-md-4 col-12 my-1">
+                            <label for="brandDescriptionEn">{!! __('brands.descriptionEn') !!}</label>
                             <textarea name="description" class="form-control" type="text" id="brandDescriptionEn"
-                                      placeholder="Enter Description in english"></textarea>
+                                      placeholder="{!! __('brands.enterDescriptionEn') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandDescriptionAr">Description Ar</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="brandDescriptionAr">{!! __('brands.descriptionAr') !!}</label>
                             <textarea name="description_ar" class="form-control" type="text" id="brandDescriptionAr"
-                                      placeholder="Enter Description in arabic"></textarea>
+                                      placeholder="{!! __('brands.enterDescriptionAr') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandDescriptionKu">Description Ku</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="brandDescriptionKu">{!! __('brands.descriptionKu') !!}</label>
                             <textarea name="description_ku" class="form-control" type="text" id="brandDescriptionKu"
-                                      placeholder="Enter Description in kurdish"></textarea>
+                                      placeholder="{!! __('brands.enterDescriptionKu') !!}"></textarea>
                         </div>
-
                         <hr>
-
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="createbrandForm">Save changes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{!! __('brands.close') !!}</button>
+                    <button type="submit" class="btn btn-primary" form="createbrandForm">{!! __('brands.save') !!}</button>
 
                 </div>
             </div>
@@ -125,7 +122,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">edit</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">{!! __('brands.edit') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             onclick="closeeditmodal()">
                         <span aria-hidden="true">&times;</span>
@@ -136,58 +133,55 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="coach_id" value="{{Auth::user()?->id??1}}">
-                        <div class="col-6 my-1">
+                        <div class="col-6 ">
                             <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
                         </div>
 
-                        <div class="form-group col-6 my-1 ps-2">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
+                        <div class="form-group col-6 my-1 px-2">
+                            <label for="coverImage">{!! __('brands.coverImage') !!}</label>
+                            <input name="cover_image" class="form-control" type="file" id="coverImage"
                                    placeholder="Enter name in english">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="brandNameEnEdit">Name En</label>
+                        <div class="form-group col-md-4 col-12 my-2">
+                            <label for="brandNameEnEdit">{!! __('brands.nameEn') !!}</label>
                             <input name="name" class="form-control" type="text" id="brandNameEnEdit"
-                                   placeholder="Enter name in english">
+                                   placeholder="{!! __('brands.enterNameEn') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandNameArEdit">Name Ar</label>
+                        <div class="form-group col-md-4 col-12 px-2 my-1">
+                            <label for="brandNameArEdit">{!! __('brands.nameAr') !!}</label>
                             <input name="name_ar" class="form-control" type="text" id="brandNameArEdit"
-                                   placeholder="Enter name in arabic">
+                                   placeholder="{!! __('brands.enterNameAr') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandNameKuEdit">Name Ku</label>
+                        <div class="form-group col-md-4 col-12 px-2 my-1">
+                            <label for="brandNameKuEdit">{!! __('brands.nameKu') !!}</label>
                             <input name="name_ku" class="form-control" type="text" id="brandNameKuEdit"
-                                   placeholder="Enter name in kurdish">
+                                   placeholder="{!! __('brands.enterNameKu') !!}">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="brandDescriptionEnEdit">Description En</label>
+                        <div class="form-group col-md-4 col-12 my-2">
+                            <label for="brandDescriptionEnEdit">{!! __('brands.descriptionEn') !!}</label>
                             <textarea name="description" class="form-control" type="text" id="brandDescriptionEnEdit"
-                                      placeholder="Enter Description in english"></textarea>
+                                      placeholder="{!! __('brands.enterDescriptionEn') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandDescriptionArEdit">Description Ar</label>
+                        <div class="form-group col-md-4 col-12 px-2 my-1">
+                            <label for="brandDescriptionArEdit">{!! __('brands.descriptionAr') !!}</label>
                             <textarea name="description_ar" class="form-control" type="text"
                                       id="brandDescriptionArEdit"
-                                      placeholder="Enter Description in arabic"></textarea>
+                                      placeholder="{!! __('brands.enterDescriptionAr') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="brandDescriptionKuEdit">Description Ku</label>
+                        <div class="form-group col-md-4 col-12 px-2 my-1">
+                            <label for="brandDescriptionKuEdit">{!! __('brands.descriptionKu') !!}</label>
                             <textarea name="description_ku" class="form-control" type="text"
                                       id="brandDescriptionKuEdit"
-                                      placeholder="Enter Description in kurdish"></textarea>
+                                      placeholder="{!! __('brands.enterDescriptionKu') !!}"></textarea>
                         </div>
-
                         <hr>
-
-
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
-                        Close
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeeditmodal()">
+                        {!! __('brands.close') !!}
                     </button>
-                    <button type="submit" class="btn btn-primary" form="editbrandForm">Save changes</button>
+                    <button type="submit" class="btn btn-primary" form="editbrandForm"> {!! __('brands.save') !!}</button>
 
                 </div>
             </div>
@@ -197,14 +191,14 @@
 
     <div class="row my-3">
         <div class="d-flex justify-content-between">
-            <h3>brands</h3>
+            <h3> {!! __('brands.brand') !!}</h3>
             <div>
                 <button type="button" data-toggle="modal" data-target="#deleteArrayOfbrandsModal"
                         title="delete selected orders"
-                        class="btn btn-danger">Delete
+                        class="btn btn-danger">{!! __('brands.delete') !!}
                 </button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBrandModal">
-                    Add
+                    {!! __('brands.add') !!}
                 </button>
 
             </div>
@@ -232,12 +226,10 @@
                         <input class="form-check-input" type="checkbox" id="selectAll">
                     </div>
                 </th>
-                <th scope="col">EN</th>
-                <th scope="col">AR</th>
-                <th scope="col">KU</th>
-                <th scope="col" class="text-center">Created_At</th>
-                <th scope="col" class="text-center">Action</th>
-
+                <th scope="col">{!! __('brands.id') !!}</th>
+                <th scope="col">{!! __('brands.brand') !!}</th>
+                <th scope="col" class="text-center">{!! __('brands.createdAt') !!}</th>
+                <th scope="col" class="text-center">{!! __('brands.action') !!}</th>
             </tr>
             </thead>
             <tbody>
@@ -250,24 +242,20 @@
                         </div>
                     </td>
                     <td>
+                        {{$brand->id}}
+                    </td>
+                    <td>
                         <div class="media">
-                            <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($brand->cover_image)}}" class="rounded-circle"/>
+                            <div class="avatar mx-2">
+                                <img alt="" src="{{asset($brand->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$brand->name}}</h6>
-                                <span class="text-success">{{$brand->description}}</span>
+                                <h6 class="mb-0">{{$brand['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($brand['description_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().''],0,50)}}</span>
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <p class="mb-0">{{$brand->name_ar??'NULL'}}</p>
-                        <span class="text-success">{{$brand->description_ar??'NULL'}}</span>
-                    </td>
-                    <td>
-                        <p class="mb-0">{{$brand->name_ku??'NULL'}}</p>
-                        <span class="text-success">{{$brand->description_ku??'NULL'}}</span>
-                    </td>
+
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($brand->created_at)->toDateString()??'NULL'}}</p>
                         <span
@@ -355,10 +343,10 @@
             const result = await response.json();
             if (result.status === 200) {
 
-                document.querySelector('#brandNameEnEdit').value = result.data.name;
+                document.querySelector('#brandNameEnEdit').value = result.data.name_en;
                 document.querySelector('#brandNameArEdit').value = result.data.name_ar;
                 document.querySelector('#brandNameKuEdit').value = result.data.name_ku;
-                document.querySelector('#brandDescriptionEnEdit').value = result.data.description;
+                document.querySelector('#brandDescriptionEnEdit').value = result.data.description_en;
                 document.querySelector('#brandDescriptionArEdit').value = result.data.description_ar;
                 document.querySelector('#brandDescriptionKuEdit').value = result.data.description_ku;
                 document.querySelector('#coverImageEdit').src = `http://gym.test/${result.data.cover_image}`
