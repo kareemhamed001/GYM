@@ -44,16 +44,8 @@ class BrandController extends Controller
     {
         try {
             $brand = brand::find($id);
-
-
-            if (!$brand) {
-                return redirect()->back()->with('error', 'No brand with this id');
-            } else {
-                $categories =product::select(DB::raw('categories.id,categories.name,categories.name_ar,categories.name_ku,categories.description,categories.description_ar,categories.description_ku,categories.cover_image'))->join('categories','supplements.category_id','=','categories.id')->where('supplements.brand_id',$brand->id)->get();
-
-                return view('coach.brands.show', compact('brand','categories'));
-            }
-
+            $products=product::where('brand_id',$brand->id)->paginate();
+            return view('coach.brands.show', compact('brand','products'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
 

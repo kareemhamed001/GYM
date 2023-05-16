@@ -12,7 +12,7 @@ class brand extends Model
 
 
     public function supplements(){
-        return $this->hasMany(product::class,'brand_id','id');
+        return $this->hasMany(product::class,'brand_id','id')->where('category_id',6);
     }
 
     protected static function boot()
