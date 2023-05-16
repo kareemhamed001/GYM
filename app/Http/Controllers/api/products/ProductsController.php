@@ -68,29 +68,37 @@ class ProductsController extends Controller
             }
             $product = DB::transaction(function () use ($request) {
                 $path = $this->storeFile($request->cover_image, 'images/products/coverImages');
-                $product = product::create([
-                    'name_en' => $request->name,
-                    'name_ar' => $request->name_ar,
-                    'name_ku' => $request->name_ku,
-                    'description_en' => $request->description,
-                    'description_ar' => $request->description_ar,
-                    'description_ku' => $request->description_ku,
-                    'quantity' => $request->quantity,
-                    'price' => $request->price,
-                    'discount' => $request->discount,
-                    'category_id' => $request->category_id,
-                    'subcategory_id' => $request->category_id,
-                    'cover_image' => $path,
-                ]);
+                $product=new product();
+                $product->name_en=$request->name;
+                $product->name_ar=$request->name_ar;
+                $product->name_ku=$request->name_ku;
+                $product->description_en=$request->description;
+                $product->description_ar=$request->description_ar;
+                $product->description_ku=$request->description_ku;
+                $product->quantity=$request->quantity;
+                $product->price=$request->price;
+                $product->discount=$request->discount;
+                $product->category_id=$request->category_id;
+                $product->cover_image=$path;
 
-                foreach ($request->images as $image) {
-                    $path = $this->storeFile($image, 'images/products/images');
-                    product_image::create([
-                        'product_id' => $product->id,
-                        'image' => $path
-                    ]);
+                if (intval($request->category_id)==6){
+                    $product->brand_id=$request->brand_id;
+                }else{
+                    $product->subcategory_id=$request->subcategory_id;
                 }
-                if ($request->colors) {
+                $product->save();
+
+                if (isset($request->images)){
+                    foreach ($request->images as $image) {
+                        $path = $this->storeFile($image, 'images/products/images');
+                        product_image::create([
+                            'product_id' => $product->id,
+                            'image' => $path
+                        ]);
+                    }
+                }
+
+                if (isset($request->colors)) {
                     foreach ($request->colors as $color) {
 
                         product_color::create([
@@ -99,7 +107,7 @@ class ProductsController extends Controller
                         ]);
                     }
                 }
-                if ($request->sizes) {
+                if (isset($request->sizes)) {
                     foreach ($request->sizes as $size) {
                         product_size::create([
                             'product_id' => $product->id,
