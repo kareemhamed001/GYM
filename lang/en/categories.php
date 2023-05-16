@@ -1,0 +1,20 @@
+<?php
+return[
+    'categories'=>'categories',
+    'edit'=>'edit',
+    'id'=>'Id',
+    'en'=>'category',
+    'ar'=>'category',
+    'ku'=>'category',
+    'createdAt'=>'created at',
+    'action'=>'action',
+    'coverImage'=>'cover image',
+    'nameEn'=>'name en',
+    'nameAr'=>'name ar',
+    'nameKu'=>'name ku',
+    'descriptionEn'=>'description en',
+    'descriptionAr'=>'description ar',
+    'descriptionKu'=>'description ku',
+    'save'=>'save',
+    'close'=>'close',
+];

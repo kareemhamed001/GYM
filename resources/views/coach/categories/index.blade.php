@@ -2,65 +2,13 @@
 
 @section('content')
 
-    <!-- Modal -->
-    <div class="modal fade" id="deletecategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete category?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                     <span class="text-danger">
-                        the category will be deleted forever!
-                     </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="deletecategory()">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="deleteArrayOfCategoriesModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected categories?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                     <span class="text-danger">
-                        these categories will be deleted forever !
-                     </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade modal-xl" id="editCategoryModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">edit</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">{!! __('categories.edit') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             onclick="closeeditmodal()">
                         <span aria-hidden="true">&times;</span>
@@ -71,43 +19,44 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="coach_id" value="{{Auth::user()->id}}">
+
+
+                        <div class="form-group col-6 my-1 ps-2">
+                            <label for="coverImage">{!! __('categories.coverImage') !!}</label>
+                            <input name="cover_image" class="form-control" type="file" id="coverImage"
+                                   placeholder="Enter name in english">
+                        </div>
                         <div class="col-6 my-1">
                             <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
                         </div>
-
-                        <div class="form-group col-6 my-1 ps-2">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
-                                   placeholder="Enter name in english">
-                        </div>
                         <div class="form-group col-12 my-1">
-                            <label for="categoryNameEnEdit">Name En</label>
+                            <label for="categoryNameEnEdit">{!! __('categories.nameEn') !!}</label>
                             <input name="name" class="form-control" type="text" id="categoryNameEnEdit"
                                    placeholder="Enter name in english">
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryNameArEdit">Name Ar</label>
+                            <label for="categoryNameArEdit">{!! __('categories.nameAr') !!}</label>
                             <input name="name_ar" class="form-control" type="text" id="categoryNameArEdit"
                                    placeholder="Enter name in arabic">
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryNameKuEdit">Name Ku</label>
+                            <label for="categoryNameKuEdit">{!! __('categories.nameKu') !!}</label>
                             <input name="name_ku" class="form-control" type="text" id="categoryNameKuEdit"
                                    placeholder="Enter name in kurdish">
                         </div>
                         <div class="form-group col-12 my-1">
-                            <label for="categoryDescriptionEnEdit">Description En</label>
+                            <label for="categoryDescriptionEnEdit">{!! __('categories.descriptionEn') !!}</label>
                             <textarea name="description" class="form-control" type="text" id="categoryDescriptionEnEdit"
                                       placeholder="Enter Description in english"></textarea>
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryDescriptionArEdit">Description Ar</label>
+                            <label for="categoryDescriptionArEdit">{!! __('categories.descriptionAr') !!}</label>
                             <textarea name="description_ar" class="form-control" type="text"
                                       id="categoryDescriptionArEdit"
                                       placeholder="Enter Description in arabic"></textarea>
                         </div>
                         <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryDescriptionKuEdit">Description Ku</label>
+                            <label for="categoryDescriptionKuEdit">{!! __('categories.descriptionKu') !!}</label>
                             <textarea name="description_ku" class="form-control" type="text"
                                       id="categoryDescriptionKuEdit"
                                       placeholder="Enter Description in kurdish"></textarea>
@@ -120,9 +69,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
-                        Close
+                        {!! __('categories.close') !!}
                     </button>
-                    <button type="submit" class="btn btn-primary" form="editCategoryForm">Save changes</button>
+                    <button type="submit" class="btn btn-primary" form="editCategoryForm">{!! __('categories.save') !!}</button>
 
                 </div>
             </div>
@@ -132,7 +81,7 @@
 
     <div class="row my-3">
 
-            <h3>Categories</h3>
+            <h3>{!! __('categories.categories') !!}</h3>
 
 
         @if(session('error'))
@@ -152,36 +101,33 @@
         <table class="table table-hover table-striped table-bordered">
             <thead>
             <tr>
-                <th scope="col">EN</th>
-                <th scope="col">AR</th>
-                <th scope="col">KU</th>
-                <th scope="col" class="text-center">Created_At</th>
-                <th scope="col" class="text-center">Action</th>
+                <th  >{!! __('categories.id') !!}</th>
+                <th scope="col">{!! __('categories.'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'') !!}</th>
+                <th scope="col" class="text-center">{!! __('categories.createdAt') !!}</th>
+                <th scope="col" class="text-center">{!! __('categories.action') !!}</th>
 
             </tr>
             </thead>
             <tbody>
             @foreach($categories as $category)
+
                 <tr>
                     <td>
+                        {{$category->id}}
+                    </td>
+                    <td>
                         <div class="media">
-                            <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($category->cover_image)}}" class="rounded-circle"/>
+                            <div class="avatar mx-2">
+                                <img alt="" src="{{asset($category->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$category->name_en}}</h6>
-                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category->description_en,0,50)}}... </span>
+                                <h6 class="mb-0">{{$category['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category['description_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().''],0,50)}}... </span>
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <p class="mb-0">{{$category->name_ar??'NULL'}}</p>
-                        <span class="text-success d-block">{{Str::substr($category->description_ar,0,50)??'NULL'}}...</span>
-                    </td>
-                    <td>
-                        <p class="mb-0">{{$category->name_ku??'NULL'}}</p>
-                        <span class="text-success d-block">{{Str::substr($category->description_ku,0,50)??'NULL'}}...</span>
-                    </td>
+
+
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($category->created_at)->toDateString()??'NULL'}}</p>
                         <span

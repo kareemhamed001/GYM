@@ -8,21 +8,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete muscle?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('muscles.deleteMuscle') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        the muscle will be deleted forever!
+                        {!! __('muscles.deleteMuscleForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('muscles.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deletemuscle()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deletemuscle()"> {!! __('muscles.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -34,21 +34,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected muscles?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> {!! __('muscles.deleteSelected') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these muscles will be deleted forever !
+                        {!! __('muscles.deletedForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('muscles.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">{!! __('muscles.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -61,10 +61,10 @@
             <div>
                 <button type="button" data-toggle="modal" data-target="#deleteArrayOfmusclesModal"
                         title="delete selected orders"
-                        class="btn btn-danger">Delete
+                        class="btn btn-danger">{!! __('muscles.delete') !!}
                 </button>
                 <a href="{{url('coach/muscles/create')}}" type="button" class="btn btn-primary">
-                    Add
+                    {!! __('muscles.add') !!}
                 </a>
 
             </div>
@@ -92,12 +92,11 @@
                         <input class="form-check-input" type="checkbox" id="selectAll">
                     </div>
                 </th>
-                <th scope="col">EN</th>
-                <th scope="col">AR</th>
-                <th scope="col">KU</th>
-                <th scope="col">Curricula</th>
-                <th scope="col" class="text-center">Created_At</th>
-                <th scope="col" class="text-center">Action</th>
+                <th  >{!! __('muscles.id') !!}</th>
+                <th scope="col">{!! __('muscles.'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'') !!}</th>
+                <th scope="col">{!! __('muscles.parts') !!}</th>
+                <th scope="col" class="text-center">{!! __('muscles.createdAt') !!}</th>
+                <th scope="col" class="text-center">{!! __('muscles.action') !!}</th>
 
             </tr>
             </thead>
@@ -110,24 +109,21 @@
                                    value="{{$muscle->id}}">
                         </div>
                     </td>
+
+                    <td>
+                        {{$muscle->id}}
+                    </td>
+
                     <td>
                         <div class="media">
-                            <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($muscle->cover_image)}}" class="rounded-circle"/>
+                            <div class="avatar mx-2">
+                                <img alt="" src="{{asset($muscle->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$muscle->name}}</h6>
-                                <span class="text-success">{{$muscle->description}}</span>
+                                <h6 class="mb-0">{{$muscle['title_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($muscle['description_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().''],0,50)}}... </span>
                             </div>
                         </div>
-                    </td>
-                    <td>
-                        <p class="mb-0">{{$muscle->title_ar??'NULL'}}</p>
-                        <span class="text-success">{{$muscle->description_ar??'NULL'}}</span>
-                    </td>
-                    <td>
-                        <p class="mb-0">{{$muscle->title_ku??'NULL'}}</p>
-                        <span class="text-success">{{$muscle->description_ku??'NULL'}}</span>
                     </td>
                     <td>
                         {{$muscle->curricula->count()}}

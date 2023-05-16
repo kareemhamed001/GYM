@@ -91,7 +91,7 @@ class SubCategoryController extends Controller
     {
         try {
 
-            $subCategory = CategoryClass::get($id);
+            $subCategory = subCategory::find($id);
             if ($subCategory) {
                 return $this->apiResponse($subCategory, 'success', 200);
             }

@@ -5,7 +5,7 @@
     <div class="row my-3">
         <div class="">
 
-            <h3> <i class="fa-light fa-gear"></i> logs</h3>
+            <h3> <i class="fa-light fa-gear"></i> {!! __('logs.logs') !!}</h3>
 
 
         </div>
@@ -30,11 +30,11 @@
         <table class="table table-hover  table-bordered">
             <thead>
             <tr>
-                <th scope="col">Table Name</th>
-                <th scope="col">Item Id</th>
-                <th scope="col">Action</th>
-                <th scope="col">User</th>
-                <th scope="col" class="text-center">Created_At</th>
+                <th scope="col">{!! __('logs.tableNmae') !!}</th>
+                <th scope="col">{!! __('logs.itemId') !!}</th>
+                <th scope="col">{!! __('logs.action') !!}</th>
+                <th scope="col">{!! __('logs.user') !!}</th>
+                <th scope="col" class="text-center">{!! __('logs.createdAt') !!}</th>
 
             </tr>
             </thead>

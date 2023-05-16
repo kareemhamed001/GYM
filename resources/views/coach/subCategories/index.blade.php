@@ -8,21 +8,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete category?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('subcategories.deleteCategory') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        the category will be deleted forever!
+                        {!! __('subcategories.deleteCategoryForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('subcategories.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deletecategory()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deletecategory()">{!! __('subcategories.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -34,21 +34,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected categories?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('subcategories.deleteSelected') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these categories will be deleted forever !
+                        {!! __('subcategories.deleteSelectedForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('subcategories.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSelected()"> {!! __('subcategories.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">add a new category</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel"> {!! __('subcategories.addNewCategory') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -71,39 +71,39 @@
                         <input name="coach_id" type="hidden" value="{{Auth::user()->id}}">
                         <input name="category_id" type="hidden" value="{{$category->id}}">
                         <div class="form-group col-12 my-1">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
+                            <label for="coverImage"> {!! __('subcategories.coverImage') !!}</label>
+                            <input name="cover_image" class="form-control" type="file" id="coverImage"
                                    placeholder="Enter name in english">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="categoryNameEn">Name En</label>
+                        <div class="form-group col-md-4 col-12 my-1">
+                            <label for="categoryNameEn"> {!! __('subcategories.nameEn') !!}</label>
                             <input name="name" class="form-control" type="text" id="categoryNameEn"
-                                   placeholder="Enter name in english">
+                                   placeholder=" {!! __('subcategories.enterNameEn') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryNameAr">Name Ar</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryNameAr"> {!! __('subcategories.nameAr') !!}</label>
                             <input name="name_ar" class="form-control" type="text" id="categoryNameAr"
-                                   placeholder="Enter name in arabic">
+                                   placeholder="{!! __('subcategories.enterNameAr') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryNameKu">Name Ku</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryNameKu">{!! __('subcategories.nameKu') !!}</label>
                             <input name="name_ku" class="form-control" type="text" id="categoryNameKu"
-                                   placeholder="Enter name in kurdish">
+                                   placeholder="{!! __('subcategories.enterNameKu') !!}">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="categoryDescriptionEn">Description En</label>
+                        <div class="form-group col-md-4 col-12 my-1">
+                            <label for="categoryDescriptionEn">{!! __('subcategories.descriptionEn') !!}</label>
                             <textarea name="description" class="form-control" type="text" id="categoryDescriptionEn"
-                                      placeholder="Enter Description in english"></textarea>
+                                      placeholder="{!! __('subcategories.enterDescriptionEn') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryDescriptionAr">Description Ar</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryDescriptionAr">{!! __('subcategories.descriptionAr') !!}</label>
                             <textarea name="description_ar" class="form-control" type="text" id="categoryDescriptionAr"
-                                      placeholder="Enter Description in arabic"></textarea>
+                                      placeholder="{!! __('subcategories.enterDescriptionAr') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryDescriptionKu">Description Ku</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryDescriptionKu">{!! __('subcategories.descriptionKu') !!}</label>
                             <textarea name="description_ku" class="form-control" type="text" id="categoryDescriptionKu"
-                                      placeholder="Enter Description in kurdish"></textarea>
+                                      placeholder="{!! __('subcategories.enterDescriptionKu') !!}"></textarea>
                         </div>
 
                         <hr>
@@ -111,8 +111,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="createCategoryForm">Save changes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{!! __('subcategories.close') !!}</button>
+                    <button type="submit" class="btn btn-primary" form="createCategoryForm">{!! __('subcategories.save') !!}</button>
 
                 </div>
             </div>
@@ -125,7 +125,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">edit</h5>
+                    <h5 class="modal-title text-capitalize" id="exampleModalLabel">{!! __('subcategories.edit') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             onclick="closeeditmodal()">
                         <span aria-hidden="true">&times;</span>
@@ -136,46 +136,46 @@
                         @csrf
                         @method('PUT')
                         <input name="coach_id" type="hidden" value="{{Auth::user()->id}}">
-                        <div class="col-6 my-1">
-                            <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid" src="" alt="">
-                        </div>
+                        <label for="coverImage" class="col-6 my-1">
+                            <img id="coverImageEdit" style="object-fit: scale-down" class="img-fluid " src="" alt="">
+                        </label>
 
-                        <div class="form-group col-6 my-1 ps-2">
-                            <label for="coverImage">Cover Image</label>
-                            <input name="cover_image" class="form-control-file" type="file" id="coverImage"
+                        <div class="form-group col-6 my-1 px-2">
+                            <label for="coverImage">{!! __('subcategories.coverImage') !!}</label>
+                            <input name="cover_image" class="form-control" type="file" id="coverImage"
                                    placeholder="Enter name in english">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="categoryNameEnEdit">Name En</label>
+                        <div class="form-group col-md-4 col-12 my-1">
+                            <label for="categoryNameEnEdit">{!! __('subcategories.nameEn') !!}</label>
                             <input name="name" class="form-control" type="text" id="categoryNameEnEdit"
-                                   placeholder="Enter name in english">
+                                   placeholder="{!! __('subcategories.enterNameEn') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryNameArEdit">Name Ar</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryNameArEdit">{!! __('subcategories.nameAr') !!}</label>
                             <input name="name_ar" class="form-control" type="text" id="categoryNameArEdit"
-                                   placeholder="Enter name in arabic">
+                                   placeholder="{!! __('subcategories.enterNameAr') !!}">
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryNameKuEdit">Name Ku</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryNameKuEdit">{!! __('subcategories.nameKu') !!}</label>
                             <input name="name_ku" class="form-control" type="text" id="categoryNameKuEdit"
-                                   placeholder="Enter name in kurdish">
+                                   placeholder="{!! __('subcategories.enterNameKu') !!}">
                         </div>
-                        <div class="form-group col-12 my-1">
-                            <label for="categoryDescriptionEnEdit">Description En</label>
+                        <div class="form-group col-md-4 col-12 my-1">
+                            <label for="categoryDescriptionEnEdit">{!! __('subcategories.descriptionEn') !!}</label>
                             <textarea name="description" class="form-control" type="text" id="categoryDescriptionEnEdit"
-                                      placeholder="Enter Description in english"></textarea>
+                                      placeholder="{!! __('subcategories.enterDescriptionEn') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryDescriptionArEdit">Description Ar</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryDescriptionArEdit">{!! __('subcategories.descriptionAr') !!}</label>
                             <textarea name="description_ar" class="form-control" type="text"
                                       id="categoryDescriptionArEdit"
-                                      placeholder="Enter Description in arabic"></textarea>
+                                      placeholder="{!! __('subcategories.enterDescriptionAr') !!}"></textarea>
                         </div>
-                        <div class="form-group col-6 px-1 my-1">
-                            <label for="categoryDescriptionKuEdit">Description Ku</label>
+                        <div class="form-group col-md-4 col-12 px-1 my-1">
+                            <label for="categoryDescriptionKuEdit">{!! __('subcategories.descriptionKu') !!}</label>
                             <textarea name="description_ku" class="form-control" type="text"
                                       id="categoryDescriptionKuEdit"
-                                      placeholder="Enter Description in kurdish"></textarea>
+                                      placeholder="{!! __('subcategories.enterDescriptionKu') !!}"></textarea>
                         </div>
 
                         <hr>
@@ -184,10 +184,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeeditmodal()">
-                        Close
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="closeeditmodal()">
+                        {!! __('subcategories.close') !!}
                     </button>
-                    <button type="submit" class="btn btn-primary" form="editCategoryForm">Save changes</button>
+                    <button type="submit" class="btn btn-primary" form="editCategoryForm">{!! __('subcategories.save') !!}</button>
 
                 </div>
             </div>
@@ -197,14 +197,14 @@
 
     <div class="row my-3">
         <div class="d-flex justify-content-between">
-            <h3>Sub Categories</h3>
+            <h3>{!! __('subcategories.subcategories') !!}</h3>
             <div>
                 <button type="button" data-toggle="modal" data-target="#deleteArrayOfCategoriesModal"
                         title="delete selected orders"
-                        class="btn btn-danger">Delete
+                        class="btn btn-danger">{!! __('subcategories.delete') !!}
                 </button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#addCategoryModal">
-                    Add
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">
+                    {!! __('subcategories.add') !!}
                 </button>
 
             </div>
@@ -232,11 +232,11 @@
                         <input class="form-check-input" type="checkbox" id="selectAll">
                     </div>
                 </th>
-                <th scope="col">EN</th>
-                <th scope="col">AR</th>
-                <th scope="col">KU</th>
-                <th scope="col" class="text-center">Created_At</th>
-                <th scope="col" class="text-center">Action</th>
+                <th scope="col">{!! __('subcategories.id') !!}</th>
+                <th scope="col">{!! __('subcategories.subcategory') !!}</th>
+
+                <th scope="col" class="text-center">{!! __('subcategories.createdAt') !!}</th>
+                <th scope="col" class="text-center">{!! __('subcategories.action') !!}</th>
 
             </tr>
             </thead>
@@ -250,24 +250,20 @@
                         </div>
                     </td>
                     <td>
+                        {{$category->id}}
+                    </td>
+                    <td>
                         <div class="media">
-                            <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($category->cover_image)}}" class="rounded-circle"/>
+                            <div class="avatar mx-2">
+                                <img alt="" src="{{asset($category->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$category->name_en}}</h6>
-                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category->description_en,0,50)}}... </span>
+                                <h6 class="mb-0">{{$category['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($category['description_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().''],0,50)}}... </span>
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <p class="mb-0">{{$category->name_ar??'NULL'}}</p>
-                        <span class="text-success d-block">{{Str::substr($category->description_ar,0,50)??'NULL'}}...</span>
-                    </td>
-                    <td>
-                        <p class="mb-0">{{$category->name_ku??'NULL'}}</p>
-                        <span class="text-success d-block">{{Str::substr($category->description_ku,0,50)??'NULL'}}...</span>
-                    </td>
+
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($category->created_at)->toDateString()??'NULL'}}</p>
                         <span
@@ -277,16 +273,16 @@
                         <div class="d-flex align-items-center">
 
 
-                            <div class="action-btns">
-                                <a href="{{url('coach/categories',$category->id)}}" class="action-btn btn-view bs-tooltip me-2"
-                                   data-toggle="tooltip" data-placement="top" title="View">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" class="feather feather-eye">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </a>
+                            <div class="action-btns m-auto">
+{{--                                <a href="{{url('coach/categories',$category->id)}}" class="action-btn btn-view bs-tooltip me-2"--}}
+{{--                                   data-toggle="tooltip" data-placement="top" title="View">--}}
+{{--                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"--}}
+{{--                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"--}}
+{{--                                         stroke-linejoin="round" class="feather feather-eye">--}}
+{{--                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>--}}
+{{--                                        <circle cx="12" cy="12" r="3"></circle>--}}
+{{--                                    </svg>--}}
+{{--                                </a>--}}
                                 <a onclick="preparecategorytoedit({{$category->id}})"
                                    href="javascript:void(0);" class="action-btn btn-edit bs-tooltip me-2"
                                    data-placement="top" title="Edit">
@@ -349,7 +345,7 @@
 
             categoryIdEdit = id
             showLoader();
-            const response = await fetch(`/api/categories/${id}`, {
+            const response = await fetch(`/api/sub-categories/${id}`, {
                 method: 'GET'
             });
             removeLoader()
@@ -459,7 +455,7 @@
 
                 showLoader()
                 $.ajax({
-                    url: `http:\\api/sub-categories/delete-collection`,
+                    url: `/api/sub-categories/delete-collection`,
                     method: 'POST',
                     data: {'categories': selectedValues},
                     success: function (response) {
@@ -565,7 +561,7 @@
 
             try {
                 showLoader()
-                const response = await fetch(`/api/categories/${categoryIdEdit}`, {
+                const response = await fetch(`/api/sub-categories/${categoryIdEdit}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
