@@ -21,14 +21,14 @@ class SupplementController extends Controller
     public function products()
     {
         $products = product::where('category_id', 6)->paginate();
-        $category = category::find(7);
+        $category = category::find(6);
         return view('coach.products.index', compact('products', 'category'));
     }
 
     function brands()
     {
 
-        $category = category::find(7);
+        $category = category::find(6);
         $brands = brand::paginate();
         return view('coach.brands.index', compact('brands','category'));
 
