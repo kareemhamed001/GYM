@@ -186,7 +186,7 @@
 
                                 <div class="col-12">
                                     <div class="mb-4">
-                                        <button class="btn btn-primary ">{{ __('Register') }}</button>
+                                        <button class="btn btn-secondary w-100">Register</button>
                                     </div>
                                 </div>
                             </form>
