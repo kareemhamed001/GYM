@@ -8,21 +8,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete product?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('products.deleteProduct') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        the product will be deleted forever!
+                       {!! __('products.deleteProductForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('products.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteproduct()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteproduct()">{!! __('products.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -34,21 +34,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Selected products?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{!! __('products.deleteSelected') !!}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                      <span class="text-danger">
-                        these products will be deleted forever !
+                        {!! __('products.deleteSelectedForever') !!}
                      </span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal()">
-                        Close
+                        {!! __('products.close') !!}
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSelected()">{!! __('products.delete') !!}</button>
                 </div>
             </div>
         </div>
@@ -56,14 +56,14 @@
 
     <div class="row my-3">
         <div class="d-flex justify-content-between">
-            <h3>products</h3>
+            <h3>{!! __('products.products') !!}</h3>
             <div>
                 <button type="button" data-toggle="modal" data-target="#deleteArrayOfproductsModal"
                         title="delete selected orders"
-                        class="btn btn-danger">Delete
+                        class="btn btn-danger">{!! __('products.delete') !!}
                 </button>
                 <a href="{{url('coach/category/'.$category->id.'/products/create')}}"  class="btn btn-primary">
-                    Add
+                    {!! __('products.add') !!}
                 </a>
 
             </div>
@@ -95,11 +95,10 @@
                         <input class="form-check-input" type="checkbox" id="selectAll">
                     </div>
                 </th>
-                <th scope="col">EN</th>
-                <th scope="col">AR</th>
-                <th scope="col">KU</th>
-                <th scope="col" class="text-center">Created_At</th>
-                <th scope="col" class="text-center">Action</th>
+                <th scope="col">{!! __('products.id') !!}</th>
+                <th scope="col">{!! __('products.product') !!}</th>
+                <th scope="col" class="text-center">{!! __('products.createdAt') !!}</th>
+                <th scope="col" class="text-center">{!! __('products.action') !!}</th>
 
             </tr>
             </thead>
@@ -113,24 +112,21 @@
                         </div>
                     </td>
                     <td>
+                        {{$product->id}}
+                    </td>
+                    <td>
                         <div class="media">
-                            <div class="avatar me-2">
-                                <img alt="avatar" src="{{asset($product->cover_image)}}" class="rounded-circle"/>
+                            <div class="avatar mx-2">
+                                <img alt="" src="{{asset($product->cover_image)}}" class="rounded-circle"/>
                             </div>
                             <div class="media-body align-self-center">
-                                <h6 class="mb-0">{{$product->name}}</h6>
-                                <span class="text-success">{{$product->description}}</span>
+                                <h6 class="mb-0">{{$product['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</h6>
+                                <span class="text-success d-block" style="word-break: break-word">{{Str::substr($product['description_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().''],0,50)}}... </span>
                             </div>
                         </div>
                     </td>
-                    <td>
-                        <p class="mb-0">{{$product->name_ar??'NULL'}}</p>
-                        <span class="text-success">{{$product->description_ar??'NULL'}}</span>
-                    </td>
-                    <td>
-                        <p class="mb-0">{{$product->name_ku??'NULL'}}</p>
-                        <span class="text-success">{{$product->description_ku??'NULL'}}</span>
-                    </td>
+
+
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($product->created_at)->toDateString()??'NULL'}}</p>
                         <span

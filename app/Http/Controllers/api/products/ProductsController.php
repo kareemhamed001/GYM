@@ -46,6 +46,7 @@ class ProductsController extends Controller
         try {
 
 
+
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:100'],
                 'name_ar' => ['nullable', 'string', 'max:100'],
@@ -81,7 +82,7 @@ class ProductsController extends Controller
                 $product->category_id=$request->category_id;
                 $product->cover_image=$path;
 
-                if (intval($request->category_id)==6){
+                if (intval($request->category_id)==config('mainCategories.Supplements.id')){
                     $product->brand_id=$request->brand_id;
                 }else{
                     $product->subcategory_id=$request->subcategory_id;

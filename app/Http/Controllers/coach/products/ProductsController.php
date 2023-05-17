@@ -20,7 +20,7 @@ class ProductsController extends Controller
 
     function create(category $category){
 
-        if ($category->id==6){
+        if ($category->id==config('mainCategories.Supplements.id')){
             $brands=brand::all();
             return view('coach.products.create',compact('brands','category'));
         }
@@ -39,7 +39,7 @@ class ProductsController extends Controller
 
     public function edit(category $category,product $product)
     {
-        if ($category->id==6 && isset($product->brand_id)){
+        if ($category->id==config('mainCategories.Supplements.id') && isset($product->brand_id)){
             $brands=brand::all();
             $brand=$product->brand;
             return view('coach.products.edit',compact('brands','brand','category','product'));

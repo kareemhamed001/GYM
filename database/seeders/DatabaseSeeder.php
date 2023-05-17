@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
 //         \App\Models\purchase::factory(100)->create();
 
 
-
         if (!User::where('email','admin@gmail.com')->exists()){
             User::create([
                 'name' => 'Admin',
@@ -42,11 +41,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        if (!category::where('id',1)->exists()){
+        if (!category::where('id',config('mainCategories.Equipments.id'))->exists()){
 
         \App\Models\category::factory()->create([
-            'id'=>1,
-            'name_en'=>'Equipment',
+            'id'=>config('mainCategories.Equipments.id'),
+            'name_en'=>config('mainCategories.Equipments.name'),
             'name_ar'=>'معدات رياضيه',
             'name_ku'=>'Equipment',
             'description_en'=>'Equipment',
@@ -55,10 +54,10 @@ class DatabaseSeeder extends Seeder
             'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
         ]);
         }
-        if (!category::where('id',2)->exists()){
+        if (!category::where('id',config('mainCategories.Accessories.id'))->exists()){
             \App\Models\category::factory()->create([
-                'id'=>2,
-                'name_en'=>'Accessories',
+                'id'=>config('mainCategories.Accessories.id'),
+                'name_en'=>config('mainCategories.Accessories.name'),
                 'name_ar'=>'Accessories ',
                 'name_ku'=>'Supplements',
                 'description_en'=>'Accessories',
@@ -68,10 +67,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        if (!category::where('id',3)->exists()){
+        if (!category::where('id',config('mainCategories.SportWear.id'))->exists()){
             \App\Models\category::factory()->create([
-                'id'=>3,
-                'name_en'=>'Sport Wear',
+                'id'=>config('mainCategories.SportWear.id'),
+                'name_en'=>config('mainCategories.SportWear.name'),
                 'name_ar'=>'Sport Wear',
                 'name_ku'=>'Sport Wear',
                 'description_en'=>'Sport Wear',
@@ -81,10 +80,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        if (!category::where('id',4)->exists()){
+        if (!category::where('id',config('mainCategories.DietFood.id'))->exists()){
             \App\Models\category::factory()->create([
-                'id'=>4,
-                'name_en'=>'Diet Food',
+                'id'=>config('mainCategories.DietFood.id'),
+                'name_en'=>config('mainCategories.DietFood.name'),
                 'name_ar'=>'Diet Food ',
                 'name_ku'=>'Diet Food',
                 'description_en'=>'Diet Food',
@@ -95,10 +94,10 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        if (!category::where('id',5)->exists()){
+        if (!category::where('id',config('mainCategories.Coaches.id'))->exists()){
             \App\Models\category::factory()->create([
-                'id'=>5,
-                'name_en'=>'Coaches',
+                'id'=>config('mainCategories.Coaches.id'),
+                'name_en'=>config('mainCategories.Coaches.name'),
                 'name_ar'=>'Coaches',
                 'name_ku'=>'Coaches',
                 'description_en'=>'Coaches',
@@ -109,10 +108,10 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        if (!category::where('id',6)->exists()){
+        if (!category::where('id',config('mainCategories.Supplements.id'))->exists()){
             \App\Models\category::factory()->create([
-                'id'=>6,
-                'name_en'=>'Supplements',
+                'id'=>config('mainCategories.Supplements.id'),
+                'name_en'=>config('mainCategories.Supplements.name'),
                 'name_ar'=>'Supplements',
                 'name_ku'=>'Supplements',
                 'description_en'=>'Supplements',
@@ -122,10 +121,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        if (!category::where('id',7)->exists()){
+        if (!category::where('id',config('mainCategories.GymDiscount.id'))->exists()){
             \App\Models\category::factory()->create([
-                'id'=>7,
-                'name_en'=>'Gym Discount',
+                'id'=>config('mainCategories.GymDiscount.id'),
+                'name_en'=>config('mainCategories.GymDiscount.name'),
                 'name_ar'=>'Gym Discount',
                 'name_ku'=>'Gym Discount',
                 'description_en'=>'Gym Discount',

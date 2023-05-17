@@ -9,17 +9,17 @@
                 <li class="breadcrumb-item active" aria-current="page">Create product</li>
             </ol>
         </nav>
-        <h4 class="my-3">Add Product</h4>
+        <h4 class="my-3">{!! __('products.addNewProduct') !!}</h4>
 
         @if(isset($subcategories) &&$subcategories->count() ==0)
 
             <div class="alert alert-warning" role="alert">
-                You must add sub categories before adding product to category {{$category->name_en}}
+                {!! __('products.youMustAddSubCategories') !!} {{$category->name_en}}
             </div>
         @endif
         @if(isset($brands) &&$brands->count() ==0 )
             <div class="alert alert-warning" role="alert">
-                You must add brands before adding product
+                {!! __('products.youMustAddSubBrands') !!}
             </div>
         @endif
 
@@ -28,92 +28,94 @@
             @csrf
             <input type="hidden" name="coach_id" value="{{\Illuminate\Support\Facades\Auth::user()?->id}}">
             <div class="row">
-                <div class="my-1 col-md-6">
-                    <label for="cover_image">Cover_image</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="cover_image">{!! __('products.coverImage') !!}</label>
                     <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*"
                            onchange="previewImage(event)">
                 </div>
-                <div class="my-1 col-md-6">
-                    <label for="images">Images</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="images">{!! __('products.images') !!}</label>
                     <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple>
                 </div>
 
+
                 <input type="hidden" name="category_id" value="{{$category->id}}">
                 @if(isset($subcategories))
-                    <div class="my-1 col">
-                        <label for="subcategory_id">Category</label>
-                        <select class="form-select" id="subcategory_id" name="category_id">
-                            <option value="">--select category--</option>
+                    <div class="my-1 col-md-4 col-12">
+                        <label for="subcategory_id">{!! __('products.subCategory') !!}</label>
+                        <select class="form-select" id="subcategory_id" name="subcategory_id">
+                            <option value="">--{!! __('products.selectSubCategory') !!}--</option>
                             @foreach($subcategories as $category)
-                                <option value="{{$category->id}}">{{$category->name_en}}</option>
+                                <option value="{{$category->id}}">{{$category['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
                             @endforeach
                         </select>
                     </div>
                 @endif
 
                 @if(isset($brands))
-                    <div class="my-1 col">
+                    <div class="my-1 col-md-4 col-12">
                         <label for="brand_id">Brand</label>
                         <select class="form-select" id="brand_id" name="brand_id">
-                            <option value="">--select brand--</option>
+                            <option value="">--{!! __('products.selectBrand') !!}--</option>
                             @foreach($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand->name_en}}</option>
+                                <option value="{{$brand->id}}">{{$brand['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
                             @endforeach
                         </select>
                     </div>
                 @endif
 
-                <div class="my-1 col-12">
-                    <label for="name_en">Name En</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="name_en">{!! __('products.nameEn') !!}</label>
                     <input type="text" class="form-control" id="name_en" name="name"
-                           placeholder="Product Name In English *">
+                           placeholder="{!! __('products.enterNameEn') !!}">
                 </div>
-                <div class="my-1 col-md-6">
-                    <label for="name_ar">Name Ar</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="name_ar">{!! __('products.nameAr') !!}</label>
                     <input type="text" class="form-control" id="name_ar" name="name_ar"
-                           placeholder="Product Name In Arabic *">
+                           placeholder="{!! __('products.enterNameAr') !!}">
                 </div>
-                <div class="my-1 col-md-6">
-                    <label for="name_ku">Name Ku</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="name_ku">{!! __('products.nameKu') !!}</label>
                     <input type="text" class="form-control" id="name_ku" name="name_ku"
-                           placeholder="Product Name In Kurdish *">
+                           placeholder="{!! __('products.enterNameKu') !!}">
                 </div>
-                <div class="my-1 col-12">
-                    <label for="description_en">Description En</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="description_en">{!! __('products.descriptionEn') !!}</label>
                     <textarea type="text" class="form-control" id="description_en" name="description"
-                              placeholder="Product Description In English *"></textarea>
+                              placeholder="{!! __('products.enterDescriptionEn') !!}"></textarea>
                 </div>
-                <div class="my-1 col-md-6">
-                    <label for="description_ar">Description Ar</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="description_ar">{!! __('products.descriptionAr') !!}</label>
                     <textarea type="text" class="form-control" id="description_ar" name="description_ar"
-                              placeholder="Product Description In Arabic *"></textarea>
+                              placeholder="{!! __('products.enterDescriptionAr') !!}"></textarea>
                 </div>
-                <div class="my-1 col-md-6">
-                    <label for="description_ku">Description Ku</label>
+                <div class="my-1 col-md-4 col-12">
+                    <label for="description_ku">{!! __('products.descriptionKu') !!}</label>
                     <textarea type="text" class="form-control" id="description_ku" name="description_ku"
-                              placeholder="Product Description In Kurdish *"></textarea>
-                </div>
-                <div class="my-1 col-md-4">
-                    <label for="quantity">Quantity</label>
-                    <input type="text" class="form-control" id="quantity" name="quantity"
-                           placeholder="Product Description In Kurdish *">
+                              placeholder="{!! __('products.enterDescriptionKu') !!}"></textarea>
                 </div>
 
                 <div class="my-1 col-md-4">
-                    <label for="price">Price</label>
+                    <label for="quantity">{!! __('products.quantity') !!}</label>
+                    <input type="text" class="form-control" id="quantity" name="quantity"
+                           placeholder="{!! __('products.enterQuantity') !!}">
+                </div>
+
+                <div class="my-1 col-md-4">
+                    <label for="price">{!! __('products.price') !!}</label>
                     <input type="text" class="form-control" id="price" name="price"
-                           placeholder="Price *">
+                           placeholder="{!! __('products.enterPrice') !!}">
                 </div>
                 <div class="my-1 col-md-4">
-                    <label for="discount">Discount</label>
+                    <label for="discount">{!! __('products.discount') !!}</label>
                     <input type="text" class="form-control" id="discount" name="discount"
-                           placeholder="Discount in percent *">
+                           placeholder="{!! __('products.enterDiscount') !!}">
                 </div>
                 <div id="color" class="row my-2">
                     <div class="d-flex flex-row justify-content-between">
-                        <label for="" class="col-6">Colors</label>
+                        <label for="" class="col-6">{!! __('products.color') !!}</label>
 
-                        <button onclick="addColor()" type="button" class="btn btn-success">Add color</button>
+                        <button onclick="addColor()" type="button" class="btn btn-success">{!! __('products.addColor') !!}</button>
                     </div>
                     <div id="colorsContainer" class="row">
                     </div>
@@ -121,16 +123,16 @@
 
                 <div id="siezes" class="row my-2">
                     <div class="d-flex flex-row justify-content-between">
-                        <label for="" class="col-6">Sizes <span class="text-muted"> EX(1KG or Large)</span></label>
+                        <label for="" class="col-6">{!! __('products.sizes') !!} </label>
 
-                        <button onclick="addSize()" type="button" class="btn btn-success">Add size</button>
+                        <button onclick="addSize()" type="button" class="btn btn-success">{!! __('products.addSize') !!}</button>
                     </div>
                     <div id="sizesContainer" class="row">
                     </div>
                 </div>
             </div>
             <div class="my-1">
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">{!! __('products.add') !!}</button>
             </div>
 
         </form>
