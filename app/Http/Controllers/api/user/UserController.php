@@ -36,7 +36,7 @@ class UserController extends Controller
                 'profile_image' => ['required', 'image'],
                 'name' => ['required', 'string', 'max:100'],
                 'email' => ['required', 'string', 'email', 'unique:users'],
-                'password' => ['required', 'string', 'min:8'],
+                'password' => ['required', 'string', 'min:8','confirmed'],
                 'phone_number' => ['required', 'string', 'unique:users', 'starts_with:01', 'max_digits:11'],
                 'country' => ['required', 'string'],
                 'age' => ['required', 'integer'],
