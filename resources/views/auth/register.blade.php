@@ -190,41 +190,41 @@
                                     </div>
                                 </div>
                             </form>
-                            <div class="col-12 mb-4">
-                                <div class="">
-                                    <div class="seperator">
-                                        <hr>
-                                        <div class="seperator-text"> <span>Or continue with</span></div>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="col-12 mb-4">--}}
+{{--                                <div class="">--}}
+{{--                                    <div class="seperator">--}}
+{{--                                        <hr>--}}
+{{--                                        <div class="seperator-text"> <span>Or continue with</span></div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <div class="col-sm-4 col-12">
-                                <div class="mb-4">
-                                    <button class="btn  btn-social-login w-100 ">
-                                        <img src="{{asset('assets/src/assets/img/google-gmail.svg')}}" alt="" class="img-fluid">
-                                        <span class="btn-text-inner">Google</span>
-                                    </button>
-                                </div>
-                            </div>
+{{--                            <div class="col-sm-4 col-12">--}}
+{{--                                <div class="mb-4">--}}
+{{--                                    <button class="btn  btn-social-login w-100 ">--}}
+{{--                                        <img src="{{asset('assets/src/assets/img/google-gmail.svg')}}" alt="" class="img-fluid">--}}
+{{--                                        <span class="btn-text-inner">Google</span>--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <div class="col-sm-4 col-12">
-                                <div class="mb-4">
-                                    <button class="btn  btn-social-login w-100">
-                                        <img src="{{asset('assets/src/assets/img/github-icon.svg')}}" alt="" class="img-fluid">
-                                        <span class="btn-text-inner">Github</span>
-                                    </button>
-                                </div>
-                            </div>
+{{--                            <div class="col-sm-4 col-12">--}}
+{{--                                <div class="mb-4">--}}
+{{--                                    <button class="btn  btn-social-login w-100">--}}
+{{--                                        <img src="{{asset('assets/src/assets/img/github-icon.svg')}}" alt="" class="img-fluid">--}}
+{{--                                        <span class="btn-text-inner">Github</span>--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <div class="col-sm-4 col-12">
-                                <div class="mb-4">
-                                    <button class="btn  btn-social-login w-100">
-                                        <img src="{{asset('assets/src/assets/img/twitter.svg')}}" alt="" class="img-fluid">
-                                        <span class="btn-text-inner">Twitter</span>
-                                    </button>
-                                </div>
-                            </div>
+{{--                            <div class="col-sm-4 col-12">--}}
+{{--                                <div class="mb-4">--}}
+{{--                                    <button class="btn  btn-social-login w-100">--}}
+{{--                                        <img src="{{asset('assets/src/assets/img/twitter.svg')}}" alt="" class="img-fluid">--}}
+{{--                                        <span class="btn-text-inner">Twitter</span>--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
                             <div class="col-12">
                                 <div class="text-center">
