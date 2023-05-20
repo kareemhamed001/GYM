@@ -62,6 +62,8 @@ Route::resource('/categories', \App\Http\Controllers\api\category\CategoryContro
 
 
 Route::post('sub-categories/delete-collection', [\App\Http\Controllers\api\subCategory\SubCategoryController::class, 'deleteArrayOfSubCategories']);
+Route::post('tmp-upload', [\App\Http\Controllers\api\products\ProductsController::class, 'tmpUpload']);
+Route::delete('tmp-delete', [\App\Http\Controllers\api\products\ProductsController::class, 'tmpDelete']);
 
 Route::resource('/sub-categories', \App\Http\Controllers\api\subCategory\SubCategoryController::class,
     [

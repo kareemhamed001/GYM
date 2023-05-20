@@ -1,5 +1,14 @@
 @extends('layouts.app-blog-create')
+@section('styles')
+    <link rel="stylesheet" href="{{asset('assets/src/plugins/src/filepond/filepond.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.css')}}">
+    <link href="{{asset('assets/src/plugins/src/notification/snackbar/snackbar.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.css')}}">
+    <link href="{{asset('assets/src/plugins/css/light/filepond/custom-filepond.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/src/plugins/css/dark/filepond/custom-filepond.css')}}" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
+
     <div class="row my-2">
 
         <nav class="breadcrumb-style-one mb-3  col-lg-6" aria-label="breadcrumb">
@@ -23,46 +32,13 @@
             </div>
         @endif
 
-        <img id="preview">
-        <form id="addProductForm" class="my-2">
+
+        <form id="addProductForm" method="post" class="my-2" enctype="multipart/form-data">
+
             @csrf
             <input type="hidden" name="coach_id" value="{{\Illuminate\Support\Facades\Auth::user()?->id}}">
             <div class="row">
-                <div class="my-1 col-md-4 col-12">
-                    <label for="cover_image">{!! __('products.coverImage') !!}</label>
-                    <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*"
-                           onchange="previewImage(event)">
-                </div>
-                <div class="my-1 col-md-4 col-12">
-                    <label for="images">{!! __('products.images') !!}</label>
-                    <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple>
-                </div>
 
-
-                <input type="hidden" name="category_id" value="{{$category->id}}">
-                @if(isset($subcategories))
-                    <div class="my-1 col-md-4 col-12">
-                        <label for="subcategory_id">{!! __('products.subCategory') !!}</label>
-                        <select class="form-select" id="subcategory_id" name="subcategory_id">
-                            <option value="">--{!! __('products.selectSubCategory') !!}--</option>
-                            @foreach($subcategories as $category)
-                                <option value="{{$category->id}}">{{$category['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
-
-                @if(isset($brands))
-                    <div class="my-1 col-md-4 col-12">
-                        <label for="brand_id">Brand</label>
-                        <select class="form-select" id="brand_id" name="brand_id">
-                            <option value="">--{!! __('products.selectBrand') !!}--</option>
-                            @foreach($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
 
                 <div class="my-1 col-md-4 col-12">
                     <label for="name_en">{!! __('products.nameEn') !!}</label>
@@ -111,6 +87,41 @@
                     <input type="text" class="form-control" id="discount" name="discount"
                            placeholder="{!! __('products.enterDiscount') !!}">
                 </div>
+                <div class="my-1 col-md-6 col-12">
+                    <label for="images">{!! __('products.images') !!}</label>
+                    {{--                    <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple>--}}
+                    {{--                    <input type="file" id="filepond" name="images[]" accept="image/*"/>--}}
+                    <input type="file" id="image" name="images[]"  accept="image/*" required multiple>
+
+                </div>
+
+
+
+
+                <input type="hidden" name="category_id" value="{{$category->id}}">
+                @if(isset($subcategories))
+                    <div class="my-1 col-md-6 col-12">
+                        <label for="subcategory_id">{!! __('products.subCategory') !!}</label>
+                        <select class="form-select" id="subcategory_id" name="subcategory_id">
+                            <option value="">--{!! __('products.selectSubCategory') !!}--</option>
+                            @foreach($subcategories as $category)
+                                <option value="{{$category->id}}">{{$category['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
+                @if(isset($brands))
+                    <div class="my-1 col-md-6 col-12">
+                        <label for="brand_id">Brand</label>
+                        <select class="form-select" id="brand_id" name="brand_id">
+                            <option value="">--{!! __('products.selectBrand') !!}--</option>
+                            @foreach($brands as $brand)
+                                <option value="{{$brand->id}}">{{$brand['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
                 <div id="color" class="row my-2">
                     <div class="d-flex flex-row justify-content-between">
                         <label for="" class="col-6">{!! __('products.color') !!}</label>
@@ -138,8 +149,39 @@
         </form>
     </div>
 
+
 @endsection
 @section('scripts')
+
+    <script src="{{asset('assets/src/plugins/src/filepond/filepond.min.js')}}"></script>
+    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js')}}"></script>
+    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js')}}"></script>
+
+    <script >
+        const inputElement = document.querySelector('#image');
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const pond=FilePond.create(inputElement);
+        FilePond.setOptions({
+            acceptedFileTypes: ['image/*'],
+            allowReorder: true,
+            allowMultiple: true,
+            allowDrop: true,
+            checkValidity: true,
+            server: {
+                process: '/api/tmp-upload',
+                revert:'/api/tmp-delete',
+                headers:{
+                    'X-CSRF-TOKEN':csrfToken
+                }
+            }
+        });
+
+    </script>
+
+
     <script>
         let form = document.querySelector('#addProductForm')
 
@@ -161,6 +203,7 @@
                         title: 'Success',
                         text: result.message,
                     })
+                    location.reload();
                 } else if (result.status === 400) {
                     let message = result.message;
                     let errorMessage = ``;

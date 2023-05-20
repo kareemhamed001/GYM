@@ -39,7 +39,7 @@ trait ImagesOperations
             return false;
         }
     }
-    public function deleteFile($filePath, $disk = 'public')
+    public function deleteFile($filePath, $disk = 'public'): bool
     {
         try {
             $oldPath = public_path($filePath);
@@ -61,6 +61,14 @@ trait ImagesOperations
             }
             return true;
         } catch (\Exception $e) {
+            return false;
+        }
+    }
+    public function moveFile($sourcePath,$destinationPath){
+        try {
+            Storage::move($sourcePath, $destinationPath);
+        }catch (\Exception $e){
+            \Log::error($e->getMessage());
             return false;
         }
     }

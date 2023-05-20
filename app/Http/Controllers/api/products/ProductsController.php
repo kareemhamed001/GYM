@@ -9,12 +9,15 @@ use App\Models\product_color;
 use App\Models\product_image;
 use App\Models\product_size;
 use App\Models\purchase;
+use App\Models\TemporatyFile;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use function PHPUnit\TestFixture\func;
 
@@ -62,13 +65,13 @@ class ProductsController extends Controller
                 'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
                 'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
                 'images' => ['required', 'array'],
-                'cover_image' => ['required', 'image'],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
             $product = DB::transaction(function () use ($request) {
-                $path = $this->storeFile($request->cover_image, 'images/products/coverImages');
+
+                $cover_image=$request->images[0];
                 $product=new product();
                 $product->name_en=$request->name;
                 $product->name_ar=$request->name_ar;
@@ -80,7 +83,7 @@ class ProductsController extends Controller
                 $product->price=$request->price;
                 $product->discount=$request->discount;
                 $product->category_id=$request->category_id;
-                $product->cover_image=$path;
+                $product->cover_image=$cover_image;
 
                 if (intval($request->category_id)==config('mainCategories.Supplements.id')){
                     $product->brand_id=$request->brand_id;
@@ -90,12 +93,17 @@ class ProductsController extends Controller
                 $product->save();
 
                 if (isset($request->images)){
-                    foreach ($request->images as $image) {
-                        $path = $this->storeFile($image, 'images/products/images');
-                        product_image::create([
-                            'product_id' => $product->id,
-                            'image' => $path
-                        ]);
+                    foreach ($request->images as $index=>$image) {
+                        if ($index!=0){
+                            if ($image){
+
+                                product_image::create([
+                                    'product_id' => $product->id,
+                                    'image' => $image
+                                ]);
+                                TemporatyFile::query()->where('file_path',$image)->delete();
+                            }
+                        }
                     }
                 }
 
@@ -451,5 +459,36 @@ class ProductsController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
+    }
+
+    function tmpUpload(Request $request){
+
+        if ($request->hasFile('images')){
+            $image=is_array($request->file('images'))?$request->file('images')[0]:$request->file('images');
+
+            $path=$this->storeFile($image,'images/products/images');
+            TemporatyFile::create([
+                'file_path'=>$path
+            ]);
+            return $path;
+        }
+        return '';
+    }
+
+    function tmpDelete(){
+        try {
+            $tmp_file=TemporatyFile::where('file_path',request()->getContent())->first();
+            if ($tmp_file){
+
+                $this->deleteFile($tmp_file->file_path);
+                $tmp_file->delete();
+                return response('success',200);
+            }
+            return response('error',400);
+        }catch (\Exception $e){
+            Log::error($e->getMessage());
+            return response($e->getMessage(),400);
+        }
+
     }
 }
