@@ -117,7 +117,7 @@
                         <select class="form-select" id="brand_id" name="brand_id">
                             <option value="">--{!! __('products.selectBrand') !!}--</option>
                             @foreach($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand['name_en'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
+                                <option value="{{$brand->id}}">{{$brand['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale().'']}}</option>
                             @endforeach
                         </select>
                     </div>
