@@ -19,6 +19,9 @@ Route::middleware(['web','auth:web'])->group(function (){
     Route::get('/coaches/{id}', [\App\Http\Controllers\user\coach\CoachController::class,'show']);
     Route::get('/store', [\App\Http\Controllers\user\store\StoreController::class,'index'])->name('user.store');
     Route::get('/product/{product}', [\App\Http\Controllers\user\product\ProductController::class,'show']);
+    Route::get('/profile',function (){
+        return view('auth.profile');
+    });
 });
 
 Auth::routes();
