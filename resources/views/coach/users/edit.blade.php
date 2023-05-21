@@ -239,46 +239,5 @@
                 }
             }
         });
-
-        let form = document.querySelector('#adduserForm')
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            let formData = new FormData(form)
-            try {
-                showLoader();
-                let response = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    body: formData,
-                });
-                console.log(response)
-
-                let result = await response.json();
-                removeLoader();
-
-                if (result.status === 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: result.message,
-                    })
-                } else if (result.status === 400) {
-                    let message = result.message;
-                    let errorMessage = ``;
-                    for (const key in message) {
-                        errorMessage += `<span class="text-danger d-block"> ${message[key]}</span> \n`
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        html: errorMessage,
-                    })
-                }
-
-            } catch (error) {
-                console.error(error)
-            }
-        });
-
-
     </script>
 @endsection

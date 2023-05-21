@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('coaches', function (Blueprint $table) {
             $table->id();
-            $table->string('nick_name');
-            $table->string('email')->unique();
-            $table->string('description');
-            $table->string('phone_number')->unique();
+            $table->string('nick_name')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('description')->nullable();
+            $table->string('phone_number')->unique()->nullable();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->string('experience')->comment('number of years');
-            $table->string('intro_video')->comment('number of years');
+            $table->string('experience')->comment('number of years')->nullable();
+            $table->string('intro_video')->comment('number of years')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });

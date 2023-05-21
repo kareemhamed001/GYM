@@ -200,6 +200,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
 
+
         try {
 
             $validator = Validator::make($request->all(), [
@@ -217,7 +218,8 @@ class UserController extends Controller
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            $user = UserClass::get(auth()->user()?->id);
+            return auth()->user()?->id;
+            $user = User::find(auth()->user()?->id);
 
 
             if ($user) {
@@ -255,11 +257,11 @@ class UserController extends Controller
 
                 $user->save();
 
-                return $this->apiResponse($user, 'success', 200);
+                return $this->apiResponse($user, 'Done', 200);
             }
             return $this->apiResponse('', 'No user with this id', 200);
         } catch (\Exception $e) {
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse($e->getTrace(), 'error', 400);
         }
     }
 

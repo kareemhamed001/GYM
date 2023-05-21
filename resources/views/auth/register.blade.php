@@ -16,7 +16,7 @@
     <link href="{{asset('assets/layouts/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/src/assets/css/light/authentication/auth-boxed.css')}}" rel="stylesheet" type="text/css" />
 
-    <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css" />
+{{--    <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css" />--}}
     <link href="{{asset('assets/src/assets/css/dark/authentication/auth-boxed.css')}}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <style>
@@ -74,10 +74,10 @@
         <div class="row">
 
             <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-10 col-sm-11 col-12 d-flex flex-column align-self-center mx-auto">
-                <div class="card mt-3 mb-3">
+                <div class="card mt-3 mb-3 border-0 shadow">
                     <div class="card-body">
 
-                        <div class="row">
+                        <div class="row ">
                             <div class="col-md-12 mb-3">
 
                                 <h2>Sign Up</h2>

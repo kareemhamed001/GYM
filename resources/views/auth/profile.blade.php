@@ -1,37 +1,12 @@
-
 @extends('layouts.app-blog-create')
-@section('styles')
 
-    <link rel="stylesheet" href="{{asset('assets/src/plugins/src/filepond/filepond.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.css')}}">
-    <link href="{{asset('assets/src/plugins/src/notification/snackbar/snackbar.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.css')}}">
-    <link href="{{asset('assets/src/plugins/css/light/filepond/custom-filepond.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/src/assets/css/light/components/tabs.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/light/elements/alert.css')}}">
-    <link href="{{asset('assets/src/plugins/css/light/sweetalerts2/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/src/plugins/css/light/notification/snackbar/custom-snackbar.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/light/forms/switches.css')}}">
-    <link href="{{asset('assets/src/assets/css/light/components/list-group.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('assets/src/assets/css/light/users/account-setting.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/src/plugins/css/dark/filepond/custom-filepond.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/src/assets/css/dark/components/tabs.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/dark/elements/alert.css')}}">
-    <link href="{{asset('assets/src/plugins/css/dark/sweetalerts2/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/src/plugins/css/dark/notification/snackbar/custom-snackbar.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/src/assets/css/dark/forms/switches.css')}}">
-    <link href="{{asset('assets/src/assets/css/dark/components/list-group.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('assets/src/assets/css/dark/users/account-setting.css')}}" rel="stylesheet" type="text/css" />
-
-@endsection
 @section('content')
-
 
     <!-- BREADCRUMB -->
     <div class="page-meta">
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Users</a></li>
+                <li class="breadcrumb-item"><a>Users</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Account Settings</li>
             </ol>
         </nav>
@@ -42,131 +17,218 @@
 
         <div class="account-content">
             <div class="row mb-3">
-                <form class="section general-info">
-                    <div class="info">
-                        <h6 class="">General Information</h6>
-                        <div class="row">
-                            <div class="col-lg-11 mx-auto">
-                                <div class="row">
-                                    <div class="col-xl-2 col-lg-12 col-md-4">
-                                        <div class="profile-image  mt-4 pe-md-4">
+                <form id="editUserForm" class="my-2 row">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="user_id" value="{{Auth::user()?->id}}">
+                    <div class="col-12 d-flex justify-content-center">
+                        <label for="coverImage">
+                            <img id="preview" class="img-fluid col-6 rounded-circle border border-white"
+                                 style="width: 18rem ;height: 18rem;object-fit: scale-down"
+                                 src="{{asset($user->profile_image)}}" alt="">
+                        </label>
 
-                                            <!-- // The classic file input element we'll enhance
-                                            // to a file pond, we moved the configuration
-                                            // properties to JavaScript -->
-
-                                            <div class="img-uploader-content">
-                                                <input type="file" class="filepond"
-                                                       name="image" src="{{Auth::user()->profile_image}}" accept="image/png, image/jpeg, image/gif"/>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-10 col-lg-12 col-md-8 mt-md-0 mt-4">
-                                        <div class="form">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="fullName">Full Name</label>
-                                                        <input type="text" class="form-control mb-3" id="fullName" placeholder="Full Name" value="Jimmy Turner">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="profession">Profession</label>
-                                                        <input type="text" class="form-control mb-3" id="profession" placeholder="Designer" value="Web Developer">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="country">Country</label>
-                                                        <select class="form-select mb-3" id="country">
-                                                            <option>All Countries</option>
-                                                            <option selected>United States</option>
-                                                            <option>India</option>
-                                                            <option>Japan</option>
-                                                            <option>China</option>
-                                                            <option>Brazil</option>
-                                                            <option>Norway</option>
-                                                            <option>Canada</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="address">Address</label>
-                                                        <input type="text" class="form-control mb-3" id="address" placeholder="Address" value="New York" >
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="location">Location</label>
-                                                        <input type="text" class="form-control mb-3" id="location" placeholder="Location">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone</label>
-                                                        <input type="text" class="form-control mb-3" id="phone" placeholder="Write your phone number here" value="+1 (530) 555-12121">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="email">Email</label>
-                                                        <input type="text" class="form-control mb-3" id="email" placeholder="Write your email here" value="Jimmy@gmail.com">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="website1">Website</label>
-                                                        <input type="text" class="form-control mb-3" id="website1" placeholder="Enter URL">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12 mt-1">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="customCheck1">
-                                                        <label class="form-check-label" for="customCheck1">Make this my default address</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12 mt-1">
-                                                    <div class="form-group text-end">
-                                                        <button class="btn btn-secondary">Save</button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="role_as" class="form-label">Role</label>
+                        <input class="form-control disabled" id="role_as" value="{{$user->role_as==1?'Coach':'User'}}"
+                               disabled>
+
+                    </div>
+
+
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="coverImage">Profile Image</label>
+                        <input name="profile_image" class="form-control" type="file" id="coverImage"
+                               onchange="previewImage(event)">
+                        @error('profile_image')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="userNameEn">Name</label>
+                        <input name="name" class="form-control" type="text" id="userNameEn"
+                               placeholder="Enter user name *" value="{{$user->name}}">
+                        @error('name')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="coachemail">Email</label>
+                        <input class="form-control" type="email" id="coachemail"
+                               placeholder="Enter valid email *" value="{{$user->email}}">
+                        @error('email')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="phone_number">phone number</label>
+                        <input name="phone_number" class="form-control" type="text" id="phone_number"
+                               placeholder="Enter valid phone number *" value="{{$user->phone_number}}">
+                        @error('phone_number')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="password">password</label>
+                        <input name="password" class="form-control" type="password" id="password"
+                               placeholder="Enter password *">
+                        @error('password')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="country">country</label>
+                        <input name="country" class="form-control" type="text" id="country"
+                               placeholder="Enter user country *" value="{{$user->country}}">
+                        @error('country')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="address">address</label>
+                        <input type="text" name="address" id="address" class="form-control"
+                               placeholder="Enter user address *" value="{{$user->address}}">
+                        @error('address')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="age">age</label>
+                        <input name="age" class="form-control" type="text" id="age"
+                               placeholder="Enter user age *" value="{{$user->age}}">
+                        @error('age')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-6 my-2 px-1">
+                        <label for="gender">gender</label>
+                        <select name="gender" class="form-control" type="text" id="gender" onchange="">
+
+                            <option value="0" @if($user->role_as==0) selected @endif>Male</option>
+                            <option value="1" @if($user->role_as==1) selected @endif>Female</option>
+                        </select>
+                        @error('gender')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+
+                    @if($user->role_as==1)
+
+                        <div class="form-group col-md-6 my-2 px-1">
+                            <label for="nick_name">nick name</label>
+                            <input name="coach_nick_name" class="form-control" type="text" id="nick_name"
+                                   placeholder="Enter coach nick name *" value="{{$user->coach?->nick_name}}">
+                            @error('coach_nick_name')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 my-2 px-1">
+                            <label for="email">Email</label>
+                            <input name="coach_email" class="form-control" type="email" id="email"
+                                   placeholder="Enter coach email *" value="{{$user->coach?->email}}">
+                            @error('coach_email')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 my-2 px-1">
+                            <label for="description">description</label>
+                            <input name="coach_description" class="form-control" type="text" id="description"
+                                   placeholder="Enter coach description *" value="{{$user->coach?->description}}">
+                            @error('coach_description')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 my-2 px-1">
+                            <label for="phone_number">phone number</label>
+                            <input name="coach_phone_number" class="form-control" type="text" id="phone_number"
+                                   placeholder="Enter coach phone number *" value="{{$user->coach?->phone_number}}">
+                            @error('coach_phone_number')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 my-2 px-1">
+                            <label for="experience">experience</label>
+                            <input name="coach_experience" class="form-control" type="text" id="experience"
+                                   placeholder="Enter coach experience *" value="{{$user->coach?->experience}}">
+                            @error('coach_experience')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-6 my-2 px-1">
+                            <label for="coach_intro_video">intro video</label>
+                            <input name="coach_intro_video" class="form-control" type="file" id="coach_intro_video"
+                                   placeholder="Coach intro video *">
+                            @error('coach_intro_video')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+
+                    @endif
+
+                    <div class="col-12 my-2 px-1">
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+
                 </form>
+
+            </div>
 
         </div>
 
-    </div>
+
+        @endsection
+        @section('scripts')
+
+            <script>
+                let form = document.getElementById('editUserForm');
+                const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    try {
+                        let response = await fetch('/coach/update-profile', {
+                            method: 'post',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: new FormData(form)
+                        });
+
+                        let result =await response.json();
+                        if (result.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Updated Successfully',
+                            })
+
+                        } else if (result.status === 400) {
+                            let message = result.message;
+                            let errorMessage = ``;
+                            if (Array.isArray(message)) {
+                                for (const key in message) {
+                                    errorMessage += `<span class="d-block text-danger">${message[key]}</span> `
+                                }
+                            } else {
+                                errorMessage = message;
+                            }
 
 
-@endsection
-@section('scripts')
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                html: errorMessage,
+                            })
+                        }
 
-    <script src="{{asset('assets/src/plugins/src/filepond/filepond.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginImageCrop.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginImageResize.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/FilePondPluginImageTransform.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/filepond/filepondPluginFileValidateSize.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/notification/snackbar/snackbar.min.js')}}"></script>
-    <script src="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.min.js')}}"></script>
-    <script src="{{asset('assets/src/assets/js/users/account-settings.js')}}"></script>
+                    } catch (error) {
+                        console.error(error)
+                    }
+                });
+            </script>
 @endsection
 

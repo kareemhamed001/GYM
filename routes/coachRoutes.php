@@ -18,7 +18,6 @@ Route::get('/category/{category}/products', [\App\Http\Controllers\coach\product
 Route::get('/category/{category}/products/create', [\App\Http\Controllers\coach\products\ProductsController::class,'create']);
 Route::get('/category/{category}/products/{product}/edit', [\App\Http\Controllers\coach\products\ProductsController::class,'edit']);
 Route::get('/logs', [\App\Http\Controllers\coach\log\LogController::class,'index']);
-
 Route::get('/supplements/products', [\App\Http\Controllers\coach\supplement\SupplementController::class,'products']);
 Route::get('/supplements/brands', [\App\Http\Controllers\coach\supplement\SupplementController::class,'brands']);
 Route::resource('/brands', \App\Http\Controllers\coach\brand\BrandController::class);
@@ -30,4 +29,6 @@ Route::get('/coaches/create', [\App\Http\Controllers\coach\user\UserController::
 Route::get('/analytics', [\App\Http\Controllers\coach\dashboard\DashboardController::class,'index']);
 Route::get('/sales', [\App\Http\Controllers\coach\dashboard\SalesController::class,'index']);
 Route::get('/gyms', [\App\Http\Controllers\coach\gym\GymController::class,'index']);
+Route::put('/update-profile', [\App\Http\Controllers\coach\user\UserController::class, 'update']);
+Route::get('/profile', [\App\Http\Controllers\coach\user\UserController::class, 'profile']);
 
