@@ -27,14 +27,20 @@
         </div>
         <div class="profile-info">
             <div class="user-info">
+
+
+
                 <div class="profile-img">
                     <img src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
                          alt="avatar">
                 </div>
                 <div class="profile-content">
+                    <a href="{{url('/coach/profile')}}">
                     <h6 class="">{{Auth::user()->name??'Name'}}</h6>
                     <p class="">Coach</p>
+                    </a>
                 </div>
+
             </div>
         </div>
 
