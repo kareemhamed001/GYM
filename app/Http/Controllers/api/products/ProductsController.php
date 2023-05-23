@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\products;
 
+use App\classes\product\ProductClass;
 use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\product;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use function PHPUnit\TestFixture\func;
+use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class ProductsController extends Controller
 {
@@ -69,76 +71,79 @@ class ProductsController extends Controller
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
-            $product = DB::transaction(function () use ($request) {
-
-                $cover_image=$request->images[0];
-                $product=new product();
-                $product->name_en=$request->name;
-                $product->name_ar=$request->name_ar;
-                $product->name_ku=$request->name_ku;
-                $product->description_en=$request->description;
-                $product->description_ar=$request->description_ar;
-                $product->description_ku=$request->description_ku;
-                $product->quantity=$request->quantity;
-                $product->price=$request->price;
-                $product->discount=$request->discount;
-                $product->category_id=$request->category_id;
-                $product->cover_image=$cover_image;
-
-                if (intval($request->category_id)==config('mainCategories.Supplements.id')){
-                    $product->brand_id=$request->brand_id;
-                }else{
-                    $product->subcategory_id=$request->subcategory_id;
-                }
-                $product->save();
-
-                if (isset($request->images)){
-                    foreach ($request->images as $index=>$image) {
-                        if ($index!=0){
-                            if ($image){
-
-                                product_image::create([
-                                    'product_id' => $product->id,
-                                    'image' => $image
-                                ]);
-                                TemporatyFile::query()->where('file_path',$image)->delete();
-                            }
-                        }
-                    }
-                }
-
-                if (isset($request->colors)) {
-                    foreach ($request->colors as $color) {
-
-                        product_color::create([
-                            'product_id' => $product->id,
-                            'value' => $color
-                        ]);
-                    }
-                }
-                if (isset($request->sizes)) {
-                    foreach ($request->sizes as $size) {
-                        product_size::create([
-                            'product_id' => $product->id,
-                            'value' => $size
-                        ]);
-                    }
-                }
-
-                \App\Models\log::create([
-                    'table_name'=>'products',
-                    'item_id'=>$product->id,
-                    'action'=>'store',
-                    'user_id'=>$request->coach_id,
-                ]);
-                return $product;
-            });
+            $product=ProductClass::store($request->images[0],$request->name,$request->name_ar,$request->name_ku,$request->description,
+                $request->description_ar,$request->description_ku,$request->quantity,$request->price,$request->discount,$request->category_id,
+                $request->images,$request->brand_id??null,$request->subcategory_id??null,$request->colors??null,$request->sizes??null);
+//            $product = DB::transaction(function () use ($request) {
+//
+//                $cover_image=$request->images[0];
+//                $product=new product();
+//                $product->name_en=$request->name;
+//                $product->name_ar=$request->name_ar;
+//                $product->name_ku=$request->name_ku;
+//                $product->description_en=$request->description;
+//                $product->description_ar=$request->description_ar;
+//                $product->description_ku=$request->description_ku;
+//                $product->quantity=$request->quantity;
+//                $product->price=$request->price;
+//                $product->discount=$request->discount;
+//                $product->category_id=$request->category_id;
+//                $product->cover_image=$cover_image;
+//
+//                if (intval($request->category_id)==config('mainCategories.Supplements.id')){
+//                    $product->brand_id=$request->brand_id;
+//                }else{
+//                    $product->subcategory_id=$request->subcategory_id;
+//                }
+//                $product->save();
+//
+//                if (isset($request->images)){
+//                    foreach ($request->images as $index=>$image) {
+//                        if ($index!=0){
+//                            if ($image){
+//
+//                                product_image::create([
+//                                    'product_id' => $product->id,
+//                                    'image' => $image
+//                                ]);
+//                                TemporatyFile::query()->where('file_path',$image)->delete();
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                if (isset($request->colors)) {
+//                    foreach ($request->colors as $color) {
+//
+//                        product_color::create([
+//                            'product_id' => $product->id,
+//                            'value' => $color
+//                        ]);
+//                    }
+//                }
+//                if (isset($request->sizes)) {
+//                    foreach ($request->sizes as $size) {
+//                        product_size::create([
+//                            'product_id' => $product->id,
+//                            'value' => $size
+//                        ]);
+//                    }
+//                }
+//
+//                \App\Models\log::create([
+//                    'table_name'=>'products',
+//                    'item_id'=>$product->id,
+//                    'action'=>'store',
+//                    'user_id'=>$request->coach_id,
+//                ]);
+//                return $product;
+//            });
 
             return $this->apiResponse($product, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse($e->getTrace(), 'error', 400);
         }
     }
 

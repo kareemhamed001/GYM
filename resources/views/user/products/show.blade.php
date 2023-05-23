@@ -363,7 +363,7 @@
 
                             @if($related->discount>0)
                                 <span class="badge badge-danger d-block">
-                                {{$product->discount}}% OFF
+                                {{$related->discount}}% OFF
                             </span>
                             @endif
 

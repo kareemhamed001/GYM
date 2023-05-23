@@ -2,13 +2,9 @@
 
 namespace App\classes\general;
 
-abstract class GeneralFunctionsClass
+interface GeneralFunctionsClass
 {
-
-    public abstract static function store(array $params);
-    public abstract static function update(array $params);
-    public abstract static function destroy(int $id);
-    public abstract static function destroyAll();
-    public abstract static function get(int $id);
-    public abstract static function getAll(int $pagination=15);
+    public  static function destroy();
+    public  static function destroyAll();
+    public  static function getAll();
 }
