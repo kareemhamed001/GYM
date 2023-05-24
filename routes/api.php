@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\api\products\SupplementController;
 use App\Http\Controllers\api\user\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,13 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/users', \App\Http\Controllers\api\user\UserController::class,
-    [
-        'only' => [
-            'index'
-        ]
-    ]
-);
 
 Route::resource('/brands', \App\Http\Controllers\api\brand\BrandController::class,
     [
@@ -35,19 +27,10 @@ Route::resource('/brands', \App\Http\Controllers\api\brand\BrandController::clas
         ]
     ]
 );
-Route::get('brands/{id}/coach', [\App\Http\Controllers\api\brand\BrandController::class, 'getCoachByBrandId']);
-Route::post('brands/to-category', [\App\Http\Controllers\api\brand\BrandController::class, 'addBrandToCategory']);
 Route::get('brands/{id}/products', [\App\Http\Controllers\api\brand\BrandController::class, 'getProductsByBrandId']);
+Route::get('brands/{id}/categories', [\App\Http\Controllers\api\brand\BrandController::class, 'getCategoriesBrandId']);
 Route::post('brands/delete-collection', [\App\Http\Controllers\api\brand\BrandController::class, 'deleteArrayOfBrands']);
 
-
-Route::resource('/coaches', \App\Http\Controllers\api\coach\CoachController::class,
-    [
-        'only' => [
-            'index', 'destroy', 'store', 'update', 'show'
-        ]
-    ]
-);
 Route::get('coaches/{id}/products', [\App\Http\Controllers\api\coach\CoachController::class, 'getProductsByCoachId']);
 Route::get('coaches/{id}/brands', [\App\Http\Controllers\api\coach\CoachController::class, 'getBrandsByCoachId']);
 Route::get('coaches/{id}/muscles', [\App\Http\Controllers\api\coach\CoachController::class, 'getmusclesByCoachId']);
@@ -55,7 +38,7 @@ Route::get('coaches/{id}/muscles', [\App\Http\Controllers\api\coach\CoachControl
 Route::resource('/categories', \App\Http\Controllers\api\category\CategoryController::class,
     [
         'only' => [
-            'show','update'
+            'index','show','update'
         ]
     ]
 );
@@ -84,6 +67,7 @@ Route::resource('/muscles', \App\Http\Controllers\api\muscle\MuscleController::c
 Route::post('muscles/{muscleId}/{curriculumId}/delete-curriculum', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCurriculum']);
 Route::post('muscles/{muscleId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCurriculumFile']);
 Route::get('muscles/{id}/coach', [\App\Http\Controllers\api\muscle\MuscleController::class, 'getmuscleCoach']);
+Route::get('muscles/{id}/parts', [\App\Http\Controllers\api\muscle\MuscleController::class, 'getmuscleParts']);
 Route::post('muscles/delete-collection', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteArrayOfmuscles']);
 
 Route::resource('/purchases', \App\Http\Controllers\api\purchase\PurchaseController::class,
@@ -165,14 +149,18 @@ Route::group([
 ], function ($router) {
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/register', [UserController::class, 'register']);
-    Route::post('/logout', [UserController::class, 'logout']);
-    Route::post('/refresh', [UserController::class, 'refresh']);
-    Route::get('/user-profile', [UserController::class, 'userProfile']);
-    Route::post('/update-profile', [UserController::class, 'update']);
-    Route::post('/change-password', [UserController::class, 'changePassword']);
-    Route::post('/my-orders', [UserController::class, 'myOrders']);
-    Route::post('/my-cart', [UserController::class, 'myCart']);
-    Route::post('/my-wishlist', [UserController::class, 'myWishList']);
-    Route::post('/my-plans', [UserController::class, 'myPlans']);
-    Route::post('/coach', [UserController::class, 'coach']);
+    Route::middleware('jwt')->group(function (){
+        Route::get('/user-profile', [UserController::class, 'userProfile']);
+        Route::get('/users', [UserController::class, 'users']);
+        Route::post('/update-profile', [UserController::class, 'update']);
+        Route::post('/change-password', [UserController::class, 'changePassword']);
+        Route::post('/my-orders', [UserController::class, 'myOrders']);
+        Route::post('/logout', [UserController::class, 'logout']);
+        Route::post('/refresh', [UserController::class, 'refresh']);
+        Route::post('/my-cart', [UserController::class, 'myCart']);
+        Route::post('/my-wishlist', [UserController::class, 'myWishList']);
+
+        Route::post('/coach', [UserController::class, 'coach']);
+    });
+
 });

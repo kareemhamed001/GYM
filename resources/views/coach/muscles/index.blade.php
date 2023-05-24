@@ -126,7 +126,7 @@
                         </div>
                     </td>
                     <td>
-                        {{$muscle->curricula->count()}}
+                        {{$muscle->parts->count()}}
                     </td>
                     <td class="text-center">
                         <p class="mb-0">{{\Carbon\Carbon::make($muscle->created_at)->toDateString()??'NULL'}}</p>

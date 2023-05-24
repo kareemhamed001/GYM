@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\api\coach;
 
 use App\classes\brand\BrandClass;
-use App\classes\coach\CoachClass;
 use App\Models\brand;
 use App\Models\coach;
+use App\Models\User;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class CoachController
     public function index()
     {
         try {
-            $coaches = CoachClass::getAll();
+            $coaches = coach::all();
             return $this->apiResponse($coaches, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -40,6 +40,10 @@ class CoachController
     {
         try {
 
+            $user=User::find(auth()->user()->id);
+            if ($user->role_as!=1){
+                return $this->apiResponse('', 'you are not authorized to access this data', 400);
+            }
             $validator = Validator::make($request->all(), [
                 'nick_name' => ['required', 'string', 'max:100'],
                 'description' => ['required', 'string', 'max:500'],
@@ -80,7 +84,7 @@ class CoachController
     {
         try {
 
-            $coach = CoachClass::get($id);
+            $coach = coach::get($id);
             if ($coach) {
                 return $this->apiResponse($coach, 'success', 200);
             }
@@ -114,7 +118,7 @@ class CoachController
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            $coach = CoachClass::get($id);
+            $coach = coach::get($id);
 
 
             if ($coach) {
@@ -160,9 +164,9 @@ class CoachController
     {
         try {
 
-            $coach = CoachClass::get($id);
+            $coach = coach::get($id);
             if ($coach) {
-                CoachClass::destroy($id);
+                coach::destroy($id);
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No coach with this id', 200);

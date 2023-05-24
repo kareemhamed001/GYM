@@ -15,7 +15,7 @@ class MuscleController extends Controller
      */
     public function index()
     {
-        $muscles=MuscleClass::getAll();
+        $muscles=muscle::with('parts')->paginate();
         return view('coach.muscles.index',compact('muscles'));
 
     }

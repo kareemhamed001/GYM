@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\api\muscle;
 
-use App\classes\muscle\MuscleClass;
+
 use App\Http\Controllers\Controller;
 use App\Models\coach;
 
@@ -31,13 +31,14 @@ class MuscleController extends Controller
     public function index()
     {
         try {
-            $muscles = MuscleClass::getAll();
+            $muscles = muscle::with('parts')->get();
             return $this->apiResponse($muscles, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -54,14 +55,14 @@ class MuscleController extends Controller
                 'description_ar' => ['required', 'string', 'max:500'],
                 'description_ku' => ['required', 'string', 'max:500'],
                 'cover_image' => ['required', 'image'],
-                'coach_id' => ['required',Rule::exists('users','id')],
+                'coach_id' => ['required', Rule::exists('users', 'id')],
 
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            DB::transaction(function () use ($request) {
+            $muscle = DB::transaction(function () use ($request) {
                 $path = $this->storeFile($request->cover_image, 'images/muscles/coverImages');
 
                 $muscle = muscle::create([
@@ -95,17 +96,18 @@ class MuscleController extends Controller
                     }
                 }
                 \App\Models\log::create([
-                    'table_name'=>'muscles',
-                    'item_id'=>$muscle->id,
-                    'action'=>'store',
-                    'user_id'=>$request->coach_id,
+                    'table_name' => 'muscles',
+                    'item_id' => $muscle->id,
+                    'action' => 'store',
+                    'user_id' => $request->coach_id,
                 ]);
+                return $muscle;
             });
 
-            return $this->apiResponse(null, 'success', 200);
+            return $this->apiResponse($muscle, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->apiResponse('', $e->getTrace(), 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
@@ -116,7 +118,7 @@ class MuscleController extends Controller
     {
         try {
 
-            $muscle = MuscleClass::get($id);
+            $muscle = muscle::find($id);
             if ($muscle) {
                 return $this->apiResponse($muscle, 'success', 200);
             }
@@ -139,25 +141,31 @@ class MuscleController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-                'title' => ['required', 'string', 'max:100'],
-                'title_ar' => ['required', 'string', 'max:100'],
-                'title_ku' => ['required', 'string', 'max:100'],
-                'description' => ['required', 'string', 'max:500'],
-                'description_ar' => ['required', 'string', 'max:500'],
-                'description_ku' => ['required', 'string', 'max:500'],
+                'title' => ['string', 'max:100'],
+                'title_ar' => ['string', 'max:100'],
+                'title_ku' => ['string', 'max:100'],
+                'description' => ['string', 'max:500'],
+                'description_ar' => ['string', 'max:500'],
+                'description_ku' => ['string', 'max:500'],
                 'cover_image' => ['image'],
-                'coach_id' => ['required',Rule::exists('users','id')],
+                'coach_id' => ['required', Rule::exists('users', 'id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            $muscle = MuscleClass::get($id);
+            $muscle = muscle::find($id);
 
 
             if ($muscle) {
                 if ($request->cover_image) {
-                    $path = $this->replaceFile($muscle->cover_image, $request->cover_image, 'images/muscles/coverImages');
+                    if (is_string($request->cover_image)) {
+                        $path = $request->cover_image;
+                        $muscle->cover_image = $path;
+                    } else {
+                        $path = $this->replaceFile($muscle->cover_image, $request->cover_image, 'images/muscles/coverImages');
+                        $muscle->cover_image = $path;
+                    }
                 }
 
                 if ($request->title) {
@@ -179,9 +187,6 @@ class MuscleController extends Controller
                     $muscle->description_ku = $request->description_ku;
                 }
 
-                if ($request->cover_image) {
-                    $muscle->cover_image = $path;
-                }
 
                 $muscle->save();
 
@@ -248,7 +253,12 @@ class MuscleController extends Controller
                                     }
                                 } //if this file is new one
                                 else {
-                                    $path = $this->storeFile($file['file'], 'files');
+                                    if (is_string($file['file'])){
+                                        $path = $file['file'];
+                                    }else{
+                                        $path = $this->storeFile($file['file'], 'files');
+                                    }
+
                                     if ($path) {
                                         //store this file
                                         $this->storeCurriculumFile($file['title'], $file['description'], $path, $curriculum->id);
@@ -260,10 +270,10 @@ class MuscleController extends Controller
                 }
 
                 \App\Models\log::create([
-                    'table_name'=>'muscles',
-                    'item_id'=>$muscle->id,
-                    'action'=>'update',
-                    'user_id'=>$request->coach_id,
+                    'table_name' => 'muscles',
+                    'item_id' => $muscle->id,
+                    'action' => 'update',
+                    'user_id' => $request->coach_id,
                 ]);
                 Log::info('Muscle' . $muscle->id . ' updated successfully');
                 return $this->apiResponse($muscle, 'success', 200);
@@ -309,19 +319,19 @@ class MuscleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,string $id)
+    public function destroy(Request $request, string $id)
     {
         try {
 
 
-            $muscle = MuscleClass::get($id);
+            $muscle = muscle::find($id);
             if ($muscle) {
-                MuscleClass::destroy($id);
+                muscle::destroy($id);
                 \App\Models\log::create([
-                    'table_name'=>'muscles',
-                    'item_id'=>$id,
-                    'action'=>'destroy',
-                    'user_id'=>$request->coach_id,
+                    'table_name' => 'muscles',
+                    'item_id' => $id,
+                    'action' => 'destroy',
+                    'user_id' => $request->coach_id,
                 ]);
                 return $this->apiResponse('', 'success', 200);
             }

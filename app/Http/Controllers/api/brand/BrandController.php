@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\api\brand;
 
-use App\classes\brand\BrandClass;
+
 use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\brands_category;
@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use function PHPUnit\TestFixture\func;
 
 class BrandController extends Controller
 {
@@ -27,7 +28,7 @@ class BrandController extends Controller
     public function index()
     {
         try {
-            $brands = BrandClass::getAll();
+            $brands = brand::all();
             return $this->apiResponse($brands, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -91,7 +92,7 @@ class BrandController extends Controller
     {
         try {
 
-            $brand = BrandClass::get($id);
+            $brand = brand::find($id);
             if ($brand) {
                 return $this->apiResponse($brand, 'success', 200);
             }
@@ -112,14 +113,14 @@ class BrandController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'name' => ['string', 'max:100'],
-                'name_ar' => ['string', 'max:100'],
-                'name_ku' => ['string', 'max:100'],
-                'description' => ['string', 'max:500'],
-                'description_ar' => ['string', 'max:500'],
-                'description_ku' => ['string', 'max:500'],
-                'coach_id' => ['integer', Rule::exists('users', 'id')],
-                'cover_image' => ['image'],
+                'name' => ['nullable','string', 'max:100'],
+                'name_ar' => ['nullable','string', 'max:100'],
+                'name_ku' => ['nullable','string', 'max:100'],
+                'description' => ['nullable','string', 'max:500'],
+                'description_ar' => ['nullable','string', 'max:500'],
+                'description_ku' => ['nullable','string', 'max:500'],
+                'coach_id' => ['nullable','integer', Rule::exists('users', 'id')],
+                'cover_image' => ['nullable','image'],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
@@ -130,6 +131,7 @@ class BrandController extends Controller
             if ($brand) {
                 if ($request->cover_image) {
                     $path = $this->replaceFile($brand->cover_image, $request->cover_image, 'images/brands/coverImages');
+                    $brand->cover_image = $path;
                 }
                 if ($request->name) {
                     $brand->name_en = $request->name;
@@ -148,10 +150,6 @@ class BrandController extends Controller
                 }
                 if ($request->description_ku) {
                     $brand->description_ku = $request->description_ku;
-                }
-
-                if ($request->cover_image) {
-                    $brand->cover_image = $path;
                 }
 
                 $brand->save();
@@ -178,9 +176,9 @@ class BrandController extends Controller
     {
 
         try {
-            $brand = BrandClass::get($id);
+            $brand = brand::find($id);
             if ($brand) {
-                BrandClass::destroy($id);
+                brand::destroy($id);
                 \App\Models\log::create([
                     'table_name'=>'brands',
                     'item_id'=>$id,
@@ -194,20 +192,6 @@ class BrandController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
-        }
-    }
-
-    public function getCoachByBrandId($id)
-    {
-        try {
-            $brand = brand::find($id);
-            if ($brand) {
-                return $this->apiResponse($brand->coach, 'success', 200);
-            }
-            return $this->apiResponse('', 'No brand with this id', 200);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
@@ -230,7 +214,10 @@ class BrandController extends Controller
         try {
             $brand = brand::find($id);
             if ($brand) {
-                $categories=product::select('category_id,categories.name,categories.name_ar,categories.name_ku,categories.description,categories.description_ar,categories.description_ku,categories.cover_image')->join('categories','supplements.category_id','=','categories.id')->where('supplements.brand_id',$brand->id)->get();
+                $categories=product::query()->select('category_id')->where('brand_id',$brand->id)->orderBy('category_id')->groupBy('category_id')->get();
+                $categories=$categories->map(function ($category){
+                    return category::where('id',$category->category_id)->get();
+                });
                 return $this->apiResponse($categories, 'success', 200);
             }
             return $this->apiResponse('', 'No brand with this id', 200);
@@ -259,6 +246,13 @@ class BrandController extends Controller
                 return $this->apiResponse('','something went wrong whiled deleting images ',400);
             }
             brand::whereIn('id', $request->brands)->delete();
+            foreach ($request->brands as $brand){
+                \App\Models\log::create([
+                    'table_name'=>'brands',
+                    'item_id'=>$brand,
+                    'action'=>'delete'
+                ]);
+            }
             return $this->apiResponse('','success',200);
 
         } catch (\Exception $e) {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\api\category;
 
-use App\classes\category\CategoryClass;
+
 use App\Http\Controllers\Controller;
 use App\Models\category;
 use App\Models\coach;
@@ -25,7 +25,7 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = CategoryClass::getAll();
+            $categories = category::all();
             return $this->apiResponse($categories, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -82,7 +82,7 @@ class CategoryController extends Controller
     {
         try {
 
-            $category = CategoryClass::get($id);
+            $category = category::find($id);
             if ($category) {
                 return $this->apiResponse($category, 'success', 200);
             }
@@ -170,9 +170,9 @@ class CategoryController extends Controller
     {
         try {
 
-            $category = CategoryClass::get($id);
+            $category = category::get($id);
             if ($category) {
-                CategoryClass::destroy($id);
+                category::destroy($id);
                 return $this->apiResponse('', 'success', 200);
             }
             return $this->apiResponse('', 'No category with this id', 200);

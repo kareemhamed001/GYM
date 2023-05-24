@@ -10,6 +10,9 @@ trait ImagesOperations
     public function storeFile($file, $path, $disk = 'public')
     {
         try {
+            if (is_string($file)) {
+                throw new \Exception('You send string instead of file');
+            }
             $path = $file->store($path, ['disk' => $disk]);
             if ($disk == 'public') {
                 return 'storage/' . $path;

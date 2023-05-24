@@ -11,7 +11,8 @@ class muscle extends Model
     protected $table='muscles';
     protected $guarded=[];
 
-    public function curricula(){
+
+    public function parts(){
         return $this->hasMany(curriculum::class);
     }
 
