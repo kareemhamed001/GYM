@@ -390,6 +390,7 @@ class MuscleController extends Controller
             }
             $cover_images_pathes = muscle::query()->whereIn('id', $request->muscles)->pluck('cover_image');
 
+
             $this->deleteCollectionOfFiles($cover_images_pathes);
 
             muscle::whereIn('id', $request->muscles)->delete();
