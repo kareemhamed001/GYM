@@ -1,10 +1,7 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-
-     RewriteCond %{REQUEST_FILENAME} !-d
-     RewriteCond %{REQUEST_FILENAME} !-f
-     RewriteRule ^ index.php [L]
+    RewriteEngine on
+    RewriteCond %{REQUEST_URI} !^public
+    RewriteRule ^(.*)$ public/$1 [L]
 
     # Handle HTTP authorization headers
     RewriteCond %{HTTP:Authorization} .
