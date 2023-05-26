@@ -14,7 +14,7 @@ class ProductImages
      */
     public  function store($image, $productId){
         try {
-            $image_path=$this->storeFile($image,'images/products/images');
+            $image_path=$this->storeFile($image,$this->PRODUCTS_IMAGES_PATH);
 
             return product_image::create([
                 'product_id' => $productId,
