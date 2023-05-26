@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
     public function index()
     {
         try {
-            $categories = CategoryClass::getAll();
+            $categories = category::all();
             return $this->apiResponse($categories, 'success', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
