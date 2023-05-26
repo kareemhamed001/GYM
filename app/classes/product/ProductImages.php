@@ -12,15 +12,10 @@ class ProductImages
     /**
      * @throws \Exception
      */
-    public static function store($image, $productId){
+    public  function store($image, $productId){
         try {
-            $image_path='';
-            if ($image) {
-                if (is_string($image)){
-                    $image_path = $image;
-                }
+            $image_path=$this->storeFile($image,'images/products/images');
 
-            }
             return product_image::create([
                 'product_id' => $productId,
                 'image' => $image_path
