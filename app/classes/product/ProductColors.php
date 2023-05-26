@@ -13,8 +13,13 @@ class ProductColors
     /**
      * @throws \Exception
      */
-    public static function store($color, $productId){
+    public static function store($color, $productId):product_color
+    {
         try {
+            $oldColor=product_color::where('product_id',$productId)->where('value',$color)->first();
+            if ($oldColor){
+                return $oldColor;
+            }
             return product_color::create([
                 'product_id' =>$productId,
                 'value' => $color
