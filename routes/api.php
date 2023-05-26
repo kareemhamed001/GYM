@@ -31,10 +31,6 @@ Route::get('brands/{id}/products', [\App\Http\Controllers\api\brand\BrandControl
 Route::get('brands/{id}/categories', [\App\Http\Controllers\api\brand\BrandController::class, 'getCategoriesBrandId']);
 Route::post('brands/delete-collection', [\App\Http\Controllers\api\brand\BrandController::class, 'deleteArrayOfBrands']);
 
-Route::get('coaches/{id}/products', [\App\Http\Controllers\api\coach\CoachController::class, 'getProductsByCoachId']);
-Route::get('coaches/{id}/brands', [\App\Http\Controllers\api\coach\CoachController::class, 'getBrandsByCoachId']);
-Route::get('coaches/{id}/muscles', [\App\Http\Controllers\api\coach\CoachController::class, 'getmusclesByCoachId']);
-
 Route::resource('/categories', \App\Http\Controllers\api\category\CategoryController::class,
     [
         'only' => [
@@ -99,11 +95,10 @@ Route::resource('/products', \App\Http\Controllers\api\products\ProductsControll
         ]
     ]
 );
-Route::get('products/{id}/brand', [\App\Http\Controllers\api\products\ProductsController::class, 'getBrandByProductId']);
+//Route::get('products/{id}/brand', [\App\Http\Controllers\api\products\ProductsController::class, 'getBrandByProductId']);
 Route::post('products/{productId}/{imageId}/delete-image', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteImage']);
-Route::post('products/{productId}/{imageId}/delete-color', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteColor']);
-Route::post('products/{productId}/{imageId}/delete-size', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteSize']);
-Route::get('products/{id}/coach', [\App\Http\Controllers\api\products\ProductsController::class, 'getCoachByProductId']);
+Route::post('products/{productId}/{colorId}/delete-color', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteColor']);
+Route::post('products/{productId}/{sizeId}/delete-size', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteSize']);
 Route::get('products/{id}/purchases', [\App\Http\Controllers\api\products\ProductsController::class, 'getPurchasesByProductId']);
 Route::post('products/delete-collection', [\App\Http\Controllers\api\products\ProductsController::class, 'deleteArrayOfProducts']);
 
