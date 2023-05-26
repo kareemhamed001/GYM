@@ -27,7 +27,7 @@ class ProductsController extends Controller
 {
     use ApiResponse;
     use ImagesOperations;
-    protected $productService;
+    protected ProductClass $productService;
     function __construct(ProductClass $productClass){
         $this->productService=$productClass;
     }
@@ -46,104 +46,61 @@ class ProductsController extends Controller
         }
     }
 
+    function storeRules(){
+        return [
+            'name' => ['required', 'string', 'max:100'],
+            'name_ar' => ['required', 'string', 'max:100'],
+            'name_ku' => ['required', 'string', 'max:100'],
+            'description' => ['required', 'string', 'max:500'],
+            'description_ar' => ['required', 'string', 'max:500'],
+            'description_ku' => ['required', 'string', 'max:500'],
+            'quantity' => ['required', 'numeric', 'min:1'],
+            'price' => ['required', 'numeric'],
+            'discount' => ['required', 'numeric', 'max:100'],
+            'brand_id' => ['numeric', Rule::exists('brands', 'id')],
+            'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
+            'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
+            'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
+            'images' => ['required', 'array'],
+            'colors' => ['nullable', 'array'],
+            'sizes' => ['nullable', 'array'],
+        ];
+    }
+
+    function updateRules(){
+        return [
+            'name' => ['nullable', 'string', 'max:100'],
+            'name_ar' => ['nullable', 'string', 'max:100'],
+            'name_ku' => ['nullable', 'string', 'max:100'],
+            'description' => ['nullable', 'string', 'max:500'],
+            'description_ar' => ['nullable', 'string', 'max:500'],
+            'description_ku' => ['nullable', 'string', 'max:500'],
+            'quantity' => ['nullable', 'numeric', 'min:1'],
+            'price' => ['nullable', 'numeric'],
+            'discount' => ['nullable', 'numeric', 'max:100'],
+            'brand_id' => ['integer', Rule::exists('brands', 'id')],
+            'category_id' => ['nullable', 'integer', Rule::exists('categories', 'id')],
+            'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
+            'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
+            'images' => [ 'array'],
+            'oldImages' => [ 'array'],
+            'cover_image' => ['nullable', 'image'],
+        ];
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-
         try {
-
-
-
-
-            $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:100'],
-                'name_ar' => ['required', 'string', 'max:100'],
-                'name_ku' => ['required', 'string', 'max:100'],
-                'description' => ['required', 'string', 'max:500'],
-                'description_ar' => ['required', 'string', 'max:500'],
-                'description_ku' => ['required', 'string', 'max:500'],
-                'quantity' => ['required', 'numeric', 'min:1'],
-                'price' => ['required', 'numeric'],
-                'discount' => ['required', 'numeric', 'max:100'],
-                'brand_id' => ['numeric', Rule::exists('brands', 'id')],
-                'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
-                'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
-                'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
-                'images' => ['required', 'array'],
-            ]);
+            $validator = Validator::make($request->all(),$this->storeRules());
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
-
             $product=$this->productService->store($request->images[0],$request->name,$request->name_ar,$request->name_ku,$request->description,
                 $request->description_ar,$request->description_ku,$request->quantity,$request->price,$request->discount,$request->category_id,
                 $request->images,$request->brand_id??null,$request->subcategory_id??null,$request->colors??null,$request->sizes??null);
-//            $product = DB::transaction(function () use ($request) {
-//
-//                $cover_image=$request->images[0];
-//                $product=new product();
-//                $product->name_en=$request->name;
-//                $product->name_ar=$request->name_ar;
-//                $product->name_ku=$request->name_ku;
-//                $product->description_en=$request->description;
-//                $product->description_ar=$request->description_ar;
-//                $product->description_ku=$request->description_ku;
-//                $product->quantity=$request->quantity;
-//                $product->price=$request->price;
-//                $product->discount=$request->discount;
-//                $product->category_id=$request->category_id;
-//                $product->cover_image=$cover_image;
-//
-//                if (intval($request->category_id)==config('mainCategories.Supplements.id')){
-//                    $product->brand_id=$request->brand_id;
-//                }else{
-//                    $product->subcategory_id=$request->subcategory_id;
-//                }
-//                $product->save();
-//
-//                if (isset($request->images)){
-//                    foreach ($request->images as $index=>$image) {
-//                        if ($index!=0){
-//                            if ($image){
-//
-//                                product_image::create([
-//                                    'product_id' => $product->id,
-//                                    'image' => $image
-//                                ]);
-//                                TemporatyFile::query()->where('file_path',$image)->delete();
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                if (isset($request->colors)) {
-//                    foreach ($request->colors as $color) {
-//
-//                        product_color::create([
-//                            'product_id' => $product->id,
-//                            'value' => $color
-//                        ]);
-//                    }
-//                }
-//                if (isset($request->sizes)) {
-//                    foreach ($request->sizes as $size) {
-//                        product_size::create([
-//                            'product_id' => $product->id,
-//                            'value' => $size
-//                        ]);
-//                    }
-//                }
-//
-//                \App\Models\log::create([
-//                    'table_name'=>'products',
-//                    'item_id'=>$product->id,
-//                    'action'=>'store',
-//                    'user_id'=>$request->coach_id,
-//                ]);
-//                return $product;
-//            });
 
             return $this->apiResponse($product, 'success', 200);
         } catch (\Exception $e) {
@@ -160,11 +117,7 @@ class ProductsController extends Controller
     {
         try {
 
-            $product = product::find($id);
-            if ($product) {
-                return $this->apiResponse($product, 'success', 200);
-            }
-            return $this->apiResponse('', 'No product with this id', 200);
+            return $this->apiResponse($this->productService->get($id),'success',200);
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -178,116 +131,22 @@ class ProductsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+
         try {
-
-
-            $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:100'],
-                'name_ar' => ['required', 'string', 'max:100'],
-                'name_ku' => ['required', 'string', 'max:100'],
-                'description' => ['required', 'string', 'max:500'],
-                'description_ar' => ['required', 'string', 'max:500'],
-                'description_ku' => ['required', 'string', 'max:500'],
-                'quantity' => ['required', 'numeric', 'min:1'],
-                'price' => ['required', 'numeric'],
-                'discount' => ['required', 'numeric', 'max:100'],
-                'brand_id' => ['integer', Rule::exists('brands', 'id')],
-                'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
-                'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
-                'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
-                'images' => [ 'array'],
-                'cover_image' => [ 'image'],
-            ]);
+            $validator = Validator::make($request->all(),$this->updateRules() );
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
-//            return $validator->validated();
-            $product = product::find($id);
 
-            if ($product) {
-                if ($request->cover_image) {
-                    $path = $this->replaceFile($product->cover_image, $request->cover_image, 'images/products/coverImages');
-                    $product->cover_image = $path;
-                }
+            $product=$this->productService->update($id,$request->coach_id,$request->name,$request->name_ar,$request->name_ku,$request->description,
+                $request->description_ar,$request->description_ku,$request->quantity,$request->price,$request->discount,$request->category_id,
+                $request->oldImages,$request->cover_image??null,$request->images??null,$request->brand_id??null,$request->subcategory_id??null,$request->colors??null,$request->sizes??null);
 
-                $product->price = $request->price;
-                $product->discount = $request->discount;
-
-                if ($request->name) {
-                    $product->name_en = $request->name;
-                }
-                if ($request->name_ar) {
-                    $product->name_ar = $request->name_ar;
-                }
-                if ($request->name_ku) {
-                    $product->name_ku = $request->name_ku;
-                }
-                if ($request->description) {
-                    $product->description_en = $request->description;
-                }
-                if ($request->description_ar) {
-                    $product->description_ar = $request->description_ar;
-                }
-                if ($request->description_ku) {
-                    $product->description_ku = $request->description_ku;
-                }
-                if ($request->quantity) {
-                    $product->quantity = $request->quantity;
-                }
-                if ($request->brand_id) {
-                    $product->brand_id = $request->brand_id;
-                }
-                if ($request->category_id) {
-                    $product->category_id = $request->category_id;
-                }
-                if ($request->subcategory_id) {
-                    $product->subcategory_id = $request->subcategory_id;
-                }
-
-
-                if ($request->images) {
-                    foreach ($request->images as $image) {
-                        $path = $this->storeFile($image, 'images/products/images');
-                        product_image::create([
-                            'product_id' => $product->id,
-                            'image' => $path
-                        ]);
-                    }
-                }
-
-                if ($request->colors) {
-                    foreach ($request->colors as $color) {
-
-                        product_color::create([
-                            'product_id' => $product->id,
-                            'value' => $color
-                        ]);
-                    }
-                }
-                if ($request->sizes) {
-                    foreach ($request->sizes as $size) {
-                        product_size::create([
-                            'product_id' => $product->id,
-                            'value' => $size
-                        ]);
-                    }
-                }
-
-                $product->save();
-
-                \App\Models\log::create([
-                    'table_name'=>'products',
-                    'item_id'=>$product->id,
-                    'action'=>'update',
-                    'user_id'=>$request->coach_id,
-                ]);
-
-                return $this->apiResponse($product, 'success', 200);
-            }
-            return $this->apiResponse('', 'No product with this id', 200);
+            return $this->apiResponse($product, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
@@ -455,16 +314,10 @@ class ProductsController extends Controller
                 return response()->json(['data' => null, 'message' => $validator->errors()], 400);
             }
 
-            if (!is_array($request->products)) {
-                return response()->json(['data' => null, 'message' => 'products must be in array'], 200);
+            $deleted=$this->productService->deleteCollection($request->products);
+            if (!$deleted){
+                return $this->apiResponse('', 'some thing went wrong', 400);
             }
-
-            $cover_images_pathes = product::query()->whereIn('id', $request->products)->pluck('cover_image');
-
-            if (!$this->deleteCollectionOfFiles($cover_images_pathes)) {
-                return $this->apiResponse('', 'something went wrong whiled deleting images ', 400);
-            }
-            product::whereIn('id', $request->products)->delete();
             return $this->apiResponse('', 'success', 200);
 
         } catch (\Exception $e) {
