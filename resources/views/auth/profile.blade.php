@@ -190,6 +190,7 @@
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     try {
+                        showLoader();
                         let response = await fetch('/coach/update-profile', {
                             method: 'post',
                             headers: {
@@ -198,6 +199,7 @@
                             body: new FormData(form)
                         });
 
+                        removeLoader()
                         let result =await response.json();
                         if (result.status === 200) {
                             Swal.fire({
