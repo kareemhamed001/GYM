@@ -18,17 +18,19 @@ class ProductClass
 
     private $coverImagepath;
     private $imagespath;
-
-    function __construct()
+    private $productImagesService;
+    function __construct(ProductImages $productImagesService)
     {
+        $this->productImagesService=$productImagesService;
         $this->coverImagepath = 'images/products/coverImages';
         $this->imagespath = 'images/products/images';
     }
 
 
-    public static function store(string $coverImage, $name_en, $name_ar, $name_ku, $description_en, $description_ar, $description_ku,
+    public  function store($coverImage, $name_en, $name_ar, $name_ku, $description_en, $description_ar, $description_ku,
                                  $quantity, $price, $discount, $category_id,$images, $brand_id = null, $subcategory_id = null, $colors = null, $sizes = null)
     {
+
         try {
             return DB::transaction(function () use (
                 $coverImage, $name_en, $name_ar, $name_ku, $description_en, $description_ar, $description_ku,
@@ -36,12 +38,7 @@ class ProductClass
             ) {
 
                 if ($coverImage) {
-                    if (is_string($coverImage)){
-                        $cover_image_path = $coverImage;
-                    }elseif (is_array($coverImage)){
-                        $cover_image_path=  $this->storeFile($coverImage,$this->coverImagepath);
-                    }
-
+                    $cover_image_path=  $this->storeFile($coverImage,$this->coverImagepath);
                 }
 
                 $product = new product();
@@ -69,7 +66,7 @@ class ProductClass
                         if ($index != 0) {
                             if ($image) {
 
-                                ProductImages::store($image,$product->id);
+                                $this->productImagesService->store($image,$product->id);
                                 TemporatyFile::query()->where('file_path', $image)->delete();
                             }
                         }
