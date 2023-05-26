@@ -117,6 +117,7 @@
 
                                     <img class="img-fluid w-100 h-100" style="object-fit: scale-down"
                                          src="{{asset($image->image)}}" alt="product image">
+                                    <input type="hidden" name="oldImages[]" value="{{$image->id}}">
                                 </a>
                             </div>
 
@@ -140,7 +141,7 @@
                                 <div class="card border overflow-hidden">
                                     <div class="card-body p-1 ">
 
-                                        <input class="form-control-color w-100  rounded border border-dark" type="color"
+                                        <input class="form-control-color w-100  rounded border border-dark" type="color" name="colors[]"
                                                value="{{$color->value}}">
                                     </div>
                                     <div class="card-footer  col-12 p-1">
@@ -167,7 +168,7 @@
                             <div class="col-md-3 col-sm-3 col-4 col-lg-2 p-1 my-1" id="size{{$size->id}}">
                                 <div class="card border overflow-hidden">
                                     <div class="card-body p-1 ">
-                                        <input class="form-control w-100  rounded border border-dark" type="text"
+                                        <input class="form-control w-100  rounded border border-dark" type="text" name="sizes[]"
                                                value="{{$size->value}}">
                                     </div>
                                     <div class="card-footer  p-1">
@@ -234,13 +235,13 @@
 
         async function deleteImage(productId, imageId, parentElement) {
             try {
-                let response = await fetch(`/api/products/${productId}/${imageId}/delete-image`, {
-                    method: 'post'
-                });
-                let result = await response.json();
-                if (result.status == 200) {
+                // let response = await fetch(`/api/products/${productId}/${imageId}/delete-image`, {
+                //     method: 'post'
+                // });
+                // let result = await response.json();
+                // if (result.status == 200) {
                     $(`#${parentElement}`).remove()
-                }
+                // }
 
             } catch (error) {
                 console.error(error)
