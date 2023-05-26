@@ -114,7 +114,7 @@
 
 
                                 @csrf
-                                <input type="hidden" name="supplement_id" value="{{$product->id}}">
+                                <input type="hidden" name="product_id" value="{{$product->id}}">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id??1}}">
                                 <input type="hidden" name="price" value="{{$product->price}}">
                                 <input type="hidden" name="discount" value="{{$product->discount}}">
@@ -124,11 +124,9 @@
                                         <div class="col-xl-3 col-lg-6 col-sm-6 align-self-center">Color</div>
                                         <div class="col-xl-9 col-lg-6 col-sm-6">
                                             <div class="color-options text-xl-end">
-
                                                 @foreach($product->colors as $color)
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                               name="flexRadioDefault" id="flexRadioDefault1"
+                                                        <input class="form-check-input" type="radio" name="color" value="{{$color->id}}"
                                                                style="background-color: {{$color->value}};" required>
                                                     </div>
                                                 @endforeach
@@ -165,35 +163,37 @@
                                         @endif
                                     </div>
                                 </div>
-                            </form>
 
-                            <hr class="mb-5 mt-4">
+                                <hr class="mb-5 mt-4">
 
-                            <div class="action-button text-center">
+                                <div class="action-button text-center">
 
-                                <div class="row">
+                                    <div class="row">
 
-                                    <div class="col-xxl-7 col-xl-7 col-sm-6 mb-sm-0 mb-3">
-                                        <button form="purchaseForm" class="btn btn-primary w-100 btn-lg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 class="feather feather-shopping-cart">
-                                                <circle cx="9" cy="21" r="1"></circle>
-                                                <circle cx="20" cy="21" r="1"></circle>
-                                                <path
-                                                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                                            </svg>
-                                            <span class="btn-text-inner">Add To Cart</span></button>
-                                    </div>
+                                        <div class="col-xxl-7 col-xl-7 col-sm-6 mb-sm-0 mb-3">
+                                            <button form="purchaseForm" class="btn btn-primary w-100 btn-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-shopping-cart">
+                                                    <circle cx="9" cy="21" r="1"></circle>
+                                                    <circle cx="20" cy="21" r="1"></circle>
+                                                    <path
+                                                        d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                                </svg>
+                                                <span class="btn-text-inner">Add To Cart</span></button>
+                                        </div>
 
-                                    <div class="col-xxl-5 col-xl-5 col-sm-6">
-                                        <button class="btn btn-success w-100 btn-lg">Buy Now</button>
+                                        <div class="col-xxl-5 col-xl-5 col-sm-6">
+                                            <button class="btn btn-success w-100 btn-lg">Buy Now</button>
+                                        </div>
+
                                     </div>
 
                                 </div>
+                            </form>
 
-                            </div>
+
 
                             <div class="secure-info mt-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -445,56 +445,7 @@
             }
         })
 
-        async function addToCart(productId, userId, price, discount) {
-            try {
 
-                let quantity = parseInt(document.getElementById('quantityInput').value);
-                if (quantity === 0) {
-                    throw Error('Quantity should be at least 1')
-                }
-
-                let totalPrice = quantity * (price * (discount / 100))
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                const data = {
-                    'user_id': userId,
-                    'supplement_id': productId,
-                    'number': quantity,
-                    'discount': discount,
-                    'price': totalPrice
-                };
-
-                $.ajax({
-                    url: '/api/carts',
-                    method: 'post',
-                    data: data,
-                    success: function (response) {
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Product is added successfully to the cart'
-                        });
-                    }
-                    , error: function (error) {
-
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: error
-                        });
-                    }
-                })
-
-            } catch (error) {
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error
-                });
-            }
-        }
     </script>
     <script src="{{asset('assets/src/plugins/src/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
     <script src="{{asset('assets/src/plugins/src/glightbox/glightbox.min.js')}}"></script>
