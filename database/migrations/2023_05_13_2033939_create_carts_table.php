@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('size_id')->nullable();
             $table->float('price');
             $table->integer('discount');
-            $table->integer('number');
+            $table->integer('quantity');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
