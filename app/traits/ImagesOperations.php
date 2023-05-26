@@ -10,16 +10,17 @@ trait ImagesOperations
     public function storeFile($file, $path, $disk = 'public')
     {
         try {
-            if (is_string($file)) {
-                throw new \Exception('You send string instead of file');
+            if (is_file($file) && !file_exists(public_path($file)) && !is_string($file)){
+                $path = $file->store($path, ['disk' => $disk]);
+                if ($disk == 'public') {
+                    return 'storage/' . $path;
+                }
+                return $path;
             }
-            $path = $file->store($path, ['disk' => $disk]);
-            if ($disk == 'public') {
-                return 'storage/' . $path;
-            }
-            return $path;
+            return $file;
+
         } catch (\Exception $e) {
-            return false;
+            throw new \Exception($e->getMessage());
         }
 
     }
