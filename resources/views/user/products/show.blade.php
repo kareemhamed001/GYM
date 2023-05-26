@@ -373,7 +373,12 @@
                                 <div class="row ">
                                     <div class="col-12 mb-4">
                                         <b class="text-dark">{{$related->name}}</b>
-                                        <div class="text-muted card-subtitle fs-6 mb-0">{{$related->brand->name}}</div>
+                                        @if($related->brand)
+                                        <div class="text-muted card-subtitle fs-6 mb-0">{{$related->brand?->name}}</div>
+                                        @else
+                                        <div class="text-muted card-subtitle fs-6 mb-0">{{$related->subcategory->name}}</div>
+
+                                        @endif
                                     </div>
 
                                     <div class="col-12 text-end">
