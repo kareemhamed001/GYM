@@ -27,6 +27,10 @@ class ProductsController extends Controller
 {
     use ApiResponse;
     use ImagesOperations;
+    protected $productService;
+    function __construct(ProductClass $productClass){
+        $this->productService=$productClass;
+    }
 
     /**
      * Display a listing of the resource.
@@ -52,17 +56,18 @@ class ProductsController extends Controller
 
 
 
+
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:100'],
-                'name_ar' => ['nullable', 'string', 'max:100'],
-                'name_ku' => ['nullable', 'string', 'max:100'],
+                'name_ar' => ['required', 'string', 'max:100'],
+                'name_ku' => ['required', 'string', 'max:100'],
                 'description' => ['required', 'string', 'max:500'],
-                'description_ar' => ['nullable', 'string', 'max:500'],
-                'description_ku' => ['nullable', 'string', 'max:500'],
+                'description_ar' => ['required', 'string', 'max:500'],
+                'description_ku' => ['required', 'string', 'max:500'],
                 'quantity' => ['required', 'numeric', 'min:1'],
                 'price' => ['required', 'numeric'],
                 'discount' => ['required', 'numeric', 'max:100'],
-                'brand_id' => ['integer', Rule::exists('brands', 'id')],
+                'brand_id' => ['numeric', Rule::exists('brands', 'id')],
                 'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
                 'subcategory_id' => [ 'integer', Rule::exists('sub_categories', 'id')],
                 'coach_id' => ['required', 'integer', Rule::exists('users', 'id')],
@@ -71,7 +76,8 @@ class ProductsController extends Controller
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
-            $product=ProductClass::store($request->images[0],$request->name,$request->name_ar,$request->name_ku,$request->description,
+
+            $product=$this->productService->store($request->images[0],$request->name,$request->name_ar,$request->name_ku,$request->description,
                 $request->description_ar,$request->description_ku,$request->quantity,$request->price,$request->discount,$request->category_id,
                 $request->images,$request->brand_id??null,$request->subcategory_id??null,$request->colors??null,$request->sizes??null);
 //            $product = DB::transaction(function () use ($request) {
@@ -143,7 +149,7 @@ class ProductsController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
-            return $this->apiResponse($e->getTrace(), 'error', 400);
+            return $this->apiResponse($e->getMessage(), 'error', 400);
         }
     }
 
