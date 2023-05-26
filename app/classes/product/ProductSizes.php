@@ -14,8 +14,13 @@ class ProductSizes
     /**
      * @throws \Exception
      */
-    public static function store($size, $productId){
+    public static function store($size, $productId):product_size
+    {
         try {
+            $oldSize=product_size::where('product_id',$productId)->where('value',$size)->first();
+            if ($oldSize){
+                return $oldSize;
+            }
             return product_size::create([
                 'product_id' => $productId,
                 'value' => $size
