@@ -7,7 +7,7 @@
             <div class="nav-logo">
                 <div class="nav-item theme-logo">
                     <a href="">
-                        <img src="{{asset('assets/images/logo/xlogo.png')}}" class="" alt="logo">
+                        <img src="{{asset('assets/images/logo/xlogo.png')}}"  class="" alt="logo">
                     </a>
                 </div>
                 <div class="nav-item theme-text">
@@ -31,7 +31,7 @@
 
 
                 <div class="profile-img">
-                    <img src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
+                    <img style="object-fit: cover" src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
                          alt="avatar">
                 </div>
                 <div class="profile-content">
