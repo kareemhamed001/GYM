@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 trait ImagesOperations
 {
 
+    public $PRODUCTS_COVERIMAGES_PATH='images/products/coverImages';
+    public $PRODUCTS_IMAGES_PATH='images/products/images';
     public function storeFile($file, $path, $disk = 'public')
     {
         try {
