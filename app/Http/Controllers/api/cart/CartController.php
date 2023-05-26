@@ -45,26 +45,36 @@ class CartController extends Controller
                 'discount' => ['required', 'numeric', 'max:100'],
                 'quantity' => ['required', 'numeric', 'min:1'],
                 'user_id' => ['required', 'integer', Rule::exists('users', 'id')],
-                'supplement_id' => ['required', 'integer', Rule::exists('supplements', 'id')],
+                'product_id' => ['required', 'integer', Rule::exists('products', 'id')],
+                'color' => ['nullable', 'integer', Rule::exists('product_colors', 'id')],
+                'size' => ['nullable', 'integer', Rule::exists('product_sizes', 'id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            $cart = cart::where('user_id', $request->user_id)->where('supplement_id', $request->supplement_id)->get();
+            $cart = cart::where('user_id', $request->user_id)->where('product_id', $request->product_id)->get();
 
             if ($cart->count() == 0) {
                 return cart::create([
                     'price' => $request->price,
                     'discount' => $request->discount,
-                    'number' => $request->quantity,
+                    'quantity' => $request->quantity,
+                    'color_id' => $request->color,
+                    'size_id' => $request->size,
                     'user_id' => $request->user_id,
-                    'supplement_id' => $request->supplement_id,
+                    'product_id' => $request->product_id,
                 ]);
             }
             $cart = $cart->first();
-            if ($cart->number != $request->quantity) {
-                $cart->number = $request->quantity;
+            if ($cart) {
+                if ($request->color){
+                    $cart->color_id=$request->color;
+                }
+                if ($request->size){
+                    $cart->size_id=$request->size;
+                }
+                $cart->quantity = $request->quantity;
                 $cart->price = $request->price;
                 $cart->discount = $request->discount;
                 $cart->save();
