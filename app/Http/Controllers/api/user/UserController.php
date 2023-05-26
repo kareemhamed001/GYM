@@ -222,10 +222,6 @@ class UserController extends Controller
     public function update(Request $request)
     {
         try {
-
-            if ($request->user()) {
-
-
                 $validator = Validator::make($request->all(), [
                     'name' => 'string|between:2,50',
                     'phone_number' => 'string|starts_with:01|max_digits:11',
@@ -245,7 +241,7 @@ class UserController extends Controller
                     return $this->apiResponse(null, $validator->errors(), 400);
                 }
 
-                $user = User::find($request->user()->id);
+                $user = auth()->user();
 
 
                 if ($user) {
@@ -305,8 +301,6 @@ class UserController extends Controller
                     return $this->apiResponse($user, 'Success', 200);
                 }
                 return $this->apiResponse('', 'No user with this id', 200);
-            }
-            return $this->apiResponse('', 'User Not Authorized', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
         }
