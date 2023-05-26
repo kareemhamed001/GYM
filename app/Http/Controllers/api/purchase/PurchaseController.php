@@ -23,7 +23,7 @@ class PurchaseController extends Controller
     public function index()
     {
         try {
-            $purchases = PurchaseClass::getAll();
+            $purchases = purchase::all();
             return $this->apiResponse($purchases, 'success', 200);
         } catch (\Exception $e) {
             return $this->apiResponse($e->getMessage(), 'error', 400);
