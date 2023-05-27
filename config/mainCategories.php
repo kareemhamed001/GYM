@@ -7,4 +7,5 @@ return[
     'Coaches'=>['name'=>'Coaches','id'=>5],
     'Supplements'=>['name'=>'Supplements','id'=>6],
     'GymDiscount'=>['name'=>'Gym Discount','id'=>7],
+    'MusclesVideos'=>['name'=>'Muscles Videos','id'=>8],
 ];

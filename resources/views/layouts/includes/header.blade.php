@@ -52,6 +52,12 @@
                             <span>Profile</span>
                         </a>
                     </div>
+                    <div class="dropdown-item">
+                        <a href="{{url('/')}}">
+                            <i class="fa-light fa-globe"></i>
+                            <span>Site</span>
+                        </a>
+                    </div>
 
                     <div class="dropdown-item">
                         <a href="{{ route('logout') }}"

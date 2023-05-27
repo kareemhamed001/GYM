@@ -109,44 +109,10 @@
                 </a>
             </li>
 
-            <li class="menu menu-heading">
-                <div class="heading">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                         class="feather feather-minus">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    <span>TRAINING VIDEOS</span></div>
-            </li>
-
-            <li class="menu">
-                <a href="#muscles" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <i class="fa-light fa-person-walking"></i>
-                        <span>{!! __('sidebar.muscles')  !!}</span>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                             stroke-linejoin="round" class="feather feather-chevron-right">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </div>
-                </a>
-                <ul class="collapse submenu list-unstyled" id="muscles" data-bs-parent="#accordionExample">
-                    <li>
-                        <a href="{{url('coach/muscles')}}"> List </a>
-                    </li>
-                    <li>
-                        <a href="{{url('coach/muscles/create')}}"> Add </a>
-                    </li>
-                </ul>
-            </li>
-
             @foreach(\App\Models\category::all() as $category)
 
                 @switch($category->id)
-                    @case(5)
+                    @case($category->id==config('mainCategories.Coaches.id'))
                         <li class="menu menu-heading">
                             <div class="heading">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -168,7 +134,7 @@
                         </li>
                         @break
 
-                    @case(6)
+                    @case($category->id==config('mainCategories.Supplements.id'))
                         <li class="menu menu-heading">
                             <div class="heading">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -197,7 +163,7 @@
                             </a>
                         </li>
                         @break
-                    @case(7)
+                    @case($category->id==config('mainCategories.GymDiscount.id'))
                         <li class="menu menu-heading">
                             <div class="heading">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -209,7 +175,7 @@
                                 </svg>
                                 <span class="text-uppercase">GYM DISCOUNTS</span></div>
                         </li>
-                        <li class="menu " style="padding-bottom: 8rem">
+                        <li class="menu " >
                             <a href="{{url('coach/gyms')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-dumbbell fa-2xs"></i>
@@ -218,6 +184,41 @@
                             </a>
                         </li>
 
+                        @break
+                        @case($category->id ==config('mainCategories.MusclesVideos.id'))
+                        <li class="menu menu-heading">
+                            <div class="heading">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="feather feather-minus">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>{{$category['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()]}}</span></div>
+                        </li>
+
+                        <li class="menu" style="padding-bottom: 6rem">
+                            <a href="#muscles" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <i class="fa-light fa-person-walking"></i>
+                                    <span>{!! __('sidebar.muscles')  !!}</span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" class="feather feather-chevron-right">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </a>
+                            <ul class="collapse submenu list-unstyled" id="muscles" data-bs-parent="#accordionExample">
+                                <li>
+                                    <a href="{{url('coach/muscles')}}"> List </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('coach/muscles/create')}}"> Add </a>
+                                </li>
+                            </ul>
+                        </li>
                         @break
                     @default
                         <li class="menu menu-heading">

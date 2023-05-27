@@ -1,25 +1,25 @@
 @extends('layouts.user.layout')
 @section('content')
-    <section class="vh-90 d-md-block d-none position-relative" id="homePageCover">
 
-{{--        <img class="position-absolute img-fluid top-0" style="z-index: 1" src="{{asset('assets/images/home_covers/1.jpg')}}" alt="">--}}
-        <div class="w-100 h-100 bg-dark bg-opacity-25 position-absolute" id="" style="z-index: 2">
+    <section class="container py-4">
+
+        <h3 class="fw-bold text-capitalize text-black">
+            Categories
+        </h3>
+        <div class="row">
+
+            @foreach($categories as $category)
+
+                    <div class="col-md-4 col-lg-3 col-sm-6 col-6 my-2 px-md-1 px-1 border-0" style="height: 200px">
+                        <a class="card hoverable style-7 border-0 overflow-hidden w-100 h-100" href="{{url('category/'.config('mainCategoriesById.'.$category->id).'/store')}}" >
+                            <img src="{{asset($category->cover_image)}}" style="object-fit: cover" class="card-img-top w-100 h-100" alt="...">
+                            <div class="card-footer custom">
+                                <div class="card-title mb-0">{{$category['name_'.$lang]}}</div>
+                            </div>
+                        </a>
+                    </div>
+            @endforeach
+
         </div>
-{{--        <div class="w-100 h-100 bg-transparent d-flex flex-column justify-content-center align-items-center" style="z-index: 3">--}}
-
-{{--            <h3 class="text-white col-6 text-center p-5" style="z-index: 3">Welcome to X_Fitness, where we believe that a healthy body and a healthy mind are the keys to a happy and fulfilling life. Our mission is to help you achieve your fitness goals and become the best version of yourself.</h3>--}}
-{{--            <form class="col-md-6 col-8" action="" style="z-index: 3">--}}
-
-{{--                <div class="input-group shadow-sm">--}}
-{{--                    <input type="text" class="form-control  p-2 fs-5" placeholder="Search">--}}
-{{--                    <button class="btn btn-primary px-4"><i class="fa-regular fa-magnifying-glass"></i></button>--}}
-{{--                </div>--}}
-{{--            </form>--}}
-
-{{--        </div>--}}
-
-    </section>
-    <section class="vh-100">
-
     </section>
 @endsection

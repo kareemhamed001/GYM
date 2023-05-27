@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo/xlogo.png')}}"/>
@@ -20,7 +20,7 @@
     <link href="{{asset('assets/layouts/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css"/>
 
-    <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
+{{--    <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -33,7 +33,7 @@
             opacity: 1;
             position: fixed;
             z-index: 999999;
-            top: 0px;
+            top: 0;
             bottom: 0;
             left: 0;
             right: 0;
@@ -63,7 +63,7 @@
 
     </style>
 </head>
-<body >
+<body class="p-0 m-0" >
 <div id="ajax_loader">
     <div class="loader">
         <div class="loader-content">
@@ -167,6 +167,7 @@
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 @yield('scripts')
 <script src="{{asset('assets/src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+<script src="{{asset('assets/src/plugins/src/mousetrap/mousetrap.min.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/mousetrap/mousetrap.min.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/waves/waves.min.js')}}"></script>
 

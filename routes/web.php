@@ -17,7 +17,7 @@ Route::middleware(['web','auth:web'])->group(function (){
     Route::get('/home', [\App\Http\Controllers\user\home\HomeController::class, 'index'])->name('home');
     Route::get('/coaches', [\App\Http\Controllers\user\coach\CoachController::class,'index']);
     Route::get('/coaches/{id}', [\App\Http\Controllers\user\coach\CoachController::class,'show']);
-    Route::get('/store', [\App\Http\Controllers\user\store\StoreController::class,'index'])->name('user.store');
+    Route::get('category/{category}/store', [\App\Http\Controllers\user\store\StoreController::class,'index'])->name('user.store');
     Route::get('/product/{product}', [\App\Http\Controllers\user\product\ProductController::class,'show']);
     Route::get('/user/cart', [\App\Http\Controllers\user\cart\CartController::class,'index']);
 });

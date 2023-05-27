@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories=CategoryClass::getAll();
+        $categories=category::paginate();
         return view('coach.categories.index',compact('categories'));
     }
 

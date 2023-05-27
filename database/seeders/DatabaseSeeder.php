@@ -133,6 +133,18 @@ class DatabaseSeeder extends Seeder
                 'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
             ]);
         }
+        if (!category::where('id',config('mainCategories.MusclesVideos.id'))->exists()){
+            \App\Models\category::factory()->create([
+                'id'=>config('mainCategories.MusclesVideos.id'),
+                'name_en'=>config('mainCategories.MusclesVideos.name'),
+                'name_ar'=>'Muscles Videos',
+                'name_ku'=>'Muscles Videos',
+                'description_en'=>'Muscles Videos',
+                'description_ar'=>'Muscles Videos',
+                'description_ku'=>'Muscles Videos',
+                'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
+            ]);
+        }
 
 
 

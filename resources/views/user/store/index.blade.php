@@ -13,33 +13,34 @@
                 </ol>
             </nav>
         </div>
-        <div class="d-flex container-fluid flex-row justify-content-between mb-3">
-            <div class="col-6">
+        @if(isset($brands))
+            <div class="d-flex container-fluid flex-row justify-content-between mb-3">
+                <div class="col-6">
 
-                <h4>Brands</h4>
-            </div>
-            <div class="col-6 d-flex justify-content-end">
-                <button class="btn btn-sm btn-primary">Show All Brands</button>
-            </div>
-
-        </div>
-
-
-        <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
-            @foreach($brands as $brand)
-                <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
-                    <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['brand'=>$brand->id])}}" >
-                        <img src="{{asset($brand->cover_image)}}" class="card-img-top" alt="...">
-                        <div class="card-footer custom">
-                            <div class="card-title mb-0">{{$brand->name}}</div>
-
-                        </div>
-                    </a>
+                    <h4>Brands</h4>
                 </div>
-            @endforeach
+                <div class="col-6 d-flex justify-content-end">
+                    <button class="btn btn-sm btn-primary">Show All Brands</button>
+                </div>
+
+            </div>
 
 
-        </div>
+            <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
+                @foreach($brands as $brand)
+                    <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
+                        <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['brand'=>$brand->id])}}" >
+                            <img src="{{asset($brand->cover_image)}}" class="card-img-top" alt="...">
+                            <div class="card-footer custom">
+                                <div class="card-title mb-0">{{$brand->name}}</div>
+
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
     </div>
 
     <div class=" my-3 ">
@@ -67,14 +68,14 @@
                         <div class="card-footer h-40">
                             <div class="row ">
                                 <div class="col-12 mb-4">
-                                    <b class="text-dark">{{$product->name}}</b>
-                                    <div class="text-muted card-subtitle fs-6 mb-0">{{$product->brand?->name}}</div>
+                                    <b class="text-dark">{{$product['name_'.$lang]}}</b>
+                                    <div class="text-muted card-subtitle fs-6 mb-0">{{$product->brand?$product->brand['name_'.$lang]:$product->category['name_'.$lang]}}</div>
                                 </div>
 
                                 <div class="col-12 text-end">
                                     <div class="pricing d-flex justify-content-end">
                                         <p class="text-success mb-0 me-2">
-                                            ${{$product->price * ($product->discount/100) }}</p>
+                                            ${{$product->price-($product->price * ($product->discount/100)) }}</p>
                                         <p class="mb-0 line-through">
                                             <del>${{$product->price}}</del>
                                         </p>
