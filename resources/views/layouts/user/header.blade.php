@@ -14,18 +14,11 @@
                 <li class="nav-item active-link ">
                     <a class="nav-link text-black fw-bold" href="{{url('/')}}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="{{url('coaches')}}">Coaches</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-black fw-bold" href="{{url('store')}}">Store</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="#">Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black fw-bold" href="#">My plans</a>
-                </li>
+
 
             </ul>
 
