@@ -68,7 +68,7 @@
                             <div class="row ">
                                 <div class="col-12 mb-4">
                                     <b class="text-dark">{{$product->name}}</b>
-                                    <div class="text-muted card-subtitle fs-6 mb-0">{{$product->brand->name}}</div>
+                                    <div class="text-muted card-subtitle fs-6 mb-0">{{$product->brand?->name}}</div>
                                 </div>
 
                                 <div class="col-12 text-end">

@@ -13,7 +13,7 @@ class StoreController
 
     function index(Request $request){
         if ($request->brand){
-            $brand=BrandClass::get($request->brand);
+            $brand=brand::find($request->brand);
             if (!$brand){
                 return redirect()->back()->with('error','No brand with this id');
             }
@@ -22,7 +22,7 @@ class StoreController
             return view('user.store.index',compact('products','brands'));
         }
 
-        $products=SupplementClass::getAll(42);
+        $products=product::paginate(42);
         $brands=brand::limit(20)->get();
         return view('user.store.index',compact('products','brands'));
     }

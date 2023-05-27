@@ -63,7 +63,7 @@
 
     </style>
 </head>
-<body class="layout-boxed">
+<body >
 <div id="ajax_loader">
     <div class="loader">
         <div class="loader-content">
