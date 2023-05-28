@@ -11,13 +11,13 @@
         <div id="carouselExampleControls" class="carousel slide w-100 h-100" data-bs-ride="carousel">
             <div class="carousel-inner w-100 h-100">
                 <div class="carousel-item active w-100 h-100">
-                    <img class="d-block w-100 h-100" style="object-fit: cover" src="{{asset('storage/images/categories/coverImages/a1hb8spI4oXYby3XNHorT1IvAZjh3P2B3dlnkOKU.jpg')}}" alt="First slide">
+                    <img class="d-block w-100 h-100" style="object-fit: cover" src="{{asset('assets/images/a1hb8spI4oXYby3XNHorT1IvAZjh3P2B3dlnkOKU.jpg')}}" alt="First slide">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img class="d-block w-100 h-100" style="object-fit: cover" src="{{asset('storage/images/categories/coverImages/b3jy9I2G1CSwaQUkDe9oAJlK7WXKptXw2V3PVRoT.jpg')}}" alt="First slide">
+                    <img class="d-block w-100 h-100" style="object-fit: cover" src="{{asset('assets/images/b3jy9I2G1CSwaQUkDe9oAJlK7WXKptXw2V3PVRoT.jpg')}}" alt="First slide">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img class="d-block w-100 h-100" style="object-fit: cover" src="{{asset('storage/images/categories/coverImages/c1te7hvfa35uK13Rq7FCxdrAHykWHO6ru8Jeo10i.jpg')}}" alt="First slide">
+                    <img class="d-block w-100 h-100" style="object-fit: cover" src="{{asset('assets/images/6TaTnUOxZ5JTfqFmCc0WzLeaoWect8sljZgFoRBR.jpg')}}" alt="First slide">
                 </div>
 
             </div>
