@@ -14,6 +14,9 @@
                 <li class="nav-item active-link ">
                     <a class="nav-link text-black fw-bold" href="{{url('/')}}">Home</a>
                 </li>
+                <li class="nav-item active-link ">
+                    <a class="nav-link text-black fw-bold" href="{{url('/categories')}}">Categories</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav d-flex " id="navbarSupportedContent">

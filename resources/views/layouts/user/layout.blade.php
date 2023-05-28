@@ -63,7 +63,7 @@
 
     </style>
 </head>
-<body class="p-0 m-0" >
+<body class="p-0 m-0 " style="width: 100vw" >
 <div id="ajax_loader">
     <div class="loader">
         <div class="loader-content">
@@ -86,14 +86,11 @@
 
 <!--  END NAVBAR  -->
 <!--  BEGIN MAIN CONTAINER  -->
-<div class="main-container col-12 ">
-
-    <div class="overlay"></div>
-    <div class="search-overlay"></div>
+<div class="w-100 main-container">
 
 
     <!--  BEGIN CONTENT AREA  -->
-    <div class="main-content  w-100">
+    <div class=" w-100">
 
         @yield('content')
     </div>

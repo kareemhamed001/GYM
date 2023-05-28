@@ -15,9 +15,9 @@
         </div>
         @if(isset($brands))
             <div class="d-flex container-fluid flex-row justify-content-between mb-3">
-                <div class="col-6">
-
+                <div class="col-12 d-flex justify-content-between">
                     <h4>Brands</h4>
+                    <a href="{{route('user.store',config('mainCategoriesById.'.$category->id))}}" class="btn btn-primary">All products</a>
                 </div>
             </div>
 
@@ -25,10 +25,11 @@
             <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
                 @foreach($brands as $brand)
                     <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
-                        <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['category'=>$category->id,'brand'=>$brand->id])}}" >
+                        <a class="card hoverable style-7 border-0 overflow-hidden"
+                           href="{{url('category/'.config('mainCategoriesById.'.$category->id).'/store?brand='.$brand->id)}}">
                             <img src="{{asset($brand->cover_image)}}" class="card-img-top" alt="...">
                             <div class="card-footer custom">
-                                <div class="card-title mb-0">{{$brand->name}}</div>
+                                <div class="card-title mb-0">{{$brand['name_'.$lang]}}</div>
 
                             </div>
                         </a>
@@ -38,18 +39,20 @@
         @endif
 
         @if(isset($subCategories))
-            <div class="d-flex container-fluid flex-row justify-content-between mb-3">
-                <div class="col-6">
-
+            <div class="d-flex container-fluid flex-row justify-content-between mb-3 my-3">
+                <div class="col-12 d-flex justify-content-between">
                     <h4>Categories</h4>
+                    <a href="{{route('user.store',config('mainCategoriesById.'.$category->id))}}" class="btn btn-primary">All products</a>
                 </div>
             </div>
 
 
             <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
+
                 @foreach($subCategories as $subcategory)
                     <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
-                        <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['category'=>$category->id,'subcategory'=>$subcategory->id])}}" >
+                        <a class="card hoverable style-7 border-0 overflow-hidden"
+                           href="{{url('category/'.config('mainCategoriesById.'.$category->id).'/store?subcategory='.$subcategory->id)}}">
                             <img src="{{asset($subcategory->cover_image)}}" class="card-img-top" alt="...">
                             <div class="card-footer custom">
                                 <div class="card-title mb-0">{{$subcategory['name_'.$lang]}}</div>
@@ -75,7 +78,8 @@
             @foreach($products as $product)
                 <div class="col-md-6 col-lg-4 col-xxl-2 col-6 my-1 px-md-1 px-1">
 
-                    <a class="card hoverable style-6  mb-md-0 mb-4 text-decoration-none rounded-3 overflow-hidden" style="height: 280px" href="{{url('/product',$product->id)}}">
+                    <a class="card hoverable style-6  mb-md-0 mb-4 text-decoration-none rounded-3 overflow-hidden"
+                       style="height: 280px" href="{{url('/product',$product->id)}}">
 
                         @if($product->discount>0)
                             <span class="badge badge-danger d-block">
@@ -83,12 +87,14 @@
                             </span>
                         @endif
 
-                        <img src="{{asset($product->cover_image)}}" class="card-img-top h-60 w-100" style="object-fit: cover" alt="...">
+                        <img src="{{asset($product->cover_image)}}" class="card-img-top h-60 w-100"
+                             style="object-fit: cover" alt="...">
                         <div class="card-footer h-40">
                             <div class="row ">
                                 <div class="col-12 mb-4">
                                     <b class="text-dark">{{$product['name_'.$lang]}}</b>
-                                    <div class="text-muted card-subtitle fs-6 mb-0">{{$product->brand?$product->brand['name_'.$lang]:$product->category['name_'.$lang]}}</div>
+                                    <div
+                                        class="text-muted card-subtitle fs-6 mb-0">{{$product->brand?$product->brand['name_'.$lang]:$product->category['name_'.$lang]}}</div>
                                 </div>
 
                                 <div class="col-12 text-end">
