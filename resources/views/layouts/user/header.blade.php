@@ -20,7 +20,7 @@
                 <ul class=" d-flex align-items-center justify-content-center col">
                     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
 
-                        <a class="nav-item mx-2" rel="alternate" hreflang="{{ $localeCode }}"
+                        <a class="nav-item mx-2 text-black" rel="alternate" hreflang="{{ $localeCode }}"
                            href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
                             {{ $localeCode }}
                         </a>

@@ -3,7 +3,7 @@
 
     <section class="container py-4">
 
-        <h3 class="fw-bold text-capitalize text-black">
+        <h3 class="fw-bold text-capitalize">
             Categories
         </h3>
         <div class="row">

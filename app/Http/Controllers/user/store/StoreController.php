@@ -6,31 +6,60 @@ use App\classes\brand\BrandClass;
 use App\classes\supplement\SupplementClass;
 use App\Models\brand;
 use App\Models\category;
+use App\Models\muscle;
 use App\Models\product;
+use App\Models\subCategory;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class StoreController
 {
 
-    function index(Request $request,$categoryName){
-        $lang=LaravelLocalization::setLocale();
-        $category=category::find(config('mainCategories.'.$categoryName.'.id'));
-        $products=product::where('category_id',$category->id)->paginate(42);
-        if ($category->id==config('mainCategories.Supplements.id')){
-            if ($request->brand){
-                $brand=brand::find($request->brand);
-                if (!$brand){
-                    return redirect()->back()->with('error','No brand with this id');
-                }
-                $products=product::where('brand_id',$brand->id)->paginate(42);
-                $brands=brand::limit(20)->get();
-                return view('user.store.index',compact('products','brands','lang'));
+    function index(Request $request, $categoryName)
+    {
+        $lang = LaravelLocalization::setLocale();
+        $categoryId = config('mainCategories.' . $categoryName) ? config('mainCategories.' . $categoryName . '.id') : 0;
+        $category = category::find($categoryId);
+        if ($category) {
+            if ($category->id == config('mainCategories.MusclesVideos.id')) {
+                $muscles = muscle::paginate();
+                return view('user.trainigVideos.index', compact('muscles'));
             }
-            $brands=brand::all();
-            return view('user.store.index',compact('products','brands','lang','category'));
+            $products = product::where('category_id', $category->id)->paginate(42);
+            if ($category->id == config('mainCategories.Supplements.id')) {
+                if ($request->brand) {
+                    $brand = brand::find($request->brand);
+                    if (!$brand) {
+                        return redirect()->back()->with('error', 'No brand with this id');
+                    }
+                    $products = product::where('brand_id', $brand->id)->paginate(42);
+                    $brands = brand::limit(20)->get();
+                    return view('user.store.index', compact('products', 'brands', 'lang'));
+                }
+                $brands = brand::all();
+                return view('user.store.index', compact('products', 'brands', 'lang', 'category'));
+            }elseif ($category->id ==config('mainCategories.GymDiscount.id')){
+
+            }
+
+
+            if ($request->subcategory) {
+                $subCategory = subCategory::where('id',$request->subcategory)->get();
+
+                if ($subCategory->count()==0) {
+                    return redirect()->back()->with('error', 'No category with this id');
+                }
+                $products = product::where('subcategory_id', $subCategory->id)->paginate(42);
+                $subCategories = subCategory::where('category_id',$category->id)->get();
+                return view('user.store.index', compact('products', 'category','subCategories', 'lang'));
+            }
+
+            $subCategories = subCategory::where('category_id',$category->id)->get();
+
+            return view('user.store.index', compact('products', 'lang', 'category','subCategories'));
+        } else {
+            return redirect()->back()->with('error', 'No category with this name');
         }
 
-        return view('user.store.index',compact('products','lang','category'));
     }
 }

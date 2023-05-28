@@ -19,17 +19,13 @@
 
                     <h4>Brands</h4>
                 </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <button class="btn btn-sm btn-primary">Show All Brands</button>
-                </div>
-
             </div>
 
 
             <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
                 @foreach($brands as $brand)
                     <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
-                        <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['brand'=>$brand->id])}}" >
+                        <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['category'=>$category->id,'brand'=>$brand->id])}}" >
                             <img src="{{asset($brand->cover_image)}}" class="card-img-top" alt="...">
                             <div class="card-footer custom">
                                 <div class="card-title mb-0">{{$brand->name}}</div>
@@ -41,6 +37,29 @@
             </div>
         @endif
 
+        @if(isset($subCategories))
+            <div class="d-flex container-fluid flex-row justify-content-between mb-3">
+                <div class="col-6">
+
+                    <h4>Categories</h4>
+                </div>
+            </div>
+
+
+            <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
+                @foreach($subCategories as $subcategory)
+                    <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
+                        <a class="card hoverable style-7 border-0 overflow-hidden" href="{{route('user.store',['category'=>$category->id,'subcategory'=>$subcategory->id])}}" >
+                            <img src="{{asset($subcategory->cover_image)}}" class="card-img-top" alt="...">
+                            <div class="card-footer custom">
+                                <div class="card-title mb-0">{{$subcategory['name_'.$lang]}}</div>
+
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 
     <div class=" my-3 ">
