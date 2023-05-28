@@ -106,10 +106,11 @@ Route::post('products/delete-collection', [\App\Http\Controllers\api\products\Pr
 Route::resource('/carts', \App\Http\Controllers\api\cart\CartController::class,
     [
         'only' => [
-            'index', 'destroy', 'store', 'update', 'show'
+            'index', 'destroy', 'store', 'show'
         ]
     ]
 );
+Route::post('carts/{id}', [\App\Http\Controllers\api\cart\CartController::class, 'update']);
 Route::get('carts/{id}/user', [\App\Http\Controllers\api\cart\CartController::class, 'getUserByCartId']);
 Route::get('carts/{id}/product', [\App\Http\Controllers\api\cart\CartController::class, 'getProductByCartId']);
 

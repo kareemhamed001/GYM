@@ -38,7 +38,14 @@
                                     class="d-flex  align-items-center justify-content-lg-center justify-content-between h-100 col-12 ">
                                     <div class="col h-100 d-flex flex-column justify-content-around align-items-start">
                                         <h6>Price</h6>
-                                        <p class=" fs-6">$<span class="text-danger">{{$cart->price}}</span>
+                                        <div class="d-flex justify-content-between">
+                                            <p class=" fs-6 "><span class="text-danger">${{$cart->price-($cart->price*($cart->discount/100))}}</span>
+                                            @if($cart->discount)
+                                                <p class=" fs-6 ms-2"><span class="text-danger text-decoration-line-through">${{$cart->price}}</span>
+                                            @endif
+
+                                        </div>
+
                                         </p>
                                     </div>
                                     @if($cart->color_id)
@@ -63,7 +70,7 @@
                                 <div class="d-flex flex-column align-items-center justify-content-around h-100">
                                     <h6>Quantity</h6>
                                     <input type="number" name="quantity" placeholder="quantity" class="form-control-sm "
-                                           value="{{$cart->quantity}}">
+                                           value="{{$cart->quantity}}" onchange="updateQuantity({{$cart->id}},event.target.value)">
                                 </div>
                             </div>
                             <div class="col-lg-3  ">
@@ -72,7 +79,7 @@
                                     class="d-flex flex-row flex-lg-column align-items-center justify-content-between justify-content-lg-around h-100 px-lg-0">
                                     <h6>Total</h6>
                                     @php
-                                        $cartTotal=($cart->price*($cart->discount/100))*$cart->quantity;
+                                        $cartTotal=($cart->price-($cart->price*($cart->discount/100)))*$cart->quantity;
                                         $allCartsTotalPrice+=$cartTotal;
                                     @endphp
                                     <p class=" fs-6">$<span
@@ -100,5 +107,37 @@
     <script src="{{asset('assets/src/plugins/src/bootstrap-touchspin/custom-bootstrap-touchspin.js')}}"></script>
     <script>
         $("input[name='quantity']").TouchSpin();
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+        async function updateQuantity(cartId,quantity){
+            console.log(quantity)
+            if (quantity){
+                try {
+                    let formData=new FormData()
+                    formData.append('quantity',quantity)
+
+                    let response=await fetch(`/api/carts/${cartId}`,{
+                        method:'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
+
+                    })
+                    console.log(response)
+
+                    let result=await response.json();
+                    console.log(result)
+                }catch (error){
+                    console.error(error)
+                }
+            }else {
+                Swal.fire({
+                    icon:'error',
+                    title:'Error',
+                    text:'Quantity not entered'
+                })
+            }
+        }
+
     </script>
 @endsection

@@ -117,15 +117,15 @@ class CartController extends Controller
             $validator = Validator::make($request->all(), [
                 'price' => ['numeric'],
                 'discount' => ['numeric', 'max:100'],
-                'number' => ['numeric', 'min:1'],
-                'user_id' => ['integer', Rule::exists('users', 'id')],
-                'supplement_id' => ['integer', Rule::exists('supplements', 'id')],
+                'quantity' => ['numeric', 'min:1'],
+                'user_id' => ['nullable','integer', Rule::exists('users', 'id')],
+                'supplement_id' => ['nullable','integer', Rule::exists('supplements', 'id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
             }
 
-            $cart = CartClass::get($id);
+            $cart = cart::find($id);
 
             if ($cart) {
 
@@ -135,8 +135,8 @@ class CartController extends Controller
                 if ($request->discount) {
                     $cart->discount = $request->discount;
                 }
-                if ($request->number) {
-                    $cart->number = $request->number;
+                if ($request->quantity) {
+                    $cart->quantity = $request->quantity;
                 }
                 if ($request->user_id) {
                     $cart->user_id = $request->user_id;
