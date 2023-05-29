@@ -27,7 +27,7 @@ class StoreController
 
             if ($category->id == config('mainCategories.MusclesVideos.id')) {
                 $muscles = muscle::paginate();
-                return view('user.trainigVideos.index', compact('category','lang','muscles'));
+                return view('user.trainingVideos.index', compact('category','lang','muscles'));
             }
 
             if ($category->id == config('mainCategories.GymDiscount.id')) {
@@ -36,18 +36,19 @@ class StoreController
                 return view('user.gymDiscount.index', compact('category','lang','gyms'));
             }
 
-            $products = product::where('category_id', $category->id)->paginate(42);
+
             if ($category->id == config('mainCategories.Supplements.id')) {
                 if ($request->brand) {
                     $brand = brand::find($request->brand);
                     if (!$brand) {
                         return redirect()->back()->with('error', 'No brand with this id');
                     }
-                    $products = product::where('brand_id', $brand->id)->paginate(42);
+                    $products = product::where('category_id',$category->id)->where('brand_id', $brand->id)->paginate(42);
                     $brands = brand::limit(20)->get();
                     return view('user.store.index', compact('products', 'category', 'brands', 'lang'));
                 }
                 $brands = brand::all();
+                $products = product::where('category_id', $category->id)->paginate(42);
                 return view('user.store.index', compact('products', 'brands', 'lang', 'category'));
             }
 
@@ -57,13 +58,13 @@ class StoreController
                 if ($subCategory->count() == 0) {
                     return redirect()->back()->with('error', 'No category with this id');
                 }
-                $products = product::where('subcategory_id', $subCategory->id)->paginate(42);
+                $products = product::where('category_id',$category->id)->where('subcategory_id', $subCategory->id)->paginate(42);
                 $subCategories = subCategory::where('category_id', $category->id)->get();
                 return view('user.store.index', compact('products', 'category', 'subCategories', 'lang'));
             }
 
             $subCategories = subCategory::where('category_id', $category->id)->get();
-
+            $products = product::where('category_id', $category->id)->paginate(42);
             return view('user.store.index', compact('products', 'lang', 'category', 'subCategories'));
 
         } else {

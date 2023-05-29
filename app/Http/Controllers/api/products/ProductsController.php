@@ -106,7 +106,7 @@ class ProductsController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 

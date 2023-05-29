@@ -8,6 +8,7 @@ use App\Models\product;
 use App\Models\product_color;
 use App\Models\product_image;
 use App\Models\product_size;
+use App\Models\subCategory;
 use App\Models\TemporatyFile;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
@@ -58,9 +59,26 @@ class ProductClass
                 $product->cover_image = $cover_image_path;
 
                 if (intval($category_id) == config('mainCategories.Supplements.id')) {
-                    $product->brand_id = $brand_id;
+                    if ($brand_id){
+                        $product->brand_id = $brand_id;
+                    }else{
+                        throw new \Exception('You should enter brand id to insert new supplement');
+                    }
+
                 } else {
-                    $product->subcategory_id = $subcategory_id;
+                    $subcategory=subCategory::find($subcategory_id);
+                    if ($subcategory->count()>0){
+                        if ($subcategory->category_id==$category_id){
+                            $product->subcategory_id = $subcategory_id;
+                        }else{
+                            throw new \Exception('You entered subcategory not belongs to this category');
+                        }
+
+                    }else{
+                        throw new \Exception('No subcategory with this id');
+                    }
+
+
                 }
                 $product->save();
 

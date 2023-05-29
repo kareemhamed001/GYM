@@ -4,6 +4,7 @@
 
     <div class="my-3 ">
 
+
         <div class="row px-3">
             <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -12,12 +13,14 @@
                     <li class="breadcrumb-item active" aria-current="page">Shop</li>
                 </ol>
             </nav>
+
         </div>
+        <h2 class="text-center fw-bold">{{$category['name_'.$lang]}}</h2>
         @if(isset($brands))
             <div class="d-flex container-fluid flex-row justify-content-between mb-3">
                 <div class="col-12 d-flex justify-content-between">
                     <h4>Brands</h4>
-                    <a href="{{route('user.store',config('mainCategoriesById.'.$category->id))}}" class="btn btn-primary">All products</a>
+                    <a href="{{route('user.store',config('mainCategoriesById.'.$category->id))}}" class="btn btn-danger">All products</a>
                 </div>
             </div>
 
@@ -42,7 +45,7 @@
             <div class="d-flex container-fluid flex-row justify-content-between mb-3 my-3">
                 <div class="col-12 d-flex justify-content-between">
                     <h4>Categories</h4>
-                    <a href="{{route('user.store',config('mainCategoriesById.'.$category->id))}}" class="btn btn-primary">All products</a>
+                    <a href="{{route('user.store',config('mainCategoriesById.'.$category->id))}}" class="btn btn-danger">All products</a>
                 </div>
             </div>
 
@@ -50,10 +53,10 @@
             <div class="container-fluid  ms-2 d-flex flex-row flex-nowrap overflow-auto" id="brands-scroll">
 
                 @foreach($subCategories as $subcategory)
-                    <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0">
-                        <a class="card hoverable style-7 border-0 overflow-hidden"
+                    <div class="col-md-2 col-lg-2 col-sm-4 col-6 my-2 px-md-1 px-1 border-0" style="height: 150px">
+                        <a class="card hoverable style-7 border-0 overflow-hidden w-100 h-100"
                            href="{{url('category/'.config('mainCategoriesById.'.$category->id).'/store?subcategory='.$subcategory->id)}}">
-                            <img src="{{asset($subcategory->cover_image)}}" class="card-img-top" alt="...">
+                            <img src="{{asset($subcategory->cover_image)}}" class="card-img-top w-100 h-100 " style="object-fit: cover" alt="...">
                             <div class="card-footer custom">
                                 <div class="card-title mb-0">{{$subcategory['name_'.$lang]}}</div>
 
