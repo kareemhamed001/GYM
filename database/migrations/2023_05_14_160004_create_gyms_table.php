@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('gyms', function (Blueprint $table) {
             $table->id();
+            $table->string('phone_number',20)->nullable();
             $table->string('cover_image');
             $table->string('name_en');
             $table->string('name_ar');

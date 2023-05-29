@@ -10,9 +10,9 @@
 
             @foreach($gyms as $gym)
 
-                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-12 my-2 px-md-1 px-1 border-0" style="height: 300px">
+                <div class="col-md-6 col-lg-4 col-xl-3 col-sm-6 col-12 my-2 px-md-1 px-1 border-0" style="height: 350px">
                     <a class="card hoverable border-0 overflow-hidden w-100 h-100"
-                       href="{{url('gym/',$gym->id)}}">
+                       href="{{url('/'.config('mainCategoriesById.'.config('mainCategories.GymDiscount.id')),$gym->id)}}">
                         <div class="card-img h-60">
                             <img src="{{asset($gym->cover_image)}}" style="object-fit: cover"
                                  class="card-img-top w-100 h-100" alt="...">
