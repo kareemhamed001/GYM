@@ -59,6 +59,7 @@
                     `
                 })
                 muscles_container.innerHTML = html;
+                showMuscleParts(result.data[0]['id'])
             }
         }
 
