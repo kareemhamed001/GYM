@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class curriculum extends Model
+class part extends Model
 {
     use HasFactory;
     protected $guarded=[];
     function files(){
-        return $this->hasMany(curriculum_file::class,'curriculum_id','id');
+        return $this->hasMany(part_file::class,'part_id','id');
     }
 }

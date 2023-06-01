@@ -20,6 +20,17 @@ class GymController extends Controller
     use ApiResponse;
     use ImagesOperations;
 
+
+    function index(){
+        try {
+
+            return gym::all();
+        }catch (\Exception $e){
+            \Log::error($e->getTraceAsString());
+            return $this->apiResponse('', $e->getMessage(), 400);
+        }
+    }
+
     function store(Request $request)
     {
         try {
@@ -33,6 +44,7 @@ class GymController extends Controller
                 'cover_image' => ['required', 'image'],
                 'coach_id' => ['required', Rule::exists('users', 'id')],
                 'price' => ['required', 'integer'],
+                'phone_number' => ['required','numeric','starts_with:01'],
                 'address' => ['required', 'string'],
                 'open_at' => ['required'],
                 'close_at' => ['required']
@@ -50,6 +62,7 @@ class GymController extends Controller
                     'description_ar' => $request->description_ar,
                     'description_ku' => $request->description_ku,
                     'cover_image' => $path,
+                    'phone_number' => $request->phone_number,
                     'price' => $request->price,
                     'address' => $request->address,
                     'open_at' => $request->open_at,
@@ -75,18 +88,16 @@ class GymController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name_en' => ['required', 'string', 'max:100'],
-                'name_ar' => ['required', 'string', 'max:100'],
-                'name_ku' => ['required', 'string', 'max:100'],
-                'description_en' => ['required', 'string', 'max:500'],
-                'description_ar' => ['required', 'string', 'max:500'],
-                'description_ku' => ['required', 'string', 'max:500'],
+                'name_en' => [ 'string', 'max:100'],
+                'name_ar' => [ 'string', 'max:100'],
+                'name_ku' => [ 'string', 'max:100'],
+                'description_en' => [ 'string', 'max:500'],
+                'description_ar' => [ 'string', 'max:500'],
+                'description_ku' => [ 'string', 'max:500'],
                 'cover_image' => ['image'],
                 'coach_id' => ['required', Rule::exists('users', 'id')],
-                'price' => ['required', 'integer'],
-                'address' => ['required', 'string'],
-                'open_at' => ['required'],
-                'close_at' => ['required']
+                'price' => [ 'integer'],
+                'address' => [ 'string'],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);

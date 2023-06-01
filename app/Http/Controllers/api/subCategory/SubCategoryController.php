@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\subCategory;
 
 use App\classes\category\CategoryClass;
 use App\Http\Controllers\Controller;
+use App\Models\brand;
 use App\Models\category;
 use App\Models\coach;
 use App\Models\subCategory;
@@ -11,6 +12,7 @@ use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -91,7 +93,7 @@ class SubCategoryController extends Controller
     {
         try {
 
-            $subCategory = subCategory::find($id);
+            $subCategory = subCategory::with('category')->find($id);
             if ($subCategory) {
                 return $this->apiResponse($subCategory, 'success', 200);
             }
@@ -102,6 +104,19 @@ class SubCategoryController extends Controller
         }
     }
 
+    public function products($id)
+    {
+        try {
+            $subcategory = subCategory::with('products')->find($id);
+            if ($subcategory) {
+                return $this->apiResponse($subcategory, 'success', 200);
+            }
+            return $this->apiResponse('', 'No subcategory with this id', 200);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->apiResponse('', $e->getMessage(), 400);
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -109,16 +124,14 @@ class SubCategoryController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-
-
             $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:100'],
-                'name_ar' => ['string', 'max:100'],
-                'name_ku' => ['string', 'max:100'],
-                'description' => ['required', 'string', 'max:500'],
-                'description_ar' => ['string', 'max:500'],
-                'description_ku' => ['string', 'max:500'],
-                'cover_image' => ['image'],
+                'name' => ['nullable', 'string', 'max:100'],
+                'name_ar' => ['nullable','string', 'max:100'],
+                'name_ku' => ['nullable','string', 'max:100'],
+                'description' => ['nullable','string', 'max:500'],
+                'description_ar' => ['nullable','string', 'max:500'],
+                'description_ku' => ['nullable','string', 'max:500'],
+                'cover_image' => ['nullable','image'],
                 'coach_id' => ['required',Rule::exists('users','id')],
             ]);
             if ($validator->fails()) {

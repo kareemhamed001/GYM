@@ -199,17 +199,17 @@
                         </button>
                     </div>
                     <div>
-                        @forelse($muscle->curricula as $curriculum)
+                        @forelse($muscle->parts as $part)
 
 
-                            <div class="widget widget-table-one my-3" id="curriculum{{$curriculum->id}}">
+                            <div class="widget widget-table-one my-3" id="part{{$part->id}}">
                                 <div class="widget-heading">
                                     <h5 class="d-flex align-items-center">
-                                        <a class="me-2" target="_blank" href="{{asset($curriculum->cover_image)}}"><img
+                                        <a class="me-2" target="_blank" href="{{asset($part->cover_image)}}"><img
                                                 class="img-fluid  "
                                                 style="object-fit: scale-down ;height: 50px;width: 50px;border-radius: 50%"
-                                                src="{{asset($curriculum->cover_image)}}"></a>
-                                         part : {{$curriculum->title}}</h5>
+                                                src="{{asset($part->cover_image)}}"></a>
+                                         part : {{$part->title}}</h5>
                                     <div class="task-action">
                                         <div class="dropdown">
                                             <a class="dropdown-toggle show" href="#" role="button" id="transactions"
@@ -228,7 +228,7 @@
                                                  style="will-change: transform; position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 22px, 0px);"
                                                  data-popper-placement="bottom-start">
                                                 <a class="dropdown-item "
-                                                   onclick="removepart({{$muscle->id}},{{$curriculum->id}},'curriculum{{$curriculum->id}}')"><i
+                                                   onclick="removepart({{$muscle->id}},{{$part->id}},'part{{$part->id}}')"><i
                                                         class="fa fa-trash text-danger "></i> Delete</a>
 
                                             </div>
@@ -240,28 +240,28 @@
                                     <div class="row">
 
                                         <input class="text-truncate form-control  mb-0 h5 fw-light " type="hidden"
-                                               name="parts[{{$curriculum->title}}][id]" value="{{$curriculum->id}}"
+                                               name="parts[{{$part->title}}][id]" value="{{$part->id}}"
                                                required>
 
 
                                         <div class="form-group col-md-6 my-2">
-                                            <label for="part{{$curriculum->id}}title">Title</label>
+                                            <label for="part{{$part->id}}title">Title</label>
                                             <input class="text-truncate form-control  mb-0 h5 fw-light " type="text"
-                                                   id="part{{$curriculum->id}}title"
-                                                   name="parts[{{$curriculum->title}}][title]"
-                                                   value="{{$curriculum->title}}" required>
+                                                   id="part{{$part->id}}title"
+                                                   name="parts[{{$part->title}}][title]"
+                                                   value="{{$part->title}}" required>
                                         </div>
                                         <div class="form-group col-md-6 my-2">
-                                            <label for="part{{$curriculum->id}}coverImage">Cover Image</label>
+                                            <label for="part{{$part->id}}coverImage">Cover Image</label>
                                             <input class="form-control" type="file"
-                                                   id="parts{{$curriculum->id}}coverImage"
-                                                   name="parts[{{$curriculum->title}}][cover_image]">
+                                                   id="parts{{$part->id}}coverImage"
+                                                   name="parts[{{$part->title}}][cover_image]">
                                         </div>
 
 
-                                        <div class="accordion-body mt-3" id="curriculum{{$curriculum->id}}Body">
+                                        <div class="accordion-body mt-3" id="part{{$part->id}}Body">
 
-                                            @forelse($curriculum->files as $file)
+                                            @forelse($part->files as $file)
 
                                                     <div class="" id="file{{$file->id}}">
 
@@ -269,7 +269,7 @@
                                                         <div class="d-flex justify-content-between my-2">
                                                             <h5>File:{{$file->title}}</h5>
                                                             <p class="mb-0 w-auto">
-                                                                <button onclick="removeFile({{$muscle->id}},{{$curriculum->id}},{{$file->id}},'file{{$file->id}}')"
+                                                                <button onclick="removeFile({{$muscle->id}},{{$part->id}},{{$file->id}},'file{{$file->id}}')"
                                                                         class=" btn btn-danger "
                                                                         type="button"
                                                                         title="Delete File"
@@ -287,26 +287,26 @@
                                                                 <input
                                                                     class="text-truncate form-control  mb-0 h5 fw-light "
                                                                     type="hidden"
-                                                                    name="parts[{{$curriculum->title}}][files][file{{$file->id}}][id]"
+                                                                    name="parts[{{$part->title}}][files][file{{$file->id}}][id]"
                                                                     value="{{$file->id}}">
 
                                                                 <label>Title</label>
                                                                 <input
                                                                     class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                    name="parts[{{$curriculum->title}}][files][file{{$file->id}}][title]"
+                                                                    name="parts[{{$part->title}}][files][file{{$file->id}}][title]"
                                                                     value="{{$file->title}}" required>
                                                             </div>
                                                             <div class="form-group col-md-6 my-2">
                                                                 <label>Description</label>
                                                                 <input
                                                                     class="text-truncate form-control  mb-0 h5 fw-light "
-                                                                    name="parts[{{$curriculum->title}}][files][file{{$file->id}}][description]"
+                                                                    name="parts[{{$part->title}}][files][file{{$file->id}}][description]"
                                                                     value="{{$file->description}}" required>
                                                             </div>
                                                             <div class="form-group col-md-6 my-2">
                                                                 <label>File</label>
                                                                 <input class="form-control" type="file"
-                                                                       name="parts[{{$curriculum->title}}][files][file{{$file->id}}][file]"
+                                                                       name="parts[{{$part->title}}][files][file{{$file->id}}][file]"
                                                                        accept="application/pdf,image/*,video/*">
                                                             </div>
                                                         </div>
@@ -316,7 +316,7 @@
                                             @endforelse
                                         </div>
                                         <button
-                                            onclick="addFile('curriculum{{$curriculum->id}}Body','{{$curriculum->title}}')"
+                                            onclick="addFile('part{{$part->id}}Body','{{$part->title}}')"
                                             type="button"
                                             class="btn btn-sm btn-primary my-2">
                                             <i class="fa fa-plus-circle"></i> Add File
@@ -344,9 +344,9 @@
     <script src="{{asset('assets/js/jquery/jquery.min.js')}}"></script>
     <script>
 
-        @if(isset($curriculum))
+        @if(isset($part))
 
-            let partsCounter = {{$curriculum->id+1}};
+            let partsCounter = {{$part->id+1}};
 
             @if(isset($file))
                 let filesCounter = {{$file->id+1}};
@@ -366,7 +366,7 @@
                 partsCounter++;
 
                 let html = `
-                <div class="widget widget-table-one my-3" id="curriculum${partsCounter}">
+                <div class="widget widget-table-one my-3" id="part${partsCounter}">
                                 <div class="widget-heading">
                                     <h5 class="d-flex align-items-center">
                                         part:${partName}</h5>
@@ -388,7 +388,7 @@
                                                  style="will-change: transform; position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 22px, 0px);"
                                                  data-popper-placement="bottom-start">
                                                 <a class="dropdown-item "
-                                                   onclick="removepart('','','curriculum${partsCounter}')"><i
+                                                   onclick="removepart('','','part${partsCounter}')"><i
                                                         class="fa fa-trash text-danger "></i> Delete</a>
 
                                             </div>
@@ -417,12 +417,12 @@
                                         </div>
 
 
-                                        <div class="accordion-body mt-3" id="curriculum${partsCounter}Body">
+                                        <div class="accordion-body mt-3" id="part${partsCounter}Body">
 
                                         </div>
 
                                         <button
-                                            onclick="addFile('curriculum${partsCounter}Body','${partName}')"
+                                            onclick="addFile('part${partsCounter}Body','${partName}')"
                                             type="button"
                                             class="btn btn-sm btn-primary my-2" >
                                             <i class="fa fa-plus-circle"></i> Add File
@@ -523,7 +523,7 @@
         async function removepart(muscleId, partId, parentElement) {
             try {
                 if (muscleId && partId) {
-                    let response = await fetch(`/api/muscles/${muscleId}/${partId}/delete-curriculum`, {
+                    let response = await fetch(`/api/muscles/${muscleId}/${partId}/delete-part`, {
                         method: 'post'
                     });
                     let result = await response.json();

@@ -26,8 +26,8 @@ class StoreController
         if ($category) {
 
             if ($category->id == config('mainCategories.MusclesVideos.id')) {
-                $muscles = muscle::paginate();
-                return view('user.trainingVideos.index', compact('category','lang','muscles'));
+                $muscles=muscle::all();
+                return view('user.trainingVideos.index',compact('category','lang','muscles'));
             }
 
             if ($category->id == config('mainCategories.GymDiscount.id')) {

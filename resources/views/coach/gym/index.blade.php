@@ -104,25 +104,30 @@
                             <textarea name="description_ku" class="form-control" type="text" id="gymDescriptionKu"
                                       placeholder="Enter Description in kurdish"></textarea>
                         </div>
-                        <div class="form-group col-md-3 px-1 my-1">
+                        <div class="form-group col-md-4 px-1 my-1">
                             <label for="price">Price</label>
                             <input name="price" class="form-control" type="number" id="price"
                                       placeholder="Enter price">
                         </div>
-                        <div class="form-group col-md-3 px-1 my-1">
+                        <div class="form-group col-md-4 px-1 my-1">
                             <label for="open_at">opens at</label>
                             <input name="open_at" class="form-control" type="time" id="open_at">
                         </div>
 
 
-                        <div class="form-group col-md-3 px-1 my-1">
+                        <div class="form-group col-md-4 px-1 my-1">
                             <label for="close_at">closes at</label>
                             <input name="close_at" class="form-control" type="time" id="close_at">
                         </div>
 
-                        <div class="form-group col-md-3 px-1 my-1">
+                        <div class="form-group col-md-6 px-1 my-1">
                             <label for="address">address</label>
                             <input name="address" class="form-control" type="text" id="address"
+                                      placeholder="Enter address">
+                        </div>
+                        <div class="form-group col-md-6 px-1 my-1">
+                            <label for="phone">phone number</label>
+                            <input name="phone_number" class="form-control" type="text" id="phone"
                                       placeholder="Enter address">
                         </div>
 

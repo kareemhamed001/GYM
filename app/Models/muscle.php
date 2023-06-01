@@ -13,7 +13,7 @@ class muscle extends Model
 
 
     public function parts(){
-        return $this->hasMany(curriculum::class);
+        return $this->hasMany(part::class,'muscle_id','id');
     }
 
     protected static function boot()

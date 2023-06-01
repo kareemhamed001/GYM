@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\coach;
 
 use App\Models\muscle;
-use App\Models\curriculum;
-use App\Models\curriculum_file;
+use App\Models\part;
+use App\Models\part_file;
 use App\Models\product_image;
 use App\Models\product;
 use App\Models\video;
@@ -35,7 +35,7 @@ class MuscleController extends Controller
             return $this->apiResponse($muscles, 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
@@ -82,14 +82,14 @@ class MuscleController extends Controller
                         if (isset($part['cover_image'])) {
                             $partPath = $this->storeFile($part['cover_image'], 'images/muscles/parts/coverImages');
                         }
-                        $curriculum = $this->storeCurriculum($part['title'], $partPath, $muscle->id);
+                        $part = $this->storepart($part['title'], $partPath, $muscle->id);
                         if (isset($part['files'])) {
                             foreach ($part['files'] as $title => $file) {
                                 $path = '';
                                 $type = null;
                                 $path = $this->storeFile($file['file'], 'files');
                                 if ($path) {
-                                    $this->storeCurriculumFile($file['title'], $file['description'], $path, $curriculum->id);
+                                    $this->storepartFile($file['title'], $file['description'], $path, $part->id);
                                 }
                             }
                         }
@@ -126,7 +126,7 @@ class MuscleController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
@@ -138,6 +138,8 @@ class MuscleController extends Controller
     {
 
         try {
+
+
 
 
             $validator = Validator::make($request->all(), [
@@ -194,20 +196,22 @@ class MuscleController extends Controller
                 if ($request->parts) {
                     foreach ($request->parts as $part) {
                         //check if this part is stored before
+                        $part_id=0;
                         if (isset($part['id'])) {
                             //get part from database
-                            $curriculum = curriculum::find($part['id']);
-                            //check if curriculum exists on database
-                            if (isset($curriculum->id)) {
+                            $stored_part = part::find($part['id']);
+                            //check if part exists on database
+                            if (isset($stored_part->id)) {
+                                $part_id=$stored_part->id;
                                 //update part title
-                                $curriculum->title = $part['title'];
+                                $stored_part->title = $part['title'];
                                 //check if a new cover image is sent
                                 if (isset($part['cover_image'])) {
                                     //replace old cover with new cover
-                                    $curriculum->cover_image = $this->replaceFile($curriculum->cover_image, $part['cover_image'], 'images/muscles/parts/coverImages');
+                                    $stored_part->cover_image = $this->replaceFile($stored_part->cover_image, $part['cover_image'], 'images/muscles/parts/coverImages');
                                 }
                                 //save changes
-                                $curriculum->save();
+                                $stored_part->save();
                             }
                         } //if this part not stored before create new part
                         else {
@@ -217,7 +221,8 @@ class MuscleController extends Controller
                                 //store part image
                                 $partPath = $this->storeFile($part['cover_image'], 'images/muscles/parts/coverImages');
                             }
-                            $curriculum = $this->storeCurriculum($part['title'], $partPath, $muscle->id);
+                            $new_part = $this->storepart($part['title'], $partPath, $muscle->id);
+                            $part_id=$new_part->id;
                         }
 
                         //if this part has files
@@ -225,43 +230,38 @@ class MuscleController extends Controller
 
                             foreach ($part['files'] as $title => $file) {
 
+
                                 //check if this file is stored before
                                 if (isset($file['id'])) {
                                     //get file from database
-                                    $fileStored = curriculum_file::find($file['id']);
+                                    $stored_file = part_file::find($file['id']);
                                     //check if file exists on database
-                                    if ($fileStored->id) {
+                                    if ($stored_file->id) {
                                         //update file title
-                                        $fileStored->title = $file['title'];
+                                        $stored_file->title = $file['title'];
                                         //update file description
-                                        $fileStored->description = $file['description'];
+                                        $stored_file->description = $file['description'];
                                         //check if new file is sent
                                         if (isset($file['file'])) {
                                             //replace old file with the new one
-                                            $fileStored->path = $this->replaceFile($fileStored->path, $file['file'], 'files');
+                                            $stored_file->path = $this->replaceFile($stored_file->path, $file['file'], 'files');
                                         }
-                                        //if the file is stored before and its type is stored video
-                                        if (isset($file['videoId'])) {
-                                            //get stored video by its id
-                                            $video = video::find($file['videoId']);
-                                            if ($video) {
-                                                //update the file path with the stored video path
-                                                $fileStored->path = $video->path;
-                                            }
-                                        }
-                                        $fileStored->save();
+                                        $stored_file->save();
                                     }
                                 } //if this file is new one
                                 else {
-                                    if (is_string($file['file'])){
-                                        $path = $file['file'];
-                                    }else{
-                                        $path = $this->storeFile($file['file'], 'files');
-                                    }
+
+                                        if (is_string($file['file'])){
+                                            $path = $file['file'];
+                                        }else{
+                                            $path = $this->storeFile($file['file'], 'files');
+                                        }
+
+
 
                                     if ($path) {
                                         //store this file
-                                        $this->storeCurriculumFile($file['title'], $file['description'], $path, $curriculum->id);
+                                        $this->storepartFile($file['title'], $file['description'], $path, $part_id);
                                     }
                                 }
                             }
@@ -286,10 +286,10 @@ class MuscleController extends Controller
         }
     }
 
-    function storeCurriculum(string $title, string $coverImagePath, int $muscleId)
+    function storepart(string $title, string $coverImagePath, int $muscleId)
     {
         try {
-            return curriculum::create([
+            return part::create([
                 'title' => $title,
                 'cover_image' => $coverImagePath,
                 'muscle_id' => $muscleId
@@ -300,14 +300,14 @@ class MuscleController extends Controller
         }
     }
 
-    function storeCurriculumFile(string $title, string $description, string $path, int $curriculum_id)
+    function storepartFile(string $title, string $description, string $path, int $part_id)
     {
         try {
-            curriculum_file::create([
+            part_file::create([
                 'title' => $title,
                 'description' => $description,
                 'path' => $path,
-                'curriculum_id' => $curriculum_id
+                'part_id' => $part_id
             ]);
             return true;
         } catch (\Exception $e) {
@@ -339,39 +339,7 @@ class MuscleController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getTraceAsString());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
-        }
-    }
-
-    public function getVideosBymuscleId($id)
-    {
-        try {
-
-            $muscle = muscle::find($id);
-            if ($muscle) {
-                return $this->apiResponse($muscle->videos, 'success', 200);
-            }
-            return $this->apiResponse('', 'No muscle with this id', 200);
-
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
-        }
-    }
-
-    public function getmuscleCoach($id)
-    {
-        try {
-
-            $muscle = muscle::find($id);
-            if ($muscle) {
-                return $this->apiResponse($muscle->coach, 'success', 200);
-            }
-            return $this->apiResponse('', 'No muscle with this id', 200);
-
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
@@ -403,61 +371,90 @@ class MuscleController extends Controller
         }
     }
 
-    function deleteCurriculum($muscleId, $curriculumId)
+    function deletepart($muscleId, $partId)
     {
         try {
 
             $muscle = muscle::find($muscleId);
-            $curriculum = curriculum::find($curriculumId);
+            $part = part::find($partId);
             if (!$muscle) {
                 return $this->apiResponse('', 'This muscle doesnt exists', 400);
             }
-            if (!$curriculum) {
-                return $this->apiResponse('', 'This curriculum doesnt exists', 400);
+            if (!$part) {
+                return $this->apiResponse('', 'This part doesnt exists', 400);
             }
 
-            if ($curriculum->muscle_id == $muscle->id) {
-                $this->deleteFile($curriculum->cover_image);
-                $curriculum->delete();
+            if ($part->muscle_id == $muscle->id) {
+                $this->deleteFile($part->cover_image);
+                $part->delete();
                 return $this->apiResponse('', 'success', 200);
             }
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
-    function deleteCurriculumFile($muscleId, $curriculumId, $fileId)
+    function deletepartFile($muscleId, $partId, $fileId)
     {
         try {
 
             $muscle = muscle::find($muscleId);
-            $curriculum = curriculum::find($curriculumId);
-            $curriculumFile = curriculum_file::find($fileId);
+            $part = part::find($partId);
+            $partFile = part_file::find($fileId);
             if (!$muscle) {
                 return $this->apiResponse('', 'This muscle doesnt exists', 400);
             }
-            if (!$curriculum) {
-                return $this->apiResponse('', 'This curriculum doesnt exists', 400);
+            if (!$part) {
+                return $this->apiResponse('', 'This part doesnt exists', 400);
             }
-            if (!$curriculumFile) {
+            if (!$partFile) {
                 return $this->apiResponse('', 'This file doesnt exists', 400);
             }
 
-            if ($curriculumFile->curriculum_id == $curriculum->id && $curriculum->muscle_id == $muscle->id) {
-                $this->deleteFile($curriculumFile->path);
-                $curriculumFile->delete();
+            if ($partFile->part_id == $part->id && $part->muscle_id == $muscle->id) {
+                $this->deleteFile($partFile->path);
+                $partFile->delete();
                 return $this->apiResponse('', 'success', 200);
             }
 
             return $this->apiResponse('', 'Some went wrong', 400);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->apiResponse($e->getMessage(), 'error', 400);
+            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 
+    function parts($id){
+        try {
+            $muscle=muscle::with('parts')->find($id);
+            if ($muscle){
+                return $this->apiResponse($muscle, 'success', 200);
+            }
+            return $this->apiResponse($muscle, 'No muscle with this id', 404);
+        }catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->apiResponse('', $e->getMessage(), 400);
+        }
+    }
 
+    function partFiles($muscle_id,$part_id){
+        try {
+            $muscle=muscle::find($muscle_id);
+            if ($muscle){
+                $part=part::find($part_id);
+                if ($part){
+                    return $this->apiResponse($part->files, 'success', 200);
+                }else{
+                    return $this->apiResponse('','No part with this id', 400);
+                }
+            }
+            return $this->apiResponse('', 'No muscle with this id', 404);
+        }catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->apiResponse('', $e->getMessage(), 400);
+        }
+    }
 }
