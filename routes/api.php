@@ -55,9 +55,9 @@ Route::resource('/muscles', \App\Http\Controllers\api\muscle\MuscleController::c
 
 Route::get('muscles/{id}/parts', [\App\Http\Controllers\api\muscle\MuscleController::class, 'parts']);
 Route::get('muscles/{id}/{partId}/files', [\App\Http\Controllers\api\muscle\MuscleController::class, 'partFiles']);
-Route::post('muscles/delete-collection', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteArrayOfmuscles']);
-Route::post('muscles/{muscleId}/{curriculumId}/delete-part', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deletepart']);
-Route::post('muscles/{muscleId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCurriculumFile']);
+Route::post('muscles/delete-collection', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCollection']);
+Route::post('muscles/{muscleId}/{curriculumId}/delete-part', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deletePart']);
+Route::post('muscles/{muscleId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deletePartFile']);
 
 
 Route::resource('/products', \App\Http\Controllers\api\products\ProductsController::class,

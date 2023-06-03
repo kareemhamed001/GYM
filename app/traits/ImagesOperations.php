@@ -9,6 +9,9 @@ trait ImagesOperations
 
     public $PRODUCTS_COVERIMAGES_PATH='images/products/coverImages';
     public $PRODUCTS_IMAGES_PATH='images/products/images';
+    public $MUSCLES_COVERIMAGES_PATH='images/muscles/coverImages';
+    public $MUSCLES_PARTSIMAGES_PATH='images/muscles/parts/coverImages';
+    public $FILES_PATH='files';
     public function storeFile($file, $path, $disk = 'public')
     {
         try {

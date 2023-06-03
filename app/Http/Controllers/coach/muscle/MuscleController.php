@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\coach\muscle;
 
-use App\classes\muscle\MuscleClass;
+use App\classes\muscle\MuscleService;
 use App\Http\Controllers\Controller;
 use App\Models\muscle;
 use App\Models\video;
