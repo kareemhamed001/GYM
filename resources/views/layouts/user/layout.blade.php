@@ -19,6 +19,7 @@
     <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/layouts/modern-light-menu/css/light/plugins.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/layouts/modern-light-menu/css/dark/plugins.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.css')}}" rel="stylesheet" type="text/css"/>
 
 {{--    <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>--}}
     <!-- END GLOBAL MANDATORY STYLES -->
@@ -175,7 +176,7 @@
 <!-- END GLOBAL MANDATORY STYLES -->
 <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/layouts/modern-light-menu/userApp.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.min.js')}}"></script>
 
 <!-- END PAGE LEVEL SCRIPTS -->
 </body>

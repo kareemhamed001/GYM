@@ -12,6 +12,8 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{asset('assets/src/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.css')}}" rel="stylesheet" type="text/css"/>
+
 
     @if(\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()=='ar' ||\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()=='ku')
         <link href="{{asset('assets/layouts_rtl/modern-light-menu/css/light/loader.css')}}" rel="stylesheet" type="text/css"/>
@@ -172,10 +174,12 @@
 <script src="{{asset('assets/src/plugins/src/highlight/highlight.pack.js')}}"></script>
 <script src="{{asset('assets/src/plugins/src/global/vendors.min.js')}}"></script>
 <script src="{{asset('assets/src/assets/js/custom.js')}}"></script>
+
 {{--<script src="{{asset('assets/src/assets/js/scrollspyNav.js')}}"></script>--}}
 <!-- END GLOBAL MANDATORY STYLES -->
 <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="{{asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.min.js')}}"></script>
 
 <!-- END PAGE LEVEL SCRIPTS -->
 </body>
