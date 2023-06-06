@@ -10,7 +10,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 class CartController extends Controller
 {
     function index(){
-        $carts=cart::where('user_id',\Auth::user()->id)->get();
+        $carts=[];
+        if(\Auth::check()){
+            $carts=cart::where('user_id',\Auth::user()->id)->get();
+        }
+
         $lang=LaravelLocalization::setLocale();
         return view('user.cart.index',compact('carts','lang'));
     }
