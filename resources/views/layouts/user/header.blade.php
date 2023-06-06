@@ -51,8 +51,8 @@
 
                         <a class="dropdown-item " href="javascript:void(0)">
 
-                            <h6 class="text-break">{{Auth::user()->name??'Name'}}</h6>
-                            <p class="text-muted">@if(Auth::user()->role_as==1)
+                            <h6 class="text-break">{{Auth::user()?->name??'Name'}}</h6>
+                            <p class="text-muted">@if(Auth::check()&&Auth::user()->role_as==1)
                                     Coach
                                 @else
                                     User
@@ -61,7 +61,7 @@
                         </a>
 
 
-                        @if(Auth::user()->role_as==1)
+                        @if(Auth::check()&&Auth::user()->role_as==1)
                             <a class="dropdown-item d-flex align-items-center" href="{{url('/coach')}}">
 
                                 <i class="fa-light fa-dashboard"></i>

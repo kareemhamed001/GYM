@@ -115,7 +115,10 @@
 
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
-                                <input type="hidden" name="user_id" value="{{Auth::user()->id??1}}">
+                                @if(Auth::check())
+                                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                @endif
+
                                 <input type="hidden" name="price" value="{{$product->price}}">
                                 <input type="hidden" name="discount" value="{{$product->discount}}">
                                 @if($product->colors->count()>0)
@@ -429,10 +432,13 @@
                     })
                 } else if (result.status === 400) {
                     let message = result.message;
-                    let errorMessage = ``;
-                    for (const key in message) {
-                        errorMessage += `<span class="text-danger d-block"> ${message[key]}</span> \n`
+                    let errorMessage = message;
+                    if(Array.isArray(message)){
+                        for (const key in message) {
+                            errorMessage += `<span class="text-danger d-block"> ${message[key]}</span> \n`
+                        }
                     }
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',

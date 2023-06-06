@@ -40,47 +40,53 @@ class CartController extends Controller
         try {
 
 
-            $validator = Validator::make($request->all(), [
-                'price' => ['required', 'numeric'],
-                'discount' => ['required', 'numeric', 'max:100'],
-                'quantity' => ['required', 'numeric', 'min:1'],
-                'user_id' => ['required', 'integer', Rule::exists('users', 'id')],
-                'product_id' => ['required', 'integer', Rule::exists('products', 'id')],
-                'color' => ['nullable', 'integer', Rule::exists('product_colors', 'id')],
-                'size' => ['nullable', 'integer', Rule::exists('product_sizes', 'id')],
-            ]);
-            if ($validator->fails()) {
-                return $this->apiResponse(null, $validator->errors(), 400);
-            }
 
-            $cart = cart::where('user_id', $request->user_id)->where('product_id', $request->product_id)->get();
+            if ($request->user_id) {
 
-            if ($cart->count() == 0) {
-                return cart::create([
-                    'price' => $request->price,
-                    'discount' => $request->discount,
-                    'quantity' => $request->quantity,
-                    'color_id' => $request->color,
-                    'size_id' => $request->size,
-                    'user_id' => $request->user_id,
-                    'product_id' => $request->product_id,
+
+                $validator = Validator::make($request->all(), [
+                    'price' => ['required', 'numeric'],
+                    'discount' => ['required', 'numeric', 'max:100'],
+                    'quantity' => ['required', 'numeric', 'min:1'],
+                    'product_id' => ['required', 'integer', Rule::exists('products', 'id')],
+                    'color' => ['nullable', 'integer', Rule::exists('product_colors', 'id')],
+                    'size' => ['nullable', 'integer', Rule::exists('product_sizes', 'id')],
                 ]);
-            }
-            $cart = $cart->first();
-            if ($cart) {
-                if ($request->color){
-                    $cart->color_id=$request->color;
+                if ($validator->fails()) {
+                    return $this->apiResponse(null, $validator->errors(), 400);
                 }
-                if ($request->size){
-                    $cart->size_id=$request->size;
-                }
-                $cart->quantity = $request->quantity;
-                $cart->price = $request->price;
-                $cart->discount = $request->discount;
-                $cart->save();
-            }
 
-            return $this->apiResponse($cart, 'success', 200);
+                $cart = cart::where('user_id', $request->user_id)->where('product_id', $request->product_id)->get();
+
+                if ($cart->count() == 0) {
+                    return cart::create([
+                        'price' => $request->price,
+                        'discount' => $request->discount,
+                        'quantity' => $request->quantity,
+                        'color_id' => $request->color,
+                        'size_id' => $request->size,
+                        'user_id' => $request->user_id,
+                        'product_id' => $request->product_id,
+                    ]);
+                }
+                $cart = $cart->first();
+                if ($cart) {
+                    if ($request->color) {
+                        $cart->color_id = $request->color;
+                    }
+                    if ($request->size) {
+                        $cart->size_id = $request->size;
+                    }
+                    $cart->quantity = $request->quantity;
+                    $cart->price = $request->price;
+                    $cart->discount = $request->discount;
+                    $cart->save();
+                }
+
+                return $this->apiResponse($cart, 'success', 200);
+            }else{
+                return $this->apiResponse('', 'You need to be logged in', 400);
+            }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);
