@@ -1,11 +1,11 @@
 <?php
 return [
-    1 => 'Equipments',
-    2 => 'Accessories',
-    3 => 'SportWear',
-    4 => 'DietFood',
-    5 => 'Coaches',
-    6 => 'Supplements',
-    7 => 'GymDiscount',
-    8 => 'MusclesVideos',
+    config('mainCategories.Equipments.id') => 'Equipments',
+    config('mainCategories.Accessories.id') => 'Accessories',
+    config('mainCategories.SportWear.id') => 'SportWear',
+    config('mainCategories.DietFood.id') => 'DietFood',
+    config('mainCategories.Coaches.id') => 'Coaches',
+    config('mainCategories.Supplements.id') => 'Supplements',
+    config('mainCategories.GymDiscount.id') => 'GymDiscount',
+    config('mainCategories.MusclesVideos.id') => 'MusclesVideos',
 ];

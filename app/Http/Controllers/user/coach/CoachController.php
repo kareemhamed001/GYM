@@ -9,7 +9,7 @@ class CoachController
 {
 
     function index(){
-        $coaches =CoachClass::getAll(50);
+        $coaches =coach::paginate(50);
         return view('user.coaches.index',compact('coaches'));
     }
 

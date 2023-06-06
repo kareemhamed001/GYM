@@ -20,10 +20,8 @@
                                 <h5 class="card-title">{{$coach->user->age}}</h5>
                                 <label class="text-muted">Experience</label>
                                 <h5 class="card-title">{{$coach->experience}} Years</h5>
-                                <label class="text-muted">Plans</label>
-                                <h5 class="card-title">{{$coach->courses->count()}} Plans</h5>
-                                <label class="text-muted">Products</label>
-                                <h5 class="card-title">{{$coach->supplements->count()}} Products</h5>
+
+
 
                             </div>
                         </div>
