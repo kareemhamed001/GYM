@@ -1,18 +1,31 @@
 <div class="sidebar-wrapper sidebar-theme">
 
-    {{--    @dd(\Illuminate\Support\Facades\Auth::user())--}}
-    <nav id="sidebar" >
+    @php
+        $settings=\App\Models\SiteSetting::latest()->first();
+    @endphp
+
+    <nav id="sidebar">
 
         <div class="navbar-nav theme-brand flex-row  text-center">
             <div class="nav-logo">
+                <div class="row">
+                    @if($settings->show_logo)
+                        <img style="object-fit: scale-down"
+                             src="{{ asset($settings->logo_path)}}" class="" alt="logo">
+                    @endif
+                    @if($settings->show_name)
+                        <div class="nav-item theme-text">
+                            <a href="{{url('/coach')}}"
+                               class="nav-link"> {{$settings['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()]}} </a>
+                        </div>
+                    @endif
+                </div>
+
+
                 <div class="nav-item theme-logo">
-                    <a href="">
-                        <img src="{{asset('assets/images/logo/xlogo.png')}}"  class="" alt="logo">
-                    </a>
                 </div>
-                <div class="nav-item theme-text">
-                    <a href="./index.html" class="nav-link"> X Fitness </a>
-                </div>
+
+
             </div>
             <div class="nav-item sidebar-toggle">
                 <div class="btn-toggle sidebarCollapse">
@@ -29,15 +42,15 @@
             <div class="user-info">
 
 
-
                 <div class="profile-img">
-                    <img style="object-fit: cover" src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
+                    <img style="object-fit: cover"
+                         src="{{asset(Auth::user()?->profile_image??'assets/images/logo/xlogo.png')}}"
                          alt="avatar">
                 </div>
                 <div class="profile-content">
                     <a href="{{url('/coach/profile')}}">
-                    <h6 class="">{{Auth::user()->name??'Name'}}</h6>
-                    <p class="">Coach</p>
+                        <h6 class="">{{Auth::user()->name??'Name'}}</h6>
+                        <p class="">Coach</p>
                     </a>
                 </div>
 
@@ -45,8 +58,8 @@
         </div>
 
         <div class="shadow-bottom"></div>
-        <ul class="list-unstyled menu-categories " id="accordionExample">
-            <li class="menu" >
+        <ul class="list-unstyled menu-categories " id="accordionExample" style="padding-bottom: 6rem">
+            <li class="menu">
                 <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -155,7 +168,8 @@
                             </a>
                         </li>
                         <li class="menu">
-                            <a href="{{url('coach/supplements/products')}}" aria-expanded="false" class="dropdown-toggle">
+                            <a href="{{url('coach/supplements/products')}}" aria-expanded="false"
+                               class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-box fa-2xs"></i>
                                     <span>{!! __('sidebar.products')  !!}</span>
@@ -175,7 +189,7 @@
                                 </svg>
                                 <span class="text-uppercase">GYM DISCOUNTS</span></div>
                         </li>
-                        <li class="menu " >
+                        <li class="menu ">
                             <a href="{{url('coach/gyms')}}" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-regular fa-dumbbell fa-2xs"></i>
@@ -185,18 +199,21 @@
                         </li>
 
                         @break
-                        @case($category->id ==config('mainCategories.MusclesVideos.id'))
+                    @case($category->id ==config('mainCategories.MusclesVideos.id'))
                         <li class="menu menu-heading">
                             <div class="heading">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
                                      class="feather feather-minus">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
-                                <span>{{$category['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()]}}</span></div>
+                                <span>{{$category['name_'.\Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale()]}}</span>
+                            </div>
                         </li>
 
-                        <li class="menu" style="padding-bottom: 6rem">
+                        <li class="menu">
                             <a href="#muscles" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
                                     <i class="fa-light fa-person-walking"></i>
@@ -269,6 +286,15 @@
                         </li>
                 @endswitch
             @endforeach
+
+            <li class="menu">
+                <a href="{{url('coach/settings')}}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="fa-regular fa-gear fa-2xs"></i>
+                        <span>{!! __('sidebar.settings')  !!}</span>
+                    </div>
+                </a>
+            </li>
         </ul>
 
     </nav>

@@ -12,6 +12,7 @@ Route::get('/', function(){
   return  redirect(url('/coach/analytics'));
 });
 Route::resource('/categories', \App\Http\Controllers\coach\category\CategoryController::class);
+Route::get('/settings', [\App\Http\Controllers\coach\settings\SettingsController::class,'index']);
 Route::get('/supplements/categories', [\App\Http\Controllers\coach\supplement\SupplementController::class,'categories']);
 Route::get('/category/{category}/sub-categories', [\App\Http\Controllers\coach\products\ProductsController::class,'categories']);
 Route::get('/category/{category}/products', [\App\Http\Controllers\coach\products\ProductsController::class,'index']);

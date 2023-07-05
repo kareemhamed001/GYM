@@ -11,4 +11,5 @@ return[
     'coaches'=>'coaches',
     'brands'=>'brands',
     'gyms'=>'gyms',
+    'settings'=>'settings',
 ];

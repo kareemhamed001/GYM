@@ -23,8 +23,7 @@ class GymController extends Controller
 
     function index(){
         try {
-
-            return gym::all();
+            return $this->apiResponse(gym::all(),'success',200);
         }catch (\Exception $e){
             \Log::error($e->getTraceAsString());
             return $this->apiResponse('', $e->getMessage(), 400);
