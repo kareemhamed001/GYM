@@ -263,7 +263,7 @@ class ProductClass
     static function get(int $id)
     {
         try {
-            $product = product::with(['brand', 'subcategory', 'category'])->find($id);
+            $product = product::with(['brand', 'subcategory', 'category', 'colors', 'sizes', 'images'])->find($id);
             if ($product) {
                 return $product;
             }
