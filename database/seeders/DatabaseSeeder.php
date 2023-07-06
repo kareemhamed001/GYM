@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\category;
+use App\Models\SiteSetting;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -145,6 +146,11 @@ class DatabaseSeeder extends Seeder
                 'cover_image'=>'assets/images/categories/trainigVideos/coverImages/1.jpg',
             ]);
         }
+
+
+        SiteSetting::create([
+            'show_logo'=>1
+        ]);
 
 
 

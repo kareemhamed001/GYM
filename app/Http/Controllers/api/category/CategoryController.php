@@ -4,11 +4,13 @@ namespace App\Http\Controllers\api\category;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\brand;
 use App\Models\category;
 use App\Models\coach;
 use App\traits\ApiResponse;
 use App\traits\ImagesOperations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -81,8 +83,11 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         try {
-
-            $category = category::find($id);
+            $category = category::with(['products','subcategories'])->find($id);
+            if ($id==config('mainCategories.Supplements.id')){
+                $brands=brand::all();
+                $category['brands']=$brands;
+            }
             if ($category) {
                 return $this->apiResponse($category, 'success', 200);
             }
