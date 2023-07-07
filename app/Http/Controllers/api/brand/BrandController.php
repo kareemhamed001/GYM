@@ -92,7 +92,7 @@ class BrandController extends Controller
     {
         try {
 
-            $brand = brand::find($id);
+            $brand = brand::with('supplements')->find($id);
             if ($brand) {
                 return $this->apiResponse($brand, 'success', 200);
             }
