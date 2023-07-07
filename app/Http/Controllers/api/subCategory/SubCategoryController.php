@@ -93,7 +93,7 @@ class SubCategoryController extends Controller
     {
         try {
 
-            $subCategory = subCategory::with('category')->find($id);
+            $subCategory = subCategory::with(['category','products'])->find($id);
             if ($subCategory) {
                 return $this->apiResponse($subCategory, 'success', 200);
             }
