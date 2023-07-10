@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\coach;
 
 use App\classes\brand\BrandClass;
 use App\Models\brand;
+use App\Models\category;
 use App\Models\coach;
 use App\Models\User;
 use App\traits\ApiResponse;
@@ -25,8 +26,9 @@ class CoachController
     public function index()
     {
         try {
-            $coaches = coach::all();
-            return $this->apiResponse($coaches, 'success', 200);
+            $category=category::find(config('mainCategories.Coaches.id'));
+            $coaches = coach::get();
+            return $this->apiResponse(['category'=>$category,'coaches'=>$coaches], 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->apiResponse($e->getMessage(), 'error', 400);

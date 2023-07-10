@@ -53,8 +53,8 @@ Route::resource('/muscles', \App\Http\Controllers\api\muscle\MuscleController::c
     ]
 );
 
-Route::get('muscles/{id}/parts', [\App\Http\Controllers\api\muscle\MuscleController::class, 'parts']);
-Route::get('muscles/{id}/{partId}/files', [\App\Http\Controllers\api\muscle\MuscleController::class, 'partFiles']);
+Route::get('muscles/{id}/parts', [\App\Http\Controllers\api\muscle\MuscleController::class, 'parts']);//to get parts
+Route::get('muscles/{id}/{partId}/files', [\App\Http\Controllers\api\muscle\MuscleController::class, 'partFiles']);//to get part's files
 Route::post('muscles/delete-collection', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deleteCollection']);
 Route::post('muscles/{muscleId}/{curriculumId}/delete-part', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deletePart']);
 Route::post('muscles/{muscleId}/{curriculumId}/{fileId}/delete-file', [\App\Http\Controllers\api\muscle\MuscleController::class, 'deletePartFile']);
@@ -158,12 +158,3 @@ Route::group([
 
 Route::post('tmp-upload', [\App\Http\Controllers\api\products\ProductsController::class, 'tmpUpload']);
 Route::delete('tmp-delete', [\App\Http\Controllers\api\products\ProductsController::class, 'tmpDelete']);
-
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.Equipments.id')), [\App\Http\Controllers\api\equipments\EquipmentController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.Accessories.id')), [\App\Http\Controllers\api\accessories\AccessoriesController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.SportWear.id')), [\App\Http\Controllers\api\sportWears\SportWearController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.DietFood.id')), [\App\Http\Controllers\api\dietFood\DietFoodController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.Coaches.id')), [\App\Http\Controllers\api\coach\CoachController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.Supplements.id')), [\App\Http\Controllers\api\supplements\SupplementsController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.GymDiscount.id')), [\App\Http\Controllers\api\gym\GymController::class, 'index']);
-Route::get('category/' . config('mainCategoriesById.' . config('mainCategories.MusclesVideos.id')), [\App\Http\Controllers\api\muscle\MuscleController::class, 'index']);

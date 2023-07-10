@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\category;
 
 use App\Http\Controllers\Controller;
 use App\Models\brand;
+use App\Models\brands_category;
 use App\Models\category;
 use App\Models\coach;
 use App\traits\ApiResponse;
@@ -83,6 +84,11 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         try {
+            if ($id== config('mainCategories.Coaches.id')){
+                $category=category::find(config('mainCategories.Coaches.id'));
+                $coaches = coach::get();
+                return $this->apiResponse(['category'=>$category,'coaches'=>$coaches], 'success', 200);
+            }
             $category = category::with(['products','subcategories'])->find($id);
             if ($id==config('mainCategories.Supplements.id')){
                 $brands=brand::all();
@@ -228,33 +234,6 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
-        }
-    }
-
-    public function addBrandToCategory(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'brand_id' => ['required', 'integer', Rule::exists('brands', 'id')],
-                'category_id' => ['required', 'integer', Rule::exists('categories', 'id')],
-            ]);
-
-            if ($validator->fails()) {
-                return $this->apiResponse(null, $validator->errors(), 400);
-            }
-
-
-            $brand_category = brands_category::where('brand_id', $request->brand_id)->where('category_id', $request->category_id)->exists();
-
-            if ($brand_category) {
-                return $this->apiResponse('', 'This brand exists on this category', 200);
-            }
-
-            brands_category::create($validator->validated());
-            return $this->apiResponse('', 'Brand has been added to this category', 200);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return $this->apiResponse('', $e->getMessage(), 400);
         }
     }
 }
