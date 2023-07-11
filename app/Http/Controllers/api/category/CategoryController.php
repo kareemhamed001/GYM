@@ -84,15 +84,15 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         try {
-            if ($id== config('mainCategories.Coaches.id')){
-                $category=category::find(config('mainCategories.Coaches.id'));
-                $coaches = coach::get();
-                return $this->apiResponse(['category'=>$category,'coaches'=>$coaches], 'success', 200);
+            if ($id == config('mainCategories.Coaches.id')) {
+                $category = category::find(config('mainCategories.Coaches.id'));
+                $coaches = coach::select(DB::raw('coaches.id,coaches.nick_name,coaches.email as contact_email,coaches.description,coaches.phone_number as contact_phone_number,coaches.user_id,coaches.experience,coaches.intro_video,coaches.created_at,coaches.updated_at,users.name,users.country,users.address,users.age,users.gender,users.profile_image,users.email,users.phone_number'))->join('users', 'coaches.user_id', '=', 'users.id')->get();
+                return $this->apiResponse(['category' => $category, 'coaches' => $coaches], 'success', 200);
             }
-            $category = category::with(['products','subcategories'])->find($id);
-            if ($id==config('mainCategories.Supplements.id')){
-                $brands=brand::all();
-                $category['brands']=$brands;
+            $category = category::with(['products', 'subcategories'])->find($id);
+            if ($id == config('mainCategories.Supplements.id')) {
+                $brands = brand::all();
+                $category['brands'] = $brands;
             }
             if ($category) {
                 return $this->apiResponse($category, 'success', 200);
@@ -122,7 +122,7 @@ class CategoryController extends Controller
                 'description_ar' => ['string', 'max:500'],
                 'description_ku' => ['string', 'max:500'],
                 'cover_image' => ['image'],
-                'coach_id' => ['required',Rule::exists('users','id')],
+                'coach_id' => ['required', Rule::exists('users', 'id')],
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse(null, $validator->errors(), 400);
@@ -159,10 +159,10 @@ class CategoryController extends Controller
                 $category->save();
 
                 \App\Models\log::create([
-                    'table_name'=>'categories',
-                    'item_id'=>$category->id,
-                    'action'=>'update',
-                    'user_id'=>$request->coach_id,
+                    'table_name' => 'categories',
+                    'item_id' => $category->id,
+                    'action' => 'update',
+                    'user_id' => $request->coach_id,
                 ]);
 
                 return $this->apiResponse($category, 'success', 200);

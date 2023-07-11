@@ -27,7 +27,7 @@ class CoachController
     {
         try {
             $category=category::find(config('mainCategories.Coaches.id'));
-            $coaches = coach::get();
+            $coaches = coach::join('users','user_id','=','id')->get();
             return $this->apiResponse(['category'=>$category,'coaches'=>$coaches], 'success', 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
