@@ -50,6 +50,10 @@
     transition: transform 0.25s ease-out;
 }
 
+.nav-link.active{
+    color: rgb(220, 53, 69);
+}
+
 .nav-link::after {
     content: '';
     position: absolute;

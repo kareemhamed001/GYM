@@ -14,6 +14,15 @@ class HomeController extends Controller
         $categories=category::all();
         $lang=LaravelLocalization::setLocale();
         $products=product::query()->latest('created_at')->limit(8)->get();
-        return view('user.home.index',compact('categories','lang','products'));
+        $settings=\App\Models\SiteSetting::first();
+        return view('user.home.index',compact('categories','lang','products','settings'));
+    }
+
+    function landingPage(){
+        $categories=category::all();
+        $lang=LaravelLocalization::setLocale();
+        $products=product::query()->latest('created_at')->limit(8)->get();
+        $settings=\App\Models\SiteSetting::first();
+        return view('user.home.landingPage',compact('categories','lang','products','settings'));
     }
 }

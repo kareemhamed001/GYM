@@ -8448,6 +8448,20 @@ textarea.form-control-lg {
 .bottom-0 {
     bottom: 0 !important;
 }
+.bottom-10 {
+    bottom: 10% !important;
+}
+.bottom-20{
+    bottom: 20% !important;
+}
+
+.bottom-30 {
+    bottom: 30% !important;
+}
+
+.bottom-40 {
+    bottom: 40% !important;
+}
 
 .bottom-50 {
     bottom: 50% !important;
@@ -8461,6 +8475,21 @@ textarea.form-control-lg {
     left: 0 !important;
 }
 
+.start-10{
+    left: 10% !important;
+}
+
+.start-20 {
+    left: 20% !important;
+}
+
+.start-30 {
+    left: 30% !important;
+}
+
+.start-40 {
+    left: 40% !important;
+}
 .start-50 {
     left: 50% !important;
 }

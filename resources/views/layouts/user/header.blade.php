@@ -1,8 +1,9 @@
+
 <nav
     class="header navbar navbar-expand-sm  expand-header position-sticky sticky-top py-3 navbar-dark text-dark bg-light shadow-sm">
     <div class="container-md  ">
         <a class="fs-4 fw-bold text-black fw-bold col-md-2 col-lg-1 col-sm-3 col-10 " href="{{url('/')}}"><span
-                class="text-danger">X_</span>Fitness</a>
+                class="text-danger">{{\App\Models\SiteSetting::query()->latest()->first()?->name_en??"Ybody"}}</a>
         <button class="navbar-toggler bg-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -12,10 +13,11 @@
         <div class="collapse navbar-collapse d-lg-flex justify-content-between" id="navbarSupportedContent">
             <ul class="navbar-nav d-flex ">
                 <li class="nav-item active-link ">
-                    <a class="nav-link text-black fw-bold" href="{{url('/')}}">Home</a>
+
+                    <a class="nav-link text-black fw-bold @if(in_array(request()->route()->uri,['en/home','ar/home','ku/home'])) active @endif " href="{{url('/home')}}">Home</a>
                 </li>
                 <li class="nav-item active-link ">
-                    <a class="nav-link text-black fw-bold" href="{{url('/categories')}}">Categories</a>
+                    <a class="nav-link text-black fw-bold @if(in_array(request()->route()->uri,['en/categories','ar/categories','ku/categories'])) active @endif " href="{{url('/categories')}}">Categories</a>
                 </li>
             </ul>
 

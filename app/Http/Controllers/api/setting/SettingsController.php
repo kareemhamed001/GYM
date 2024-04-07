@@ -58,18 +58,19 @@ class SettingsController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-                'name_en' => ['required', 'string', 'min:1', 'max:100'],
-                'name_ar' => ['required', 'string', 'min:1', 'max:100'],
-                'name_ku' => ['required', 'string', 'min:1', 'max:100'],
-                'description_en' => ['required', 'string', 'min:1', 'max:250'],
-                'description_ar' => ['required', 'string', 'min:1', 'max:250'],
-                'description_ku' => ['required', 'string', 'min:1', 'max:250'],
+                'name_en' => ['nullable', 'string', 'min:1', 'max:100'],
+                'name_ar' => ['nullable', 'string', 'min:1', 'max:100'],
+                'name_ku' => ['nullable', 'string', 'min:1', 'max:100'],
+                'description_en' => ['nullable', 'string', 'min:1', 'max:250'],
+                'description_ar' => ['nullable', 'string', 'min:1', 'max:250'],
+                'description_ku' => ['nullable', 'string', 'min:1', 'max:250'],
                 'show_name' => ['nullable', Rule::in(['on'])],
 
             ]);
             if ($validator->fails()) {
                 return $this->apiResponse('', $validator->errors(), 400);
             }
+
 
             $settings = SiteSetting::query()->latest()->first();
             if (isset($settings->id)) {
